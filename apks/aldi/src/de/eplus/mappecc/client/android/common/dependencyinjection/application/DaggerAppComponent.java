@@ -1,0 +1,5976 @@
+package de.eplus.mappecc.client.android.common.dependencyinjection.application;
+
+import android.app.Activity;
+import android.app.Application;
+import android.app.Service;
+import android.content.BroadcastReceiver;
+import android.content.ContentProvider;
+import com.google.common.collect.m;
+import com.google.common.collect.m.a;
+import dagger.android.AndroidInjector.Factory;
+import dagger.android.DaggerApplication;
+import dagger.android.DaggerApplication_MembersInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.DispatchingAndroidInjector_Factory;
+import dagger.android.support.DaggerAppCompatActivity_MembersInjector;
+import dagger.android.support.DaggerFragment_MembersInjector;
+import dagger.internal.DoubleCheck;
+import dagger.internal.InstanceFactory;
+import dagger.internal.Preconditions;
+import de.eplus.mappecc.client.android.common.base.B2PActivity_MembersInjector;
+import de.eplus.mappecc.client.android.common.base.B2PDialogActivity_MembersInjector;
+import de.eplus.mappecc.client.android.common.base.B2PFragment_MembersInjector;
+import de.eplus.mappecc.client.android.common.base.ReloginPresenter;
+import de.eplus.mappecc.client.android.common.broadcastreceiver.SimSwapReceiver;
+import de.eplus.mappecc.client.android.common.broadcastreceiver.SimSwapReceiver_MembersInjector;
+import de.eplus.mappecc.client.android.common.broadcastreceiver.TimeoutReceiver;
+import de.eplus.mappecc.client.android.common.broadcastreceiver.TimeoutReceiver_MembersInjector;
+import de.eplus.mappecc.client.android.common.component.bankdetail.BankDetailsView;
+import de.eplus.mappecc.client.android.common.component.bankdetail.BankDetailsView_MembersInjector;
+import de.eplus.mappecc.client.android.common.component.bookedpack.BookedPackView;
+import de.eplus.mappecc.client.android.common.component.bookedpack.BookedPackView_MembersInjector;
+import de.eplus.mappecc.client.android.common.component.button.CustomButton;
+import de.eplus.mappecc.client.android.common.component.button.CustomButton_MembersInjector;
+import de.eplus.mappecc.client.android.common.component.cellcard.CellCardView;
+import de.eplus.mappecc.client.android.common.component.checkbox.CheckBoxForm;
+import de.eplus.mappecc.client.android.common.component.checkbox.CheckBoxForm_MembersInjector;
+import de.eplus.mappecc.client.android.common.component.consent.ConsentCheckBoxForm;
+import de.eplus.mappecc.client.android.common.component.consent.ConsentCheckBoxForm_MembersInjector;
+import de.eplus.mappecc.client.android.common.component.consent.EditConsentItemModelView;
+import de.eplus.mappecc.client.android.common.component.consent.EditConsentItemModelView_MembersInjector;
+import de.eplus.mappecc.client.android.common.component.dialog.b2pdialog.B2PDialogBuilder;
+import de.eplus.mappecc.client.android.common.component.edittext.InputForm;
+import de.eplus.mappecc.client.android.common.component.expandablecellcard.ExpandableCellCardView;
+import de.eplus.mappecc.client.android.common.component.expandabletable.ExpandableTableView;
+import de.eplus.mappecc.client.android.common.component.legalpill.LegalPilleView;
+import de.eplus.mappecc.client.android.common.component.ratingbar.RatingBarForm;
+import de.eplus.mappecc.client.android.common.component.tabbar.TabBarView;
+import de.eplus.mappecc.client.android.common.component.tabbar.TabBarView_MembersInjector;
+import de.eplus.mappecc.client.android.common.component.textview.CustomTextView;
+import de.eplus.mappecc.client.android.common.component.textview.CustomTextView_MembersInjector;
+import de.eplus.mappecc.client.android.common.dependencyinjection.activity.AccountOverviewActivityModule_NotRegisteredFragmentInjector.NotRegisteredFragmentSubcomponent;
+import de.eplus.mappecc.client.android.common.dependencyinjection.activity.AccountOverviewActivityModule_NotRegisteredFragmentInjector.NotRegisteredFragmentSubcomponent.Builder;
+import de.eplus.mappecc.client.android.common.dependencyinjection.activity.AccountOverviewActivityModule_ProvideAccountOverviewPresenterFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.activity.AccountOverviewActivityModule_ProvideReAuthFragmentPresenterFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.activity.AccountOverviewActivityModule_ReAuthFragmentInjector.ReAuthFragmentSubcomponent;
+import de.eplus.mappecc.client.android.common.dependencyinjection.activity.AccountOverviewActivityModule_ReAuthFragmentInjector.ReAuthFragmentSubcomponent.Builder;
+import de.eplus.mappecc.client.android.common.dependencyinjection.activity.AnalyticsActivityModule_ProvideAnalyticsPresenterFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.activity.BarrierActivityModule_ProvideBarrierPresenterFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.activity.ChangeAccountActivityModule_ProvideChangeAccountPresenterFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.activity.ChangeAddressActivityModule_ProvideChangeAddressPresenterFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.activity.ChangeEmailActivityModule_ProvideChangeEmailPresenterFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.activity.ChangePasswordActivityModule_ProvideChangePasswordPresenterFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.activity.ConsentsActivityModule_ProvideConsentsPresenterFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.activity.DirectDebitPaymentChoiceActivityModule_NotRegisteredFragmentInjector.NotRegisteredFragmentSubcomponent;
+import de.eplus.mappecc.client.android.common.dependencyinjection.activity.DirectDebitPaymentChoiceActivityModule_NotRegisteredFragmentInjector.NotRegisteredFragmentSubcomponent.Builder;
+import de.eplus.mappecc.client.android.common.dependencyinjection.activity.DirectDebitPaymentChoiceActivityModule_ReAuthFragmentInjector.ReAuthFragmentSubcomponent;
+import de.eplus.mappecc.client.android.common.dependencyinjection.activity.DirectDebitPaymentChoiceActivityModule_ReAuthFragmentInjector.ReAuthFragmentSubcomponent.Builder;
+import de.eplus.mappecc.client.android.common.dependencyinjection.activity.DirectDebitSettingsActivityModule_ProvideDirectDebitSettingsPresenterFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.activity.HelpActivityModule_ProvideHelpActivityPresenterFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.activity.HomeScreenActivityModule_ProvideHomeScreenPresenterFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.activity.ImprintActivityModule_ProvideImprintActivityPresenterFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.activity.InvoiceOverviewActivityModule_ProvideInvoiceOverviewPresenterFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.activity.LicenseActivityModule_ProvideLicenseActivityPresenterFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.activity.LoginActivityModule_ProvideLoginPresenterFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.activity.MyAccountActivityModule_NotRegisteredFragmentInjector.NotRegisteredFragmentSubcomponent;
+import de.eplus.mappecc.client.android.common.dependencyinjection.activity.MyAccountActivityModule_NotRegisteredFragmentInjector.NotRegisteredFragmentSubcomponent.Builder;
+import de.eplus.mappecc.client.android.common.dependencyinjection.activity.MyAccountActivityModule_ProvideMyAccountPresenterFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.activity.MyAccountActivityModule_ProvideReAuthFragmentPresenterFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.activity.MyAccountActivityModule_ReAuthFragmentInjector.ReAuthFragmentSubcomponent;
+import de.eplus.mappecc.client.android.common.dependencyinjection.activity.MyAccountActivityModule_ReAuthFragmentInjector.ReAuthFragmentSubcomponent.Builder;
+import de.eplus.mappecc.client.android.common.dependencyinjection.activity.OnBoardingActivityModule_ProvideOnBoardingActivityPresenterFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.activity.PublicInfoAreaActivityModule_ProvidePublicInfoAreaPresenterFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.activity.ResetActivityModule_ProvideResetPresenterFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.activity.SplashActivityModule_ProvideSplashPresenterFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.activity.TermsActivityModule_ProvideTermsPresenterFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.activity.TopUpActivityModule_NotRegisteredFragmentInjector.NotRegisteredFragmentSubcomponent;
+import de.eplus.mappecc.client.android.common.dependencyinjection.activity.TopUpActivityModule_NotRegisteredFragmentInjector.NotRegisteredFragmentSubcomponent.Builder;
+import de.eplus.mappecc.client.android.common.dependencyinjection.activity.TopUpActivityModule_ProvideReAuthFragmentPresenterFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.activity.TopUpActivityModule_ProvideTopUpActivityPresenterFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.activity.TopUpActivityModule_ReAuthFragmentInjector.ReAuthFragmentSubcomponent;
+import de.eplus.mappecc.client.android.common.dependencyinjection.activity.TopUpActivityModule_ReAuthFragmentInjector.ReAuthFragmentSubcomponent.Builder;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.ConsumeFragmentModule_ConsumeFragmentInjector.ConsumeFragmentSubcomponent;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.ConsumeFragmentModule_ConsumeFragmentInjector.ConsumeFragmentSubcomponent.Builder;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.ConsumeFragmentModule_ProvideConsumeFragmentPresenterFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.ConsumeOverviewFragmentModule_ConsumeOverviewFragmentInjector.ConsumeOverviewFragmentSubcomponent;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.ConsumeOverviewFragmentModule_ConsumeOverviewFragmentInjector.ConsumeOverviewFragmentSubcomponent.Builder;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.ConsumeOverviewFragmentModule_ProvideConsumeOverviewFragmentPresenterFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.CustomerDetailsFragmentModule_CustomerDetailsFragmentInjector.CustomerDetailsFragmentSubcomponent;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.CustomerDetailsFragmentModule_CustomerDetailsFragmentInjector.CustomerDetailsFragmentSubcomponent.Builder;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.CustomerDetailsFragmentModule_ProvideCustomerDetailsFragmentPresenterFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.DirectDebitConfirmationFragmentModule_DirectDebitConfirmationFragmentInjector.DirectDebitConfirmationFragmentSubcomponent;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.DirectDebitConfirmationFragmentModule_DirectDebitConfirmationFragmentInjector.DirectDebitConfirmationFragmentSubcomponent.Builder;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.DirectDebitConfirmationFragmentModule_ProvideDirectDebitConfirmationFragmentPresenterFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.DirectDebitFragmentModule_DirectDebitFragmentInjector.DirectDebitFragmentSubcomponent;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.DirectDebitFragmentModule_DirectDebitFragmentInjector.DirectDebitFragmentSubcomponent.Builder;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.DirectDebitFragmentModule_ProvideDirectDebitFragmentPresenterFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.DirectDebitMethodFragmentModule_DirectDebitMethodFragmentInjector.DirectDebitMethodFragmentSubcomponent;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.DirectDebitMethodFragmentModule_DirectDebitMethodFragmentInjector.DirectDebitMethodFragmentSubcomponent.Builder;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.DirectDebitMethodFragmentModule_ProvideDirectDebitMethodFragmentPresenterFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.DirectDebitPaymentChoiceConfirmFragmentModule_DirectDebitPaymentChoiceConfirmFragmentInjector.DirectDebitPaymentChoiceConfirmFragmentSubcomponent;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.DirectDebitPaymentChoiceConfirmFragmentModule_DirectDebitPaymentChoiceConfirmFragmentInjector.DirectDebitPaymentChoiceConfirmFragmentSubcomponent.Builder;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.DirectDebitPaymentChoiceConfirmFragmentModule_ProvideDirectDebitConfirmationFragmentPresenterFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.DirectDebitPaymentChoiceFragmentModule_DirectDebitPaymentChoiceFragmentInjector.DirectDebitPaymentChoiceFragmentSubcomponent;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.DirectDebitPaymentChoiceFragmentModule_DirectDebitPaymentChoiceFragmentInjector.DirectDebitPaymentChoiceFragmentSubcomponent.Builder;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.DirectDebitPaymentChoiceFragmentModule_ProvideDirectDebitPaymentChoiceFragmentPresenterFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.DirectDebitSettingsFragmentModule_DirectDebitSettingsFragmentInjector.DirectDebitSettingsFragmentSubcomponent;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.DirectDebitSettingsFragmentModule_DirectDebitSettingsFragmentInjector.DirectDebitSettingsFragmentSubcomponent.Builder;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.DirectDebitSettingsFragmentModule_ProvideDirectDebitSettingsFragmentPresenterFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.FeedbackScreenFragmentModule_FeedbackScreenFragmentInjector.FeedbackScreenFragmentSubcomponent;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.FeedbackScreenFragmentModule_FeedbackScreenFragmentInjector.FeedbackScreenFragmentSubcomponent.Builder;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.FeedbackScreenFragmentModule_ProvideFeedbackScreenFragmentPresenterFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.MyAccountFragmentModule_MyAccountFragmentInjector.MyAccountFragmentSubcomponent;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.MyAccountFragmentModule_MyAccountFragmentInjector.MyAccountFragmentSubcomponent.Builder;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.MyAccountFragmentModule_ProvideMyAccountFragmentPresenterFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.PackBookConfirmFragmentModule_PackBookConfirmFragmentInjector.PackBookConfirmFragmentSubcomponent;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.PackBookConfirmFragmentModule_PackBookConfirmFragmentInjector.PackBookConfirmFragmentSubcomponent.Builder;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.PackBookConfirmFragmentModule_ProvidePackBookConfirmFragmentPresenterFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.PackBookFragmentModule_PackBookFragmentInjector.PackBookFragmentSubcomponent;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.PackBookFragmentModule_PackBookFragmentInjector.PackBookFragmentSubcomponent.Builder;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.PackBookFragmentModule_ProvidePackBookFragmentPresenterFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.PackCancelConfirmFragmentModule_PackCancelConfirmFragmentInjector.PackCancelConfirmFragmentSubcomponent;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.PackCancelConfirmFragmentModule_PackCancelConfirmFragmentInjector.PackCancelConfirmFragmentSubcomponent.Builder;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.PackCancelConfirmFragmentModule_ProvidePackCancelConfirmFragmentPresenterFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.PackCancelFragmentModule_PackCancelFragmentInjector.PackCancelFragmentSubcomponent;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.PackCancelFragmentModule_PackCancelFragmentInjector.PackCancelFragmentSubcomponent.Builder;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.PackCancelFragmentModule_ProvidePackCancelFragmentPresenterFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.PackOverviewFragmentModule_PackOverviewFragmentInjector.PackOverviewFragmentSubcomponent;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.PackOverviewFragmentModule_PackOverviewFragmentInjector.PackOverviewFragmentSubcomponent.Builder;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.PackOverviewFragmentModule_ProvidePackOverviewFragmentPresenterFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.ResetFragmentModule_ProvideResetFragmentPresenterFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.ResetFragmentModule_ResetFragmentInjector.ResetFragmentSubcomponent;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.ResetFragmentModule_ResetFragmentInjector.ResetFragmentSubcomponent.Builder;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.ResetPasswordFragmentModule_ProvideResetPasswordFragmentPresenterFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.ResetPasswordFragmentModule_ResetPasswordFragmentInjector.ResetPasswordFragmentSubcomponent;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.ResetPasswordFragmentModule_ResetPasswordFragmentInjector.ResetPasswordFragmentSubcomponent.Builder;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.StarRatingModule_ProvideStarRatingFragmentPresenterFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.StarRatingModule_StarRatingFragmentInjector.StarRatingFragmentSubcomponent;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.StarRatingModule_StarRatingFragmentInjector.StarRatingFragmentSubcomponent.Builder;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.ThankYouModule_ProvideThankYouPresenterFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.ThankYouModule_ThankYouFragmentInjector.ThankYouFragmentSubcomponent;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.ThankYouModule_ThankYouFragmentInjector.ThankYouFragmentSubcomponent.Builder;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.TopUpBankModule_ProvideTopUpFragmentPresenterFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.TopUpBankModule_TopUpFragmentInjector.TopUpBankFragmentSubcomponent;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.TopUpBankModule_TopUpFragmentInjector.TopUpBankFragmentSubcomponent.Builder;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.TopUpChoiceFragmentModule_ProvideTopUpChoiceFragmentPresenterFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.TopUpChoiceFragmentModule_TopUpChoiceFragmentInjector.TopUpChoiceFragmentSubcomponent;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.TopUpChoiceFragmentModule_TopUpChoiceFragmentInjector.TopUpChoiceFragmentSubcomponent.Builder;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.TopUpOverviewFragmentModule_ProvideTopUpOverviewFragmentPresenterFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.TopUpOverviewFragmentModule_TopUpOverviewFragmentInjector.TopUpOverviewFragmentSubcomponent;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.TopUpOverviewFragmentModule_TopUpOverviewFragmentInjector.TopUpOverviewFragmentSubcomponent.Builder;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.TopUpVoucherFragmentModule_ProvideTopUpByVoucherHelperFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.TopUpVoucherFragmentModule_ProvideTopUpVoucherFragmentPresenterFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.TopUpVoucherFragmentModule_TopUpVoucherFragmentInjector.TopUpVoucherFragmentSubcomponent;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.TopUpVoucherFragmentModule_TopUpVoucherFragmentInjector.TopUpVoucherFragmentSubcomponent.Builder;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.VasInfoFragmentModule_ProvideVasInfoPresenterFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.VasInfoFragmentModule_VasInfoFragmentInjector.VasInfoFragmentSubcomponent;
+import de.eplus.mappecc.client.android.common.dependencyinjection.fragment.VasInfoFragmentModule_VasInfoFragmentInjector.VasInfoFragmentSubcomponent.Builder;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.Box7APIModule;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.Box7APIModule_ProvideBalancesApiFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.Box7APIModule_ProvideBox7RestApiLibFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.Box7APIModule_ProvideEndpointManagerFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.Box7APIModule_ProvidesAccountsApiFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.Box7APIModule_ProvidesAddressesApiFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.Box7APIModule_ProvidesBankaccountsApiFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.Box7APIModule_ProvidesBillingsApiFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.Box7APIModule_ProvidesBox7ClientConfigFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.Box7APIModule_ProvidesConsentsApiFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.Box7APIModule_ProvidesCustomersApiFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.Box7APIModule_ProvidesLoginAccountsApiFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.Box7APIModule_ProvidesLoginEndpointFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.Box7APIModule_ProvidesMiscApiFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.Box7APIModule_ProvidesPacksApiFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.Box7APIModule_ProvidesPerformanceTimingsApiFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.Box7APIModule_ProvidesServiceEndpointFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.Box7APIModule_ProvidesSimCardsApiFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.Box7APIModule_ProvidesSubscriptionsApiFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.Box7APIModule_ProvidesThirdPartyApiFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.Box7APIModule_ProvidesTopupsApiFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.Box7APIModule_ProvidesUsagesApiFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.CacheModule_ProvideBox7CacheFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.FactoryModule_ProvideEvnDataModelFactoryFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.FactoryModule_ProvidePackDataModelFactoryFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.MoeModule;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.MoeModule_ProvideDatabaseAccessorFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.MoeModule_ProvideLocalizationInfoFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.MoeModule_ProvideLocalizationManagerFactoryFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.MoeModule_ProvideLocalizerFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.NetworkModule_ProvideHigherLoginManagerFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.NetworkModule_ProvideImageManagerFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.NetworkModule_ProvideLoginHelperFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.NetworkModule_ProvideMoeUpdateManagerFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.NetworkModule_ProvidesLoginManagerFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.OttoModule_ProvideBusEventReceiverFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.OttoModule_ProvideMainThreadBusFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.RechargeSettingsModule_ProvideRechargeSettingsModelFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.RechargeSettingsModule_ProvideRechargeSettingsSendManagerFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.RechargeSettingsModule_ProvideRechargeSettingsViewHelperFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.UtilsModule_ProvideBankUtilsFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.UtilsModule_ProvideBrandUtilsFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.UtilsModule_ProvideCallExternalAppsUtilsFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.UtilsModule_ProvideDeviceUtilsFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.UtilsModule_ProvideErrorUtilsFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.UtilsModule_ProvideFeedbackPreferencesFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.UtilsModule_ProvideHotlineUtilsFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.UtilsModule_ProvideImageUtilsFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.UtilsModule_ProvideJsonUtilsFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.UtilsModule_ProvideLoginPreferencesFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.UtilsModule_ProvideMailVerificationUtilFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.UtilsModule_ProvideModelPreferencesFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.UtilsModule_ProvideNetworkPreferncesFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.UtilsModule_ProvidePermissionsUtilsFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.UtilsModule_ProvidePreferencesFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.UtilsModule_ProvideSimUtilsFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.UtilsModule_ProvideTimeOutPreferencesFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.UtilsModule_ProvideTimerFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.UtilsModule_ProvideTrackingHelperFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.UtilsModule_ProvideUiUtilsFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.UtilsModule_ProvideUserPreferencesFactory;
+import de.eplus.mappecc.client.android.common.dependencyinjection.service.UtilsModule_TefPasswordHelperFactory;
+import de.eplus.mappecc.client.android.common.eventbus.BusEventReceiver;
+import de.eplus.mappecc.client.android.common.eventbus.MainThreadBus;
+import de.eplus.mappecc.client.android.common.model.PackDataModel;
+import de.eplus.mappecc.client.android.common.model.PackViewModel;
+import de.eplus.mappecc.client.android.common.network.box7.Box7Cache;
+import de.eplus.mappecc.client.android.common.network.box7.accounts.Box7AccountsManager;
+import de.eplus.mappecc.client.android.common.network.box7.customer.Box7CustomerManager;
+import de.eplus.mappecc.client.android.common.network.box7.loginaccount.Box7LoginAccountManager;
+import de.eplus.mappecc.client.android.common.network.box7.misc.Box7MiscManager;
+import de.eplus.mappecc.client.android.common.network.box7.misc.Box7MiscManager_Factory;
+import de.eplus.mappecc.client.android.common.network.box7.model.Box7ClientConfig;
+import de.eplus.mappecc.client.android.common.network.box7.performance.IPerformanceTimingManager;
+import de.eplus.mappecc.client.android.common.network.box7.subscription.Box7SubscriptionManager;
+import de.eplus.mappecc.client.android.common.network.box7.subscription.Box7SubscriptionManager_Factory;
+import de.eplus.mappecc.client.android.common.network.box7.subscription.Box7SubscriptionManager_MembersInjector;
+import de.eplus.mappecc.client.android.common.network.moe.ImageManager;
+import de.eplus.mappecc.client.android.common.network.moe.LocalizationInfo;
+import de.eplus.mappecc.client.android.common.network.moe.LocalizationManagerFactory;
+import de.eplus.mappecc.client.android.common.network.moe.LocalizerBatchOperationFactory;
+import de.eplus.mappecc.client.android.common.network.moe.LocalizerBatchOperationFactory_Factory;
+import de.eplus.mappecc.client.android.common.network.moe.MoeImageView;
+import de.eplus.mappecc.client.android.common.network.moe.MoeImageView_MembersInjector;
+import de.eplus.mappecc.client.android.common.network.moe.MoeUpdateManager;
+import de.eplus.mappecc.client.android.common.network.moe.ViewSetterFactory;
+import de.eplus.mappecc.client.android.common.network.moe.core.Localizer;
+import de.eplus.mappecc.client.android.common.network.moe.core.MoeStreamingResourceTask;
+import de.eplus.mappecc.client.android.common.network.moe.core.MoeStreamingResourceTaskFactory;
+import de.eplus.mappecc.client.android.common.network.moe.core.MoeStreamingResourceTaskFactory_Factory;
+import de.eplus.mappecc.client.android.common.network.moe.core.MoeTask;
+import de.eplus.mappecc.client.android.common.network.moe.core.MoeTaskFactory;
+import de.eplus.mappecc.client.android.common.network.moe.core.MoeTaskFactory_Factory;
+import de.eplus.mappecc.client.android.common.network.moe.database.DatabaseAccessor;
+import de.eplus.mappecc.client.android.common.network.moe.database.sqlite.SQLiteDatabaseHelper_Factory;
+import de.eplus.mappecc.client.android.common.network.piranha.ILoginManager;
+import de.eplus.mappecc.client.android.common.network.piranha.LoginHelper;
+import de.eplus.mappecc.client.android.common.network.piranha.LoginManager;
+import de.eplus.mappecc.client.android.common.network.piranha.LoginManager_Factory;
+import de.eplus.mappecc.client.android.common.network.piranha.model.higherlogin.IHigherLoginManager;
+import de.eplus.mappecc.client.android.common.repository.database.B2PDatabase;
+import de.eplus.mappecc.client.android.common.repository.implementation.IBalanceModelRepository;
+import de.eplus.mappecc.client.android.common.repository.implementation.IBrandTariffTypePropertyModelRepository;
+import de.eplus.mappecc.client.android.common.repository.implementation.IConsentRepository;
+import de.eplus.mappecc.client.android.common.repository.implementation.ICustomerModelRepository;
+import de.eplus.mappecc.client.android.common.repository.implementation.IInvoiceOverviewModelRepository;
+import de.eplus.mappecc.client.android.common.repository.implementation.ILoginAccountModelRepository;
+import de.eplus.mappecc.client.android.common.repository.implementation.IPacksRepository;
+import de.eplus.mappecc.client.android.common.repository.implementation.IPrepaidMyTariffPageModelRepository;
+import de.eplus.mappecc.client.android.common.repository.implementation.IPrepaidTopupConfigurationModelRepository;
+import de.eplus.mappecc.client.android.common.repository.implementation.ISimcardModelRepository;
+import de.eplus.mappecc.client.android.common.repository.implementation.ISubscriptionModelRepository;
+import de.eplus.mappecc.client.android.common.repository.implementation.ISubscriptionsAuthorizedRepository;
+import de.eplus.mappecc.client.android.common.repository.implementation.IThirdPartyServiceSettingsModelRepository;
+import de.eplus.mappecc.client.android.common.restclient.Box7RestApiLib;
+import de.eplus.mappecc.client.android.common.restclient.api.AccountsApi;
+import de.eplus.mappecc.client.android.common.restclient.api.AddressesApi;
+import de.eplus.mappecc.client.android.common.restclient.api.BankaccountsApi;
+import de.eplus.mappecc.client.android.common.restclient.api.BillingsApi;
+import de.eplus.mappecc.client.android.common.restclient.api.CustomersApi;
+import de.eplus.mappecc.client.android.common.restclient.api.LoginAccountsApi;
+import de.eplus.mappecc.client.android.common.restclient.api.PacksApi;
+import de.eplus.mappecc.client.android.common.restclient.api.SimCardsApi;
+import de.eplus.mappecc.client.android.common.restclient.api.SubscriptionsApi;
+import de.eplus.mappecc.client.android.common.restclient.api.ThirdPartyApi;
+import de.eplus.mappecc.client.android.common.restclient.api.TopupsApi;
+import de.eplus.mappecc.client.android.common.restclient.api.UsagesApi;
+import de.eplus.mappecc.client.android.common.restclient.endpoint.LoginEndpoint;
+import de.eplus.mappecc.client.android.common.restclient.endpoint.ServiceEndpoint;
+import de.eplus.mappecc.client.android.common.tracking.TrackingHelper;
+import de.eplus.mappecc.client.android.common.utils.BrandUtils;
+import de.eplus.mappecc.client.android.common.utils.CallExternalAppsUtils;
+import de.eplus.mappecc.client.android.common.utils.DateUtils;
+import de.eplus.mappecc.client.android.common.utils.DeviceUtils;
+import de.eplus.mappecc.client.android.common.utils.ErrorUtils;
+import de.eplus.mappecc.client.android.common.utils.HotlineUtils;
+import de.eplus.mappecc.client.android.common.utils.ImageUtils;
+import de.eplus.mappecc.client.android.common.utils.JsonUtil;
+import de.eplus.mappecc.client.android.common.utils.MailVerificationUtil;
+import de.eplus.mappecc.client.android.common.utils.NetworkUtils;
+import de.eplus.mappecc.client.android.common.utils.NetworkUtils_Factory;
+import de.eplus.mappecc.client.android.common.utils.PermissionUtils;
+import de.eplus.mappecc.client.android.common.utils.SimUtils;
+import de.eplus.mappecc.client.android.common.utils.Timer;
+import de.eplus.mappecc.client.android.common.utils.UiUtils;
+import de.eplus.mappecc.client.android.common.utils.UiUtils_MembersInjector;
+import de.eplus.mappecc.client.android.common.utils.bank.BankUtils;
+import de.eplus.mappecc.client.android.common.utils.formatter.MoneyModelFormatter;
+import de.eplus.mappecc.client.android.common.utils.formatter.MoneyModelFormatter_MembersInjector;
+import de.eplus.mappecc.client.android.common.utils.helper.TEFPasswordHelper;
+import de.eplus.mappecc.client.android.common.utils.helper.TEFPasswordHelper_MembersInjector;
+import de.eplus.mappecc.client.android.common.utils.migration.ResetApplicationUtil;
+import de.eplus.mappecc.client.android.common.utils.migration.ResetApplicationUtil_MembersInjector;
+import de.eplus.mappecc.client.android.common.utils.preferences.LoginPreferences;
+import de.eplus.mappecc.client.android.common.utils.preferences.ModelPreferences;
+import de.eplus.mappecc.client.android.common.utils.preferences.NetworkPreferences;
+import de.eplus.mappecc.client.android.common.utils.preferences.Preferences;
+import de.eplus.mappecc.client.android.common.utils.preferences.TimeoutPreferences;
+import de.eplus.mappecc.client.android.common.utils.preferences.UserPreferences;
+import de.eplus.mappecc.client.android.common.utils.security.B2PKeyStoreImpl;
+import de.eplus.mappecc.client.android.common.utils.security.crypto.ICrypto;
+import de.eplus.mappecc.client.android.feature.customer.AccountOverviewActivity;
+import de.eplus.mappecc.client.android.feature.customer.AccountOverviewActivity_MembersInjector;
+import de.eplus.mappecc.client.android.feature.customer.ChangeAccountActivity;
+import de.eplus.mappecc.client.android.feature.customer.ChangeAccountActivity_MembersInjector;
+import de.eplus.mappecc.client.android.feature.customer.ChangeAddressActivity;
+import de.eplus.mappecc.client.android.feature.customer.ChangeAddressActivity_MembersInjector;
+import de.eplus.mappecc.client.android.feature.customer.ChangeAddressPresenter;
+import de.eplus.mappecc.client.android.feature.customer.ChangeEmailActivity;
+import de.eplus.mappecc.client.android.feature.customer.ChangeEmailActivity_MembersInjector;
+import de.eplus.mappecc.client.android.feature.customer.ChangeEmailPresenter;
+import de.eplus.mappecc.client.android.feature.customer.ChangePasswordActivity;
+import de.eplus.mappecc.client.android.feature.customer.ChangePasswordActivity_MembersInjector;
+import de.eplus.mappecc.client.android.feature.customer.ChangePasswordPresenter;
+import de.eplus.mappecc.client.android.feature.customer.CustomerDetailsFragment;
+import de.eplus.mappecc.client.android.feature.customer.CustomerDetailsFragmentPresenter;
+import de.eplus.mappecc.client.android.feature.customer.CustomerDetailsFragment_MembersInjector;
+import de.eplus.mappecc.client.android.feature.customer.MyAccountActivityPresenter;
+import de.eplus.mappecc.client.android.feature.customer.MyAccountFragment;
+import de.eplus.mappecc.client.android.feature.customer.MyAccountFragmentPresenter;
+import de.eplus.mappecc.client.android.feature.customer.MyAccountFragment_MembersInjector;
+import de.eplus.mappecc.client.android.feature.customer.NotRegisteredFragment;
+import de.eplus.mappecc.client.android.feature.customer.NotRegisteredFragmentPresenter;
+import de.eplus.mappecc.client.android.feature.customer.NotRegisteredFragment_MembersInjector;
+import de.eplus.mappecc.client.android.feature.customer.PhoneNumberView;
+import de.eplus.mappecc.client.android.feature.customer.changeaccount.ChangeAccountPresenter;
+import de.eplus.mappecc.client.android.feature.customer.consents.ConsentsActivity;
+import de.eplus.mappecc.client.android.feature.customer.consents.ConsentsActivity_MembersInjector;
+import de.eplus.mappecc.client.android.feature.customer.consents.ConsentsPresenter;
+import de.eplus.mappecc.client.android.feature.customer.consents.model.DetailConsentsModel;
+import de.eplus.mappecc.client.android.feature.customer.consents.model.DetailConsentsModel_MembersInjector;
+import de.eplus.mappecc.client.android.feature.customer.consents.model.EditConsentsModel;
+import de.eplus.mappecc.client.android.feature.customer.consents.model.EditConsentsModel_MembersInjector;
+import de.eplus.mappecc.client.android.feature.customer.consents.parser.rule.ImportantParagraphParsingRule;
+import de.eplus.mappecc.client.android.feature.customer.consents.parser.rule.ImportantParagraphParsingRule_MembersInjector;
+import de.eplus.mappecc.client.android.feature.customer.consents.viewholder.editviewholder.EditConsentsViewHolder;
+import de.eplus.mappecc.client.android.feature.customer.history.ConsumeFragment;
+import de.eplus.mappecc.client.android.feature.customer.history.ConsumeFragmentPresenter;
+import de.eplus.mappecc.client.android.feature.customer.history.ConsumeFragment_MembersInjector;
+import de.eplus.mappecc.client.android.feature.customer.history.ConsumeOverviewFragment;
+import de.eplus.mappecc.client.android.feature.customer.history.ConsumeOverviewFragmentPresenter;
+import de.eplus.mappecc.client.android.feature.customer.history.ConsumeOverviewFragment_MembersInjector;
+import de.eplus.mappecc.client.android.feature.customer.history.CounterPackView;
+import de.eplus.mappecc.client.android.feature.customer.history.CounterPackView_MembersInjector;
+import de.eplus.mappecc.client.android.feature.customer.history.EVNDataModel;
+import de.eplus.mappecc.client.android.feature.customer.history.MyAccountActivity;
+import de.eplus.mappecc.client.android.feature.customer.history.MyAccountActivity_MembersInjector;
+import de.eplus.mappecc.client.android.feature.customer.history.evn.EvnDataModelFactory;
+import de.eplus.mappecc.client.android.feature.customer.invoice.InvoiceOverviewActivity;
+import de.eplus.mappecc.client.android.feature.customer.invoice.InvoiceOverviewActivity_MembersInjector;
+import de.eplus.mappecc.client.android.feature.customer.invoice.InvoiceOverviewPresenter;
+import de.eplus.mappecc.client.android.feature.customer.thirdparty.BarrierActivity;
+import de.eplus.mappecc.client.android.feature.customer.thirdparty.BarrierActivity_MembersInjector;
+import de.eplus.mappecc.client.android.feature.customer.thirdparty.BarrierPresenter;
+import de.eplus.mappecc.client.android.feature.directdebit.bankaccountchange.DirectDebitActivity;
+import de.eplus.mappecc.client.android.feature.directdebit.bankaccountchange.DirectDebitFragment;
+import de.eplus.mappecc.client.android.feature.directdebit.bankaccountchange.DirectDebitFragmentPresenter;
+import de.eplus.mappecc.client.android.feature.directdebit.bankaccountchange.DirectDebitFragment_MembersInjector;
+import de.eplus.mappecc.client.android.feature.directdebit.confirmation.DirectDebitConfirmationFragment;
+import de.eplus.mappecc.client.android.feature.directdebit.confirmation.DirectDebitConfirmationFragmentPresenter;
+import de.eplus.mappecc.client.android.feature.directdebit.confirmation.DirectDebitConfirmationFragment_MembersInjector;
+import de.eplus.mappecc.client.android.feature.directdebit.method.DirectDebitMethodActivity;
+import de.eplus.mappecc.client.android.feature.directdebit.method.DirectDebitMethodFragment;
+import de.eplus.mappecc.client.android.feature.directdebit.method.DirectDebitMethodFragmentPresenter;
+import de.eplus.mappecc.client.android.feature.directdebit.method.DirectDebitMethodFragment_MembersInjector;
+import de.eplus.mappecc.client.android.feature.directdebit.paymentchoice.DirectDebitPaymentChoiceActivity;
+import de.eplus.mappecc.client.android.feature.directdebit.paymentchoice.DirectDebitPaymentChoiceActivityPresenter;
+import de.eplus.mappecc.client.android.feature.directdebit.paymentchoice.DirectDebitPaymentChoiceConfirmFragment;
+import de.eplus.mappecc.client.android.feature.directdebit.paymentchoice.DirectDebitPaymentChoiceConfirmFragmentPresenter;
+import de.eplus.mappecc.client.android.feature.directdebit.paymentchoice.DirectDebitPaymentChoiceConfirmFragment_MembersInjector;
+import de.eplus.mappecc.client.android.feature.directdebit.paymentchoice.DirectDebitPaymentChoiceFragment;
+import de.eplus.mappecc.client.android.feature.directdebit.paymentchoice.DirectDebitPaymentChoiceFragmentPresenter;
+import de.eplus.mappecc.client.android.feature.directdebit.paymentchoice.DirectDebitPaymentChoiceFragment_MembersInjector;
+import de.eplus.mappecc.client.android.feature.directdebit.recharge.RechargeSettingsModel;
+import de.eplus.mappecc.client.android.feature.directdebit.recharge.RechargeSettingsSendManager;
+import de.eplus.mappecc.client.android.feature.directdebit.recharge.RechargeSettingsViewHelper;
+import de.eplus.mappecc.client.android.feature.directdebit.setting.DirectDebitSettingsActivity;
+import de.eplus.mappecc.client.android.feature.directdebit.setting.DirectDebitSettingsActivity_MembersInjector;
+import de.eplus.mappecc.client.android.feature.directdebit.setting.DirectDebitSettingsFragment;
+import de.eplus.mappecc.client.android.feature.directdebit.setting.DirectDebitSettingsFragmentPresenter;
+import de.eplus.mappecc.client.android.feature.directdebit.setting.DirectDebitSettingsFragment_MembersInjector;
+import de.eplus.mappecc.client.android.feature.help.HelpActivity;
+import de.eplus.mappecc.client.android.feature.help.HelpActivityPresenter;
+import de.eplus.mappecc.client.android.feature.help.HelpActivity_MembersInjector;
+import de.eplus.mappecc.client.android.feature.help.analytics.AnalyticsPresenter;
+import de.eplus.mappecc.client.android.feature.help.analytics.activity.AnalyticsActivity;
+import de.eplus.mappecc.client.android.feature.help.analytics.activity.AnalyticsActivity_MembersInjector;
+import de.eplus.mappecc.client.android.feature.help.analytics.dialog.AnalyticsDialog;
+import de.eplus.mappecc.client.android.feature.help.analytics.dialog.AnalyticsDialog_MembersInjector;
+import de.eplus.mappecc.client.android.feature.help.imprint.ImprintActivity;
+import de.eplus.mappecc.client.android.feature.help.imprint.ImprintActivityPresenter;
+import de.eplus.mappecc.client.android.feature.help.imprint.ImprintActivity_MembersInjector;
+import de.eplus.mappecc.client.android.feature.help.license.LicenseActivity;
+import de.eplus.mappecc.client.android.feature.help.license.LicenseActivityPresenter;
+import de.eplus.mappecc.client.android.feature.help.license.LicenseActivity_MembersInjector;
+import de.eplus.mappecc.client.android.feature.help.term.TermsActivity;
+import de.eplus.mappecc.client.android.feature.help.term.TermsActivity_MembersInjector;
+import de.eplus.mappecc.client.android.feature.help.term.TermsPresenter;
+import de.eplus.mappecc.client.android.feature.homescreen.HomeScreenActivity;
+import de.eplus.mappecc.client.android.feature.homescreen.HomeScreenActivity_MembersInjector;
+import de.eplus.mappecc.client.android.feature.homescreen.HomeScreenPresenter;
+import de.eplus.mappecc.client.android.feature.homescreen.counterview.CounterViewModel;
+import de.eplus.mappecc.client.android.feature.homescreen.counterview.CounterViewModel_MembersInjector;
+import de.eplus.mappecc.client.android.feature.homescreen.currentcredit.CurrentCreditPresenter;
+import de.eplus.mappecc.client.android.feature.homescreen.currentcredit.CurrentCreditView;
+import de.eplus.mappecc.client.android.feature.homescreen.inappinfoview.InAppInfoView;
+import de.eplus.mappecc.client.android.feature.homescreen.inappinfoview.InAppInfoView_MembersInjector;
+import de.eplus.mappecc.client.android.feature.login.LoginActivity;
+import de.eplus.mappecc.client.android.feature.login.LoginActivity_MembersInjector;
+import de.eplus.mappecc.client.android.feature.login.LoginPresenter;
+import de.eplus.mappecc.client.android.feature.onboarding.OnBoardingActivity;
+import de.eplus.mappecc.client.android.feature.onboarding.OnBoardingActivity_MembersInjector;
+import de.eplus.mappecc.client.android.feature.onboarding.OnBoardingPresenter;
+import de.eplus.mappecc.client.android.feature.onboarding.content.OnBoardingTabView;
+import de.eplus.mappecc.client.android.feature.onboarding.content.OnBoardingTabView_MembersInjector;
+import de.eplus.mappecc.client.android.feature.pack.PackActivity;
+import de.eplus.mappecc.client.android.feature.pack.PackActivity_MembersInjector;
+import de.eplus.mappecc.client.android.feature.pack.book.PackBookFragment;
+import de.eplus.mappecc.client.android.feature.pack.book.PackBookFragmentPresenter;
+import de.eplus.mappecc.client.android.feature.pack.book.PackBookFragment_MembersInjector;
+import de.eplus.mappecc.client.android.feature.pack.book.packages.PackagesView;
+import de.eplus.mappecc.client.android.feature.pack.book.packages.PackagesView_MembersInjector;
+import de.eplus.mappecc.client.android.feature.pack.bookconfirm.PackBookConfirmFragment;
+import de.eplus.mappecc.client.android.feature.pack.bookconfirm.PackBookConfirmFragmentPresenter;
+import de.eplus.mappecc.client.android.feature.pack.bookconfirm.PackBookConfirmFragment_MembersInjector;
+import de.eplus.mappecc.client.android.feature.pack.cancel.PackCancelFragment;
+import de.eplus.mappecc.client.android.feature.pack.cancel.PackCancelFragmentPresenter;
+import de.eplus.mappecc.client.android.feature.pack.cancel.PackCancelFragment_MembersInjector;
+import de.eplus.mappecc.client.android.feature.pack.cancelconfirm.PackCancelConfirmFragment;
+import de.eplus.mappecc.client.android.feature.pack.cancelconfirm.PackCancelConfirmFragmentPresenter;
+import de.eplus.mappecc.client.android.feature.pack.cancelconfirm.PackCancelConfirmFragment_MembersInjector;
+import de.eplus.mappecc.client.android.feature.pack.detail.PackDetailsPresenter;
+import de.eplus.mappecc.client.android.feature.pack.detail.PackDetailsView;
+import de.eplus.mappecc.client.android.feature.pack.detail.PackDetailsView_MembersInjector;
+import de.eplus.mappecc.client.android.feature.pack.family.PackFamilyPresenter;
+import de.eplus.mappecc.client.android.feature.pack.family.PackFamilyView;
+import de.eplus.mappecc.client.android.feature.pack.family.PackFamilyView_MembersInjector;
+import de.eplus.mappecc.client.android.feature.pack.overview.PackDataModelFactory;
+import de.eplus.mappecc.client.android.feature.pack.overview.PackOverviewFragment;
+import de.eplus.mappecc.client.android.feature.pack.overview.PackOverviewFragmentPresenter;
+import de.eplus.mappecc.client.android.feature.pack.overview.PackOverviewFragment_MembersInjector;
+import de.eplus.mappecc.client.android.feature.pack.overview.carousel.CarouselView;
+import de.eplus.mappecc.client.android.feature.pack.overview.teaser.TeaserView;
+import de.eplus.mappecc.client.android.feature.pack.unbook.PackUnbookView;
+import de.eplus.mappecc.client.android.feature.pack.unbook.PackUnbookView_MembersInjector;
+import de.eplus.mappecc.client.android.feature.pack.vas.VasInfoFragment;
+import de.eplus.mappecc.client.android.feature.pack.vas.VasInfoPresenter;
+import de.eplus.mappecc.client.android.feature.pack.vas.VasPresenter;
+import de.eplus.mappecc.client.android.feature.pack.vas.VasPresenter_MembersInjector;
+import de.eplus.mappecc.client.android.feature.pack.vas.VasView;
+import de.eplus.mappecc.client.android.feature.pack.vas.VasView_MembersInjector;
+import de.eplus.mappecc.client.android.feature.rating.RatingActivity;
+import de.eplus.mappecc.client.android.feature.rating.RatingPreferences;
+import de.eplus.mappecc.client.android.feature.rating.feedback.FeedbackScreenFragment;
+import de.eplus.mappecc.client.android.feature.rating.feedback.FeedbackScreenFragmentPresenter;
+import de.eplus.mappecc.client.android.feature.rating.feedback.FeedbackScreenFragment_MembersInjector;
+import de.eplus.mappecc.client.android.feature.rating.rule.implementation.RatingShowingRule;
+import de.eplus.mappecc.client.android.feature.rating.rule.implementation.RatingShowingRule_MembersInjector;
+import de.eplus.mappecc.client.android.feature.rating.starpage.StarRatingFragment;
+import de.eplus.mappecc.client.android.feature.rating.starpage.StarRatingFragment_MembersInjector;
+import de.eplus.mappecc.client.android.feature.rating.starpage.StarRatingPresenter;
+import de.eplus.mappecc.client.android.feature.rating.thankyou.ThankYouFragment;
+import de.eplus.mappecc.client.android.feature.reauth.ReAuthFragment;
+import de.eplus.mappecc.client.android.feature.reauth.ReAuthFragmentPresenter;
+import de.eplus.mappecc.client.android.feature.reauth.ReAuthFragment_MembersInjector;
+import de.eplus.mappecc.client.android.feature.resetpassword.ResetActivity;
+import de.eplus.mappecc.client.android.feature.resetpassword.ResetActivity_MembersInjector;
+import de.eplus.mappecc.client.android.feature.resetpassword.ResetPresenter;
+import de.eplus.mappecc.client.android.feature.resetpassword.overview.ResetFragment;
+import de.eplus.mappecc.client.android.feature.resetpassword.overview.ResetFragmentPresenter;
+import de.eplus.mappecc.client.android.feature.resetpassword.overview.ResetFragment_MembersInjector;
+import de.eplus.mappecc.client.android.feature.resetpassword.password.ResetPasswordFragment;
+import de.eplus.mappecc.client.android.feature.resetpassword.password.ResetPasswordFragmentPresenter;
+import de.eplus.mappecc.client.android.feature.resetpassword.password.ResetPasswordFragment_MembersInjector;
+import de.eplus.mappecc.client.android.feature.splashscreen.SplashActivity;
+import de.eplus.mappecc.client.android.feature.splashscreen.SplashActivity_MembersInjector;
+import de.eplus.mappecc.client.android.feature.splashscreen.SplashPresenter;
+import de.eplus.mappecc.client.android.feature.splashscreen.endpoint.EndpointManager;
+import de.eplus.mappecc.client.android.feature.splashscreen.endpoint.EndpointSwitchDialogFragment;
+import de.eplus.mappecc.client.android.feature.splashscreen.endpoint.EndpointSwitchDialogFragment_MembersInjector;
+import de.eplus.mappecc.client.android.feature.topup.TopUpActivity;
+import de.eplus.mappecc.client.android.feature.topup.TopUpActivity_MembersInjector;
+import de.eplus.mappecc.client.android.feature.topup.bank.TopUpBankFragment;
+import de.eplus.mappecc.client.android.feature.topup.bank.TopUpBankFragment_MembersInjector;
+import de.eplus.mappecc.client.android.feature.topup.bank.TopUpBankPresenter;
+import de.eplus.mappecc.client.android.feature.topup.choice.TopUpChoiceFragment;
+import de.eplus.mappecc.client.android.feature.topup.choice.TopUpChoiceFragmentPresenter;
+import de.eplus.mappecc.client.android.feature.topup.choice.TopUpChoiceFragment_MembersInjector;
+import de.eplus.mappecc.client.android.feature.topup.depositselector.DepositSelectorView;
+import de.eplus.mappecc.client.android.feature.topup.overview.TopUpOverviewFragment;
+import de.eplus.mappecc.client.android.feature.topup.overview.TopUpOverviewFragmentPresenter;
+import de.eplus.mappecc.client.android.feature.topup.overview.TopUpOverviewFragment_MembersInjector;
+import de.eplus.mappecc.client.android.feature.topup.voucher.TopUpVoucherFragment;
+import de.eplus.mappecc.client.android.feature.topup.voucher.TopUpVoucherFragmentPresenter;
+import de.eplus.mappecc.client.android.feature.topup.voucher.TopUpVoucherFragment_MembersInjector;
+import de.eplus.mappecc.client.android.feature.trash.PiaEntryView;
+import de.eplus.mappecc.client.android.feature.trash.PublicInfoAreaActivity;
+import de.eplus.mappecc.client.android.feature.trash.PublicInfoAreaActivity_MembersInjector;
+import de.eplus.mappecc.client.android.feature.trash.PublicInfoAreaPresenter;
+import java.util.Map;
+import javax.inject.Provider;
+
+public final class DaggerAppComponent
+  extends AppComponent
+{
+  private Provider<ActivityBindingModule_AccountOverviewActivityInjector.AccountOverviewActivitySubcomponent.Builder> accountOverviewActivitySubcomponentBuilderProvider;
+  private Provider<ActivityBindingModule_AnalyticsInjector.AnalyticsActivitySubcomponent.Builder> analyticsActivitySubcomponentBuilderProvider;
+  private Application application;
+  private Provider<Application> applicationProvider;
+  private Provider<ActivityBindingModule_BarrierInjector.BarrierActivitySubcomponent.Builder> barrierActivitySubcomponentBuilderProvider;
+  private Box7APIModule box7APIModule;
+  private Box7MiscManager_Factory box7MiscManagerProvider;
+  private Box7SubscriptionManager_Factory box7SubscriptionManagerProvider;
+  private Provider<ActivityBindingModule_ChangeAccountInjector.ChangeAccountActivitySubcomponent.Builder> changeAccountActivitySubcomponentBuilderProvider;
+  private Provider<ActivityBindingModule_ChangeAddressInjector.ChangeAddressActivitySubcomponent.Builder> changeAddressActivitySubcomponentBuilderProvider;
+  private Provider<ActivityBindingModule_ChangeEmailInjector.ChangeEmailActivitySubcomponent.Builder> changeEmailActivitySubcomponentBuilderProvider;
+  private Provider<ActivityBindingModule_ChangePasswordInjector.ChangePasswordActivitySubcomponent.Builder> changePasswordActivitySubcomponentBuilderProvider;
+  private Provider<ActivityBindingModule_ConsentsInjector.ConsentsActivitySubcomponent.Builder> consentsActivitySubcomponentBuilderProvider;
+  private Provider<ActivityBindingModule_DirectDebitInjector.DirectDebitActivitySubcomponent.Builder> directDebitActivitySubcomponentBuilderProvider;
+  private Provider<ActivityBindingModule_DirectDebitMethodInjector.DirectDebitMethodActivitySubcomponent.Builder> directDebitMethodActivitySubcomponentBuilderProvider;
+  private Provider<ActivityBindingModule_DirectDebitPaymentChoiceInjector.DirectDebitPaymentChoiceActivitySubcomponent.Builder> directDebitPaymentChoiceActivitySubcomponentBuilderProvider;
+  private Provider<ActivityBindingModule_DirectDebitSettingsInjector.DirectDebitSettingsActivitySubcomponent.Builder> directDebitSettingsActivitySubcomponentBuilderProvider;
+  private Provider<ActivityBindingModule_HelpActivityInjector.HelpActivitySubcomponent.Builder> helpActivitySubcomponentBuilderProvider;
+  private Provider<ActivityBindingModule_HomeScreenInjector.HomeScreenActivitySubcomponent.Builder> homeScreenActivitySubcomponentBuilderProvider;
+  private Provider<ActivityBindingModule_ImprintInjector.ImprintActivitySubcomponent.Builder> imprintActivitySubcomponentBuilderProvider;
+  private Provider<ActivityBindingModule_InvoiceOverviewInjector.InvoiceOverviewActivitySubcomponent.Builder> invoiceOverviewActivitySubcomponentBuilderProvider;
+  private Provider<ActivityBindingModule_LicenseInjector.LicenseActivitySubcomponent.Builder> licenseActivitySubcomponentBuilderProvider;
+  private LocalizerBatchOperationFactory_Factory localizerBatchOperationFactoryProvider;
+  private Provider<ActivityBindingModule_LoginInjector.LoginActivitySubcomponent.Builder> loginActivitySubcomponentBuilderProvider;
+  private Provider<LoginManager> loginManagerProvider;
+  private MoeStreamingResourceTaskFactory_Factory moeStreamingResourceTaskFactoryProvider;
+  private MoeTaskFactory_Factory moeTaskFactoryProvider;
+  private Provider<ActivityBindingModule_MyAccountActivityInjector.MyAccountActivitySubcomponent.Builder> myAccountActivitySubcomponentBuilderProvider;
+  private NetworkUtils_Factory networkUtilsProvider;
+  private Provider<ActivityBindingModule_TutorialInjector.OnBoardingActivitySubcomponent.Builder> onBoardingActivitySubcomponentBuilderProvider;
+  private Provider<ActivityBindingModule_PackActivityInjector.PackActivitySubcomponent.Builder> packActivitySubcomponentBuilderProvider;
+  private Provider<B2PDatabase> provideB2PDatabaseProvider;
+  private Provider<B2PKeyStoreImpl> provideB2PKeyStoreImplProvider;
+  private Box7APIModule_ProvideBalancesApiFactory provideBalancesApiProvider;
+  private Provider<BankUtils> provideBankUtilsProvider;
+  private Provider<Box7Cache> provideBox7CacheProvider;
+  private Box7APIModule_ProvideBox7RestApiLibFactory provideBox7RestApiLibProvider;
+  private Provider<BrandUtils> provideBrandUtilsProvider;
+  private Provider<BusEventReceiver> provideBusEventReceiverProvider;
+  private Provider<CallExternalAppsUtils> provideCallExternalAppsUtilsProvider;
+  private Provider<ICrypto> provideCryptoProvider;
+  private Provider<DatabaseAccessor> provideDatabaseAccessorProvider;
+  private Provider<DeviceUtils> provideDeviceUtilsProvider;
+  private Provider<EndpointManager> provideEndpointManagerProvider;
+  private Provider<ErrorUtils> provideErrorUtilsProvider;
+  private Provider<EvnDataModelFactory> provideEvnDataModelFactoryProvider;
+  private Provider<RatingPreferences> provideFeedbackPreferencesProvider;
+  private Provider<IHigherLoginManager> provideHigherLoginManagerProvider;
+  private Provider<HotlineUtils> provideHotlineUtilsProvider;
+  private Provider<IBalanceModelRepository> provideIBalanceModelRepositoryProvider;
+  private Provider<IBrandTariffTypePropertyModelRepository> provideIBrandTariffTypePropertyModelRepositoryProvider;
+  private Provider<IConsentRepository> provideIConsentRepositoryProvider;
+  private Provider<ICustomerModelRepository> provideICustomerModelRepositoryProvider;
+  private Provider<IInvoiceOverviewModelRepository> provideIInvoiceOverviewModelRepositoryProvider;
+  private Provider<ILoginAccountModelRepository> provideILoginAccountModelRepositoryProvider;
+  private Provider<IPacksRepository> provideIPacksRepositoryProvider;
+  private Provider<IPerformanceTimingManager> provideIPerformanceTimingManagerProvider;
+  private Provider<IPrepaidMyTariffPageModelRepository> provideIPrepaidMyTariffPageModelRepositoryProvider;
+  private Provider<IPrepaidTopupConfigurationModelRepository> provideIPrepaidTopupConfigurationModelRepositoryProvider;
+  private Provider<ISimcardModelRepository> provideISimCardModelRepositoryProvider;
+  private Provider<ISubscriptionModelRepository> provideISubscriptionModelRepositoryProvider;
+  private Provider<ISubscriptionsAuthorizedRepository> provideISubscriptionsAuthorizedRepositoryProvider;
+  private Provider<IThirdPartyServiceSettingsModelRepository> provideIThirdPartyServiceSettingsModelRepositoryProvider;
+  private Provider<ImageManager> provideImageManagerProvider;
+  private Provider<ImageUtils> provideImageUtilsProvider;
+  private Provider<JsonUtil> provideJsonUtilsProvider;
+  private Provider<LocalizationInfo> provideLocalizationInfoProvider;
+  private Provider<LocalizationManagerFactory> provideLocalizationManagerFactoryProvider;
+  private Provider<Localizer> provideLocalizerProvider;
+  private Provider<LoginHelper> provideLoginHelperProvider;
+  private Provider<LoginPreferences> provideLoginPreferencesProvider;
+  private Provider<MailVerificationUtil> provideMailVerificationUtilProvider;
+  private Provider<MainThreadBus> provideMainThreadBusProvider;
+  private Provider<ModelPreferences> provideModelPreferencesProvider;
+  private Provider<MoeUpdateManager> provideMoeUpdateManagerProvider;
+  private Provider<NetworkPreferences> provideNetworkPreferncesProvider;
+  private Provider<PackDataModelFactory> providePackDataModelFactoryProvider;
+  private Provider<PermissionUtils> providePermissionsUtilsProvider;
+  private Provider<Preferences> providePreferencesProvider;
+  private Provider<RechargeSettingsModel> provideRechargeSettingsModelProvider;
+  private Provider<RechargeSettingsSendManager> provideRechargeSettingsSendManagerProvider;
+  private Provider<RechargeSettingsViewHelper> provideRechargeSettingsViewHelperProvider;
+  private Provider<SimUtils> provideSimUtilsProvider;
+  private Provider<TimeoutPreferences> provideTimeOutPreferencesProvider;
+  private Provider<Timer> provideTimerProvider;
+  private Provider<TrackingHelper> provideTrackingHelperProvider;
+  private Provider<UiUtils> provideUiUtilsProvider;
+  private Provider<UserPreferences> provideUserPreferencesProvider;
+  private Box7APIModule_ProvidesBillingsApiFactory providesBillingsApiProvider;
+  private Provider<Box7ClientConfig> providesBox7ClientConfigProvider;
+  private Box7APIModule_ProvidesConsentsApiFactory providesConsentsApiProvider;
+  private Box7APIModule_ProvidesCustomersApiFactory providesCustomersApiProvider;
+  private Box7APIModule_ProvidesLoginAccountsApiFactory providesLoginAccountsApiProvider;
+  private Provider<LoginEndpoint> providesLoginEndpointProvider;
+  private Provider<ILoginManager> providesLoginManagerProvider;
+  private Box7APIModule_ProvidesMiscApiFactory providesMiscApiProvider;
+  private Box7APIModule_ProvidesPacksApiFactory providesPacksApiProvider;
+  private Box7APIModule_ProvidesPerformanceTimingsApiFactory providesPerformanceTimingsApiProvider;
+  private Provider<ServiceEndpoint> providesServiceEndpointProvider;
+  private Box7APIModule_ProvidesSimCardsApiFactory providesSimCardsApiProvider;
+  private Box7APIModule_ProvidesSubscriptionsApiFactory providesSubscriptionsApiProvider;
+  private Box7APIModule_ProvidesThirdPartyApiFactory providesThirdPartyApiProvider;
+  private Box7APIModule_ProvidesTopupsApiFactory providesTopupsApiProvider;
+  private Box7APIModule_ProvidesUsagesApiFactory providesUsagesApiProvider;
+  private Provider<ActivityBindingModule_PublicInfoAreaInjector.PublicInfoAreaActivitySubcomponent.Builder> publicInfoAreaActivitySubcomponentBuilderProvider;
+  private Provider<ActivityBindingModule_FeedbackActivityInjector.RatingActivitySubcomponent.Builder> ratingActivitySubcomponentBuilderProvider;
+  private Provider<ActivityBindingModule_ResetActivityInjector.ResetActivitySubcomponent.Builder> resetActivitySubcomponentBuilderProvider;
+  private SQLiteDatabaseHelper_Factory sQLiteDatabaseHelperProvider;
+  private Provider<ActivityBindingModule_SplashInjector.SplashActivitySubcomponent.Builder> splashActivitySubcomponentBuilderProvider;
+  private Provider<TEFPasswordHelper> tefPasswordHelperProvider;
+  private Provider<ActivityBindingModule_TermsInjector.TermsActivitySubcomponent.Builder> termsActivitySubcomponentBuilderProvider;
+  private Provider<ActivityBindingModule_TopUpInjector.TopUpActivitySubcomponent.Builder> topUpActivitySubcomponentBuilderProvider;
+  
+  private DaggerAppComponent(Builder paramBuilder)
+  {
+    initialize(paramBuilder);
+    initialize2(paramBuilder);
+  }
+  
+  public static AppComponent.Builder builder()
+  {
+    return new Builder(null);
+  }
+  
+  private AccountsApi getAccountsApi()
+  {
+    return Box7APIModule_ProvidesAccountsApiFactory.proxyProvidesAccountsApi(this.box7APIModule, getBox7RestApiLib());
+  }
+  
+  private AddressesApi getAddressesApi()
+  {
+    return Box7APIModule_ProvidesAddressesApiFactory.proxyProvidesAddressesApi(this.box7APIModule, getBox7RestApiLib());
+  }
+  
+  private BankaccountsApi getBankaccountsApi()
+  {
+    return Box7APIModule_ProvidesBankaccountsApiFactory.proxyProvidesBankaccountsApi(this.box7APIModule, getBox7RestApiLib());
+  }
+  
+  private BillingsApi getBillingsApi()
+  {
+    return Box7APIModule_ProvidesBillingsApiFactory.proxyProvidesBillingsApi(this.box7APIModule, getBox7RestApiLib());
+  }
+  
+  private Box7RestApiLib getBox7RestApiLib()
+  {
+    return Box7APIModule_ProvideBox7RestApiLibFactory.proxyProvideBox7RestApiLib(this.box7APIModule, (Box7ClientConfig)this.providesBox7ClientConfigProvider.get());
+  }
+  
+  private Box7SubscriptionManager getBox7SubscriptionManager()
+  {
+    return injectBox7SubscriptionManager(Box7SubscriptionManager_Factory.newBox7SubscriptionManager(getPacksApi(), getTopupsApi(), getSubscriptionsApi(), getUsagesApi()));
+  }
+  
+  private CustomersApi getCustomersApi()
+  {
+    return Box7APIModule_ProvidesCustomersApiFactory.proxyProvidesCustomersApi(this.box7APIModule, getBox7RestApiLib());
+  }
+  
+  private DispatchingAndroidInjector<Activity> getDispatchingAndroidInjectorOfActivity()
+  {
+    return DispatchingAndroidInjector_Factory.newDispatchingAndroidInjector(getMapOfClassOfAndProviderOfFactoryOf(), m.a());
+  }
+  
+  private DispatchingAndroidInjector<BroadcastReceiver> getDispatchingAndroidInjectorOfBroadcastReceiver()
+  {
+    return DispatchingAndroidInjector_Factory.newDispatchingAndroidInjector(m.a(), m.a());
+  }
+  
+  private DispatchingAndroidInjector<ContentProvider> getDispatchingAndroidInjectorOfContentProvider()
+  {
+    return DispatchingAndroidInjector_Factory.newDispatchingAndroidInjector(m.a(), m.a());
+  }
+  
+  private DispatchingAndroidInjector<android.app.Fragment> getDispatchingAndroidInjectorOfFragment()
+  {
+    return DispatchingAndroidInjector_Factory.newDispatchingAndroidInjector(m.a(), m.a());
+  }
+  
+  private DispatchingAndroidInjector<Service> getDispatchingAndroidInjectorOfService()
+  {
+    return DispatchingAndroidInjector_Factory.newDispatchingAndroidInjector(m.a(), m.a());
+  }
+  
+  private LoginAccountsApi getLoginAccountsApi()
+  {
+    return Box7APIModule_ProvidesLoginAccountsApiFactory.proxyProvidesLoginAccountsApi(this.box7APIModule, getBox7RestApiLib());
+  }
+  
+  private Map<Class<? extends Activity>, Provider<AndroidInjector.Factory<? extends Activity>>> getMapOfClassOfAndProviderOfFactoryOf()
+  {
+    return m.b().a(SplashActivity.class, this.splashActivitySubcomponentBuilderProvider).a(LoginActivity.class, this.loginActivitySubcomponentBuilderProvider).a(HomeScreenActivity.class, this.homeScreenActivitySubcomponentBuilderProvider).a(ChangePasswordActivity.class, this.changePasswordActivitySubcomponentBuilderProvider).a(PublicInfoAreaActivity.class, this.publicInfoAreaActivitySubcomponentBuilderProvider).a(ConsentsActivity.class, this.consentsActivitySubcomponentBuilderProvider).a(ChangeAddressActivity.class, this.changeAddressActivitySubcomponentBuilderProvider).a(ChangeEmailActivity.class, this.changeEmailActivitySubcomponentBuilderProvider).a(BarrierActivity.class, this.barrierActivitySubcomponentBuilderProvider).a(AnalyticsActivity.class, this.analyticsActivitySubcomponentBuilderProvider).a(ChangeAccountActivity.class, this.changeAccountActivitySubcomponentBuilderProvider).a(TermsActivity.class, this.termsActivitySubcomponentBuilderProvider).a(ImprintActivity.class, this.imprintActivitySubcomponentBuilderProvider).a(LicenseActivity.class, this.licenseActivitySubcomponentBuilderProvider).a(OnBoardingActivity.class, this.onBoardingActivitySubcomponentBuilderProvider).a(ResetActivity.class, this.resetActivitySubcomponentBuilderProvider).a(PackActivity.class, this.packActivitySubcomponentBuilderProvider).a(MyAccountActivity.class, this.myAccountActivitySubcomponentBuilderProvider).a(RatingActivity.class, this.ratingActivitySubcomponentBuilderProvider).a(HelpActivity.class, this.helpActivitySubcomponentBuilderProvider).a(AccountOverviewActivity.class, this.accountOverviewActivitySubcomponentBuilderProvider).a(TopUpActivity.class, this.topUpActivitySubcomponentBuilderProvider).a(DirectDebitActivity.class, this.directDebitActivitySubcomponentBuilderProvider).a(DirectDebitSettingsActivity.class, this.directDebitSettingsActivitySubcomponentBuilderProvider).a(DirectDebitMethodActivity.class, this.directDebitMethodActivitySubcomponentBuilderProvider).a(InvoiceOverviewActivity.class, this.invoiceOverviewActivitySubcomponentBuilderProvider).a(DirectDebitPaymentChoiceActivity.class, this.directDebitPaymentChoiceActivitySubcomponentBuilderProvider).a();
+  }
+  
+  private NetworkUtils getNetworkUtils()
+  {
+    return new NetworkUtils(this.application);
+  }
+  
+  private PacksApi getPacksApi()
+  {
+    return Box7APIModule_ProvidesPacksApiFactory.proxyProvidesPacksApi(this.box7APIModule, getBox7RestApiLib());
+  }
+  
+  private SimCardsApi getSimCardsApi()
+  {
+    return Box7APIModule_ProvidesSimCardsApiFactory.proxyProvidesSimCardsApi(this.box7APIModule, getBox7RestApiLib());
+  }
+  
+  private SubscriptionsApi getSubscriptionsApi()
+  {
+    return Box7APIModule_ProvidesSubscriptionsApiFactory.proxyProvidesSubscriptionsApi(this.box7APIModule, getBox7RestApiLib());
+  }
+  
+  private ThirdPartyApi getThirdPartyApi()
+  {
+    return Box7APIModule_ProvidesThirdPartyApiFactory.proxyProvidesThirdPartyApi(this.box7APIModule, getBox7RestApiLib());
+  }
+  
+  private TopupsApi getTopupsApi()
+  {
+    return Box7APIModule_ProvidesTopupsApiFactory.proxyProvidesTopupsApi(this.box7APIModule, getBox7RestApiLib());
+  }
+  
+  private UsagesApi getUsagesApi()
+  {
+    return Box7APIModule_ProvidesUsagesApiFactory.proxyProvidesUsagesApi(this.box7APIModule, getBox7RestApiLib());
+  }
+  
+  private void initialize(Builder paramBuilder)
+  {
+    this.splashActivitySubcomponentBuilderProvider = new Provider()
+    {
+      public ActivityBindingModule_SplashInjector.SplashActivitySubcomponent.Builder get()
+      {
+        return new DaggerAppComponent.SplashActivitySubcomponentBuilder(DaggerAppComponent.this, null);
+      }
+    };
+    this.loginActivitySubcomponentBuilderProvider = new Provider()
+    {
+      public ActivityBindingModule_LoginInjector.LoginActivitySubcomponent.Builder get()
+      {
+        return new DaggerAppComponent.LoginActivitySubcomponentBuilder(DaggerAppComponent.this, null);
+      }
+    };
+    this.homeScreenActivitySubcomponentBuilderProvider = new Provider()
+    {
+      public ActivityBindingModule_HomeScreenInjector.HomeScreenActivitySubcomponent.Builder get()
+      {
+        return new DaggerAppComponent.HomeScreenActivitySubcomponentBuilder(DaggerAppComponent.this, null);
+      }
+    };
+    this.changePasswordActivitySubcomponentBuilderProvider = new Provider()
+    {
+      public ActivityBindingModule_ChangePasswordInjector.ChangePasswordActivitySubcomponent.Builder get()
+      {
+        return new DaggerAppComponent.ChangePasswordActivitySubcomponentBuilder(DaggerAppComponent.this, null);
+      }
+    };
+    this.publicInfoAreaActivitySubcomponentBuilderProvider = new Provider()
+    {
+      public ActivityBindingModule_PublicInfoAreaInjector.PublicInfoAreaActivitySubcomponent.Builder get()
+      {
+        return new DaggerAppComponent.PublicInfoAreaActivitySubcomponentBuilder(DaggerAppComponent.this, null);
+      }
+    };
+    this.consentsActivitySubcomponentBuilderProvider = new Provider()
+    {
+      public ActivityBindingModule_ConsentsInjector.ConsentsActivitySubcomponent.Builder get()
+      {
+        return new DaggerAppComponent.ConsentsActivitySubcomponentBuilder(DaggerAppComponent.this, null);
+      }
+    };
+    this.changeAddressActivitySubcomponentBuilderProvider = new Provider()
+    {
+      public ActivityBindingModule_ChangeAddressInjector.ChangeAddressActivitySubcomponent.Builder get()
+      {
+        return new DaggerAppComponent.ChangeAddressActivitySubcomponentBuilder(DaggerAppComponent.this, null);
+      }
+    };
+    this.changeEmailActivitySubcomponentBuilderProvider = new Provider()
+    {
+      public ActivityBindingModule_ChangeEmailInjector.ChangeEmailActivitySubcomponent.Builder get()
+      {
+        return new DaggerAppComponent.ChangeEmailActivitySubcomponentBuilder(DaggerAppComponent.this, null);
+      }
+    };
+    this.barrierActivitySubcomponentBuilderProvider = new Provider()
+    {
+      public ActivityBindingModule_BarrierInjector.BarrierActivitySubcomponent.Builder get()
+      {
+        return new DaggerAppComponent.BarrierActivitySubcomponentBuilder(DaggerAppComponent.this, null);
+      }
+    };
+    this.analyticsActivitySubcomponentBuilderProvider = new Provider()
+    {
+      public ActivityBindingModule_AnalyticsInjector.AnalyticsActivitySubcomponent.Builder get()
+      {
+        return new DaggerAppComponent.AnalyticsActivitySubcomponentBuilder(DaggerAppComponent.this, null);
+      }
+    };
+    this.changeAccountActivitySubcomponentBuilderProvider = new Provider()
+    {
+      public ActivityBindingModule_ChangeAccountInjector.ChangeAccountActivitySubcomponent.Builder get()
+      {
+        return new DaggerAppComponent.ChangeAccountActivitySubcomponentBuilder(DaggerAppComponent.this, null);
+      }
+    };
+    this.termsActivitySubcomponentBuilderProvider = new Provider()
+    {
+      public ActivityBindingModule_TermsInjector.TermsActivitySubcomponent.Builder get()
+      {
+        return new DaggerAppComponent.TermsActivitySubcomponentBuilder(DaggerAppComponent.this, null);
+      }
+    };
+    this.imprintActivitySubcomponentBuilderProvider = new Provider()
+    {
+      public ActivityBindingModule_ImprintInjector.ImprintActivitySubcomponent.Builder get()
+      {
+        return new DaggerAppComponent.ImprintActivitySubcomponentBuilder(DaggerAppComponent.this, null);
+      }
+    };
+    this.licenseActivitySubcomponentBuilderProvider = new Provider()
+    {
+      public ActivityBindingModule_LicenseInjector.LicenseActivitySubcomponent.Builder get()
+      {
+        return new DaggerAppComponent.LicenseActivitySubcomponentBuilder(DaggerAppComponent.this, null);
+      }
+    };
+    this.onBoardingActivitySubcomponentBuilderProvider = new Provider()
+    {
+      public ActivityBindingModule_TutorialInjector.OnBoardingActivitySubcomponent.Builder get()
+      {
+        return new DaggerAppComponent.OnBoardingActivitySubcomponentBuilder(DaggerAppComponent.this, null);
+      }
+    };
+    this.resetActivitySubcomponentBuilderProvider = new Provider()
+    {
+      public ActivityBindingModule_ResetActivityInjector.ResetActivitySubcomponent.Builder get()
+      {
+        return new DaggerAppComponent.ResetActivitySubcomponentBuilder(DaggerAppComponent.this, null);
+      }
+    };
+    this.packActivitySubcomponentBuilderProvider = new Provider()
+    {
+      public ActivityBindingModule_PackActivityInjector.PackActivitySubcomponent.Builder get()
+      {
+        return new DaggerAppComponent.PackActivitySubcomponentBuilder(DaggerAppComponent.this, null);
+      }
+    };
+    this.myAccountActivitySubcomponentBuilderProvider = new Provider()
+    {
+      public ActivityBindingModule_MyAccountActivityInjector.MyAccountActivitySubcomponent.Builder get()
+      {
+        return new DaggerAppComponent.MyAccountActivitySubcomponentBuilder(DaggerAppComponent.this, null);
+      }
+    };
+    this.ratingActivitySubcomponentBuilderProvider = new Provider()
+    {
+      public ActivityBindingModule_FeedbackActivityInjector.RatingActivitySubcomponent.Builder get()
+      {
+        return new DaggerAppComponent.RatingActivitySubcomponentBuilder(DaggerAppComponent.this, null);
+      }
+    };
+    this.helpActivitySubcomponentBuilderProvider = new Provider()
+    {
+      public ActivityBindingModule_HelpActivityInjector.HelpActivitySubcomponent.Builder get()
+      {
+        return new DaggerAppComponent.HelpActivitySubcomponentBuilder(DaggerAppComponent.this, null);
+      }
+    };
+    this.accountOverviewActivitySubcomponentBuilderProvider = new Provider()
+    {
+      public ActivityBindingModule_AccountOverviewActivityInjector.AccountOverviewActivitySubcomponent.Builder get()
+      {
+        return new DaggerAppComponent.AccountOverviewActivitySubcomponentBuilder(DaggerAppComponent.this, null);
+      }
+    };
+    this.topUpActivitySubcomponentBuilderProvider = new Provider()
+    {
+      public ActivityBindingModule_TopUpInjector.TopUpActivitySubcomponent.Builder get()
+      {
+        return new DaggerAppComponent.TopUpActivitySubcomponentBuilder(DaggerAppComponent.this, null);
+      }
+    };
+    this.directDebitActivitySubcomponentBuilderProvider = new Provider()
+    {
+      public ActivityBindingModule_DirectDebitInjector.DirectDebitActivitySubcomponent.Builder get()
+      {
+        return new DaggerAppComponent.DirectDebitActivitySubcomponentBuilder(DaggerAppComponent.this, null);
+      }
+    };
+    this.directDebitSettingsActivitySubcomponentBuilderProvider = new Provider()
+    {
+      public ActivityBindingModule_DirectDebitSettingsInjector.DirectDebitSettingsActivitySubcomponent.Builder get()
+      {
+        return new DaggerAppComponent.DirectDebitSettingsActivitySubcomponentBuilder(DaggerAppComponent.this, null);
+      }
+    };
+    this.directDebitMethodActivitySubcomponentBuilderProvider = new Provider()
+    {
+      public ActivityBindingModule_DirectDebitMethodInjector.DirectDebitMethodActivitySubcomponent.Builder get()
+      {
+        return new DaggerAppComponent.DirectDebitMethodActivitySubcomponentBuilder(DaggerAppComponent.this, null);
+      }
+    };
+    this.invoiceOverviewActivitySubcomponentBuilderProvider = new Provider()
+    {
+      public ActivityBindingModule_InvoiceOverviewInjector.InvoiceOverviewActivitySubcomponent.Builder get()
+      {
+        return new DaggerAppComponent.InvoiceOverviewActivitySubcomponentBuilder(DaggerAppComponent.this, null);
+      }
+    };
+    this.directDebitPaymentChoiceActivitySubcomponentBuilderProvider = new Provider()
+    {
+      public ActivityBindingModule_DirectDebitPaymentChoiceInjector.DirectDebitPaymentChoiceActivitySubcomponent.Builder get()
+      {
+        return new DaggerAppComponent.DirectDebitPaymentChoiceActivitySubcomponentBuilder(DaggerAppComponent.this, null);
+      }
+    };
+    this.provideMainThreadBusProvider = DoubleCheck.provider(OttoModule_ProvideMainThreadBusFactory.create());
+    this.provideBox7CacheProvider = DoubleCheck.provider(CacheModule_ProvideBox7CacheFactory.create());
+    this.provideUiUtilsProvider = DoubleCheck.provider(UtilsModule_ProvideUiUtilsFactory.create());
+    this.applicationProvider = InstanceFactory.create(paramBuilder.application);
+    this.sQLiteDatabaseHelperProvider = SQLiteDatabaseHelper_Factory.create(this.applicationProvider);
+    this.provideDatabaseAccessorProvider = DoubleCheck.provider(MoeModule_ProvideDatabaseAccessorFactory.create(paramBuilder.moeModule, this.sQLiteDatabaseHelperProvider));
+    this.provideLocalizationInfoProvider = DoubleCheck.provider(MoeModule_ProvideLocalizationInfoFactory.create(paramBuilder.moeModule, this.applicationProvider));
+    this.provideLocalizerProvider = DoubleCheck.provider(MoeModule_ProvideLocalizerFactory.create(paramBuilder.moeModule, this.applicationProvider, this.provideDatabaseAccessorProvider, this.provideLocalizationInfoProvider));
+    this.providesLoginEndpointProvider = DoubleCheck.provider(Box7APIModule_ProvidesLoginEndpointFactory.create(paramBuilder.box7APIModule));
+    this.providesServiceEndpointProvider = DoubleCheck.provider(Box7APIModule_ProvidesServiceEndpointFactory.create(paramBuilder.box7APIModule));
+    this.providesBox7ClientConfigProvider = DoubleCheck.provider(Box7APIModule_ProvidesBox7ClientConfigFactory.create(paramBuilder.box7APIModule, this.providesLoginEndpointProvider, this.providesServiceEndpointProvider));
+    this.provideBox7RestApiLibProvider = Box7APIModule_ProvideBox7RestApiLibFactory.create(paramBuilder.box7APIModule, this.providesBox7ClientConfigProvider);
+    this.providesSubscriptionsApiProvider = Box7APIModule_ProvidesSubscriptionsApiFactory.create(paramBuilder.box7APIModule, this.provideBox7RestApiLibProvider);
+    this.provideISubscriptionModelRepositoryProvider = DoubleCheck.provider(RepositoryModule_ProvideISubscriptionModelRepositoryFactory.create(paramBuilder.repositoryModule, this.provideBox7CacheProvider, this.providesSubscriptionsApiProvider));
+    this.providesPerformanceTimingsApiProvider = Box7APIModule_ProvidesPerformanceTimingsApiFactory.create(paramBuilder.box7APIModule, this.provideBox7RestApiLibProvider);
+    this.networkUtilsProvider = NetworkUtils_Factory.create(this.applicationProvider);
+    this.provideIPerformanceTimingManagerProvider = DoubleCheck.provider(ManagerModule_ProvideIPerformanceTimingManagerFactory.create(paramBuilder.managerModule, this.providesPerformanceTimingsApiProvider, this.networkUtilsProvider));
+    this.provideDeviceUtilsProvider = DoubleCheck.provider(UtilsModule_ProvideDeviceUtilsFactory.create());
+    this.provideB2PKeyStoreImplProvider = DoubleCheck.provider(SecurityModule_ProvideB2PKeyStoreImplFactory.create(paramBuilder.securityModule, this.applicationProvider, this.provideDeviceUtilsProvider));
+    this.provideCryptoProvider = DoubleCheck.provider(SecurityModule_ProvideCryptoFactory.create(paramBuilder.securityModule, this.provideB2PKeyStoreImplProvider, this.provideDeviceUtilsProvider));
+    this.providePreferencesProvider = DoubleCheck.provider(UtilsModule_ProvidePreferencesFactory.create(this.provideCryptoProvider));
+    this.provideUserPreferencesProvider = DoubleCheck.provider(UtilsModule_ProvideUserPreferencesFactory.create(this.providePreferencesProvider));
+    this.provideTrackingHelperProvider = DoubleCheck.provider(UtilsModule_ProvideTrackingHelperFactory.create(this.applicationProvider, this.provideUserPreferencesProvider));
+    this.provideCallExternalAppsUtilsProvider = DoubleCheck.provider(UtilsModule_ProvideCallExternalAppsUtilsFactory.create());
+    this.provideLoginPreferencesProvider = DoubleCheck.provider(UtilsModule_ProvideLoginPreferencesFactory.create(this.providePreferencesProvider));
+    this.provideImageUtilsProvider = DoubleCheck.provider(UtilsModule_ProvideImageUtilsFactory.create(this.provideLocalizerProvider));
+    this.provideFeedbackPreferencesProvider = DoubleCheck.provider(UtilsModule_ProvideFeedbackPreferencesFactory.create(this.providePreferencesProvider));
+    this.provideTimeOutPreferencesProvider = DoubleCheck.provider(UtilsModule_ProvideTimeOutPreferencesFactory.create(this.providePreferencesProvider, this.provideLocalizerProvider));
+    this.provideTimerProvider = DoubleCheck.provider(UtilsModule_ProvideTimerFactory.create());
+    this.provideSimUtilsProvider = DoubleCheck.provider(UtilsModule_ProvideSimUtilsFactory.create());
+    this.providesMiscApiProvider = Box7APIModule_ProvidesMiscApiFactory.create(paramBuilder.box7APIModule, this.provideBox7RestApiLibProvider);
+    this.box7MiscManagerProvider = Box7MiscManager_Factory.create(this.providesMiscApiProvider, this.provideSimUtilsProvider);
+    this.provideJsonUtilsProvider = DoubleCheck.provider(UtilsModule_ProvideJsonUtilsFactory.create());
+    this.provideLoginHelperProvider = DoubleCheck.provider(NetworkModule_ProvideLoginHelperFactory.create(this.provideLoginPreferencesProvider));
+    this.provideHigherLoginManagerProvider = DoubleCheck.provider(NetworkModule_ProvideHigherLoginManagerFactory.create(this.provideBox7RestApiLibProvider, this.provideLoginHelperProvider, this.provideLoginPreferencesProvider, this.provideTimeOutPreferencesProvider, this.provideLocalizerProvider, this.provideTrackingHelperProvider, this.provideTimerProvider));
+    this.loginManagerProvider = DoubleCheck.provider(LoginManager_Factory.create(this.provideBox7RestApiLibProvider, this.provideLoginPreferencesProvider, this.provideTimeOutPreferencesProvider, this.provideMainThreadBusProvider, this.provideDeviceUtilsProvider, this.provideTimerProvider, this.provideBox7CacheProvider, this.provideLocalizerProvider, this.provideSimUtilsProvider, this.provideUserPreferencesProvider, this.box7MiscManagerProvider, this.provideJsonUtilsProvider, this.provideLoginHelperProvider, this.provideHigherLoginManagerProvider));
+    this.provideNetworkPreferncesProvider = DoubleCheck.provider(UtilsModule_ProvideNetworkPreferncesFactory.create(this.providePreferencesProvider));
+    this.provideEndpointManagerProvider = DoubleCheck.provider(Box7APIModule_ProvideEndpointManagerFactory.create(paramBuilder.box7APIModule, this.loginManagerProvider, this.provideBox7RestApiLibProvider, this.providePreferencesProvider, this.provideNetworkPreferncesProvider, this.provideUserPreferencesProvider, this.provideBox7CacheProvider));
+    this.application = paramBuilder.application;
+    this.localizerBatchOperationFactoryProvider = LocalizerBatchOperationFactory_Factory.create(this.provideDatabaseAccessorProvider);
+    this.provideLocalizationManagerFactoryProvider = DoubleCheck.provider(MoeModule_ProvideLocalizationManagerFactoryFactory.create(paramBuilder.moeModule, this.applicationProvider, this.provideDatabaseAccessorProvider, this.provideLocalizationInfoProvider, this.localizerBatchOperationFactoryProvider));
+    this.provideBusEventReceiverProvider = DoubleCheck.provider(OttoModule_ProvideBusEventReceiverFactory.create(this.provideMainThreadBusProvider));
+    this.providePermissionsUtilsProvider = DoubleCheck.provider(UtilsModule_ProvidePermissionsUtilsFactory.create());
+    this.provideImageManagerProvider = DoubleCheck.provider(NetworkModule_ProvideImageManagerFactory.create(this.provideUiUtilsProvider));
+    this.moeStreamingResourceTaskFactoryProvider = MoeStreamingResourceTaskFactory_Factory.create(this.provideNetworkPreferncesProvider, this.provideLocalizationManagerFactoryProvider, this.provideImageManagerProvider);
+    this.moeTaskFactoryProvider = MoeTaskFactory_Factory.create(this.provideNetworkPreferncesProvider, this.provideLocalizationManagerFactoryProvider, this.moeStreamingResourceTaskFactoryProvider, this.provideImageManagerProvider);
+    this.provideMoeUpdateManagerProvider = DoubleCheck.provider(NetworkModule_ProvideMoeUpdateManagerFactory.create(this.provideLocalizationManagerFactoryProvider, this.provideDeviceUtilsProvider, this.provideNetworkPreferncesProvider, this.moeTaskFactoryProvider));
+    this.provideBrandUtilsProvider = DoubleCheck.provider(UtilsModule_ProvideBrandUtilsFactory.create());
+    this.provideErrorUtilsProvider = DoubleCheck.provider(UtilsModule_ProvideErrorUtilsFactory.create());
+    this.box7APIModule = paramBuilder.box7APIModule;
+    this.provideIBrandTariffTypePropertyModelRepositoryProvider = DoubleCheck.provider(RepositoryModule_ProvideIBrandTariffTypePropertyModelRepositoryFactory.create(paramBuilder.repositoryModule, this.provideBox7CacheProvider, this.providesMiscApiProvider));
+    this.provideB2PDatabaseProvider = DoubleCheck.provider(DatabaseModule_ProvideB2PDatabaseFactory.create(paramBuilder.databaseModule, this.applicationProvider));
+    this.provideISubscriptionsAuthorizedRepositoryProvider = DoubleCheck.provider(RepositoryModule_ProvideISubscriptionsAuthorizedRepositoryFactory.create(paramBuilder.repositoryModule, this.provideBox7CacheProvider, this.providesSubscriptionsApiProvider, this.provideB2PDatabaseProvider));
+    this.providesUsagesApiProvider = Box7APIModule_ProvidesUsagesApiFactory.create(paramBuilder.box7APIModule, this.provideBox7RestApiLibProvider);
+    this.provideModelPreferencesProvider = DoubleCheck.provider(UtilsModule_ProvideModelPreferencesFactory.create(this.providePreferencesProvider));
+    this.provideIPrepaidMyTariffPageModelRepositoryProvider = DoubleCheck.provider(RepositoryModule_ProvideIPrepaidMyTariffPageModelRepositoryFactory.create(paramBuilder.repositoryModule, this.providesUsagesApiProvider, this.provideModelPreferencesProvider, this.provideLocalizerProvider));
+    this.tefPasswordHelperProvider = DoubleCheck.provider(UtilsModule_TefPasswordHelperFactory.create());
+    this.providesCustomersApiProvider = Box7APIModule_ProvidesCustomersApiFactory.create(paramBuilder.box7APIModule, this.provideBox7RestApiLibProvider);
+    this.provideICustomerModelRepositoryProvider = DoubleCheck.provider(RepositoryModule_ProvideICustomerModelRepositoryFactory.create(paramBuilder.repositoryModule, this.provideBox7CacheProvider, this.providesCustomersApiProvider));
+    this.providesConsentsApiProvider = Box7APIModule_ProvidesConsentsApiFactory.create(paramBuilder.box7APIModule, this.provideBox7RestApiLibProvider);
+    this.provideIConsentRepositoryProvider = DoubleCheck.provider(RepositoryModule_ProvideIConsentRepositoryFactory.create(paramBuilder.repositoryModule, this.providesConsentsApiProvider, this.provideBox7CacheProvider));
+    this.provideHotlineUtilsProvider = DoubleCheck.provider(UtilsModule_ProvideHotlineUtilsFactory.create(this.provideLocalizerProvider));
+    this.provideMailVerificationUtilProvider = DoubleCheck.provider(UtilsModule_ProvideMailVerificationUtilFactory.create());
+    this.providesThirdPartyApiProvider = Box7APIModule_ProvidesThirdPartyApiFactory.create(paramBuilder.box7APIModule, this.provideBox7RestApiLibProvider);
+    this.provideIThirdPartyServiceSettingsModelRepositoryProvider = DoubleCheck.provider(RepositoryModule_ProvideIThirdPartyServiceSettingsModelRepositoryFactory.create(paramBuilder.repositoryModule, this.provideBox7CacheProvider, this.providesThirdPartyApiProvider));
+    this.providesLoginManagerProvider = DoubleCheck.provider(NetworkModule_ProvidesLoginManagerFactory.create(this.provideBox7RestApiLibProvider, this.provideLoginPreferencesProvider, this.provideTimeOutPreferencesProvider, this.provideMainThreadBusProvider, this.provideDeviceUtilsProvider, this.provideTimerProvider, this.provideBox7CacheProvider, this.provideLocalizerProvider, this.provideSimUtilsProvider, this.provideUserPreferencesProvider, this.box7MiscManagerProvider, this.provideJsonUtilsProvider, this.provideLoginHelperProvider, this.provideHigherLoginManagerProvider));
+    this.providePackDataModelFactoryProvider = DoubleCheck.provider(FactoryModule_ProvidePackDataModelFactoryFactory.create(this.provideLocalizerProvider));
+    this.providesLoginAccountsApiProvider = Box7APIModule_ProvidesLoginAccountsApiFactory.create(paramBuilder.box7APIModule, this.provideBox7RestApiLibProvider);
+    this.provideILoginAccountModelRepositoryProvider = DoubleCheck.provider(RepositoryModule_ProvideILoginAccountModelRepositoryFactory.create(paramBuilder.repositoryModule, this.providesLoginAccountsApiProvider));
+    this.provideEvnDataModelFactoryProvider = DoubleCheck.provider(FactoryModule_ProvideEvnDataModelFactoryFactory.create());
+    this.providesSimCardsApiProvider = Box7APIModule_ProvidesSimCardsApiFactory.create(paramBuilder.box7APIModule, this.provideBox7RestApiLibProvider);
+    this.provideISimCardModelRepositoryProvider = DoubleCheck.provider(RepositoryModule_ProvideISimCardModelRepositoryFactory.create(paramBuilder.repositoryModule, this.provideBox7CacheProvider, this.providesSimCardsApiProvider));
+    this.providesTopupsApiProvider = Box7APIModule_ProvidesTopupsApiFactory.create(paramBuilder.box7APIModule, this.provideBox7RestApiLibProvider);
+  }
+  
+  private void initialize2(Builder paramBuilder)
+  {
+    this.provideIPrepaidTopupConfigurationModelRepositoryProvider = DoubleCheck.provider(RepositoryModule_ProvideIPrepaidTopupConfigurationModelRepositoryFactory.create(paramBuilder.repositoryModule, this.provideBox7CacheProvider, this.providesTopupsApiProvider));
+    this.provideBankUtilsProvider = DoubleCheck.provider(UtilsModule_ProvideBankUtilsFactory.create(this.provideLocalizerProvider));
+    this.provideRechargeSettingsModelProvider = DoubleCheck.provider(RechargeSettingsModule_ProvideRechargeSettingsModelFactory.create(this.provideLocalizerProvider));
+    this.provideRechargeSettingsViewHelperProvider = DoubleCheck.provider(RechargeSettingsModule_ProvideRechargeSettingsViewHelperFactory.create(this.provideLocalizerProvider));
+    this.providesPacksApiProvider = Box7APIModule_ProvidesPacksApiFactory.create(paramBuilder.box7APIModule, this.provideBox7RestApiLibProvider);
+    this.box7SubscriptionManagerProvider = Box7SubscriptionManager_Factory.create(this.providesPacksApiProvider, this.providesTopupsApiProvider, this.providesSubscriptionsApiProvider, this.providesUsagesApiProvider, this.provideBox7CacheProvider);
+    this.provideRechargeSettingsSendManagerProvider = DoubleCheck.provider(RechargeSettingsModule_ProvideRechargeSettingsSendManagerFactory.create(this.box7SubscriptionManagerProvider, this.provideTrackingHelperProvider));
+    this.providesBillingsApiProvider = Box7APIModule_ProvidesBillingsApiFactory.create(paramBuilder.box7APIModule, this.provideBox7RestApiLibProvider);
+    this.provideIInvoiceOverviewModelRepositoryProvider = DoubleCheck.provider(RepositoryModule_ProvideIInvoiceOverviewModelRepositoryFactory.create(paramBuilder.repositoryModule, this.providesBillingsApiProvider, this.provideBox7CacheProvider));
+    this.provideBalancesApiProvider = Box7APIModule_ProvideBalancesApiFactory.create(paramBuilder.box7APIModule, this.provideBox7RestApiLibProvider);
+    this.provideIBalanceModelRepositoryProvider = DoubleCheck.provider(RepositoryModule_ProvideIBalanceModelRepositoryFactory.create(paramBuilder.repositoryModule, this.provideBalancesApiProvider));
+    this.provideIPacksRepositoryProvider = DoubleCheck.provider(RepositoryModule_ProvideIPacksRepositoryFactory.create(paramBuilder.repositoryModule, this.providesPacksApiProvider, this.provideBox7CacheProvider));
+  }
+  
+  private AnalyticsDialog injectAnalyticsDialog(AnalyticsDialog paramAnalyticsDialog)
+  {
+    AnalyticsDialog_MembersInjector.injectTrackingHelper(paramAnalyticsDialog, (TrackingHelper)this.provideTrackingHelperProvider.get());
+    AnalyticsDialog_MembersInjector.injectLocalizer(paramAnalyticsDialog, (Localizer)this.provideLocalizerProvider.get());
+    return paramAnalyticsDialog;
+  }
+  
+  private BankDetailsView injectBankDetailsView(BankDetailsView paramBankDetailsView)
+  {
+    BankDetailsView_MembersInjector.injectLocalizer(paramBankDetailsView, (Localizer)this.provideLocalizerProvider.get());
+    return paramBankDetailsView;
+  }
+  
+  private BookedPackView injectBookedPackView(BookedPackView paramBookedPackView)
+  {
+    BookedPackView_MembersInjector.injectUiUtils(paramBookedPackView, (UiUtils)this.provideUiUtilsProvider.get());
+    BookedPackView_MembersInjector.injectLocalizer(paramBookedPackView, (Localizer)this.provideLocalizerProvider.get());
+    return paramBookedPackView;
+  }
+  
+  private Box7SubscriptionManager injectBox7SubscriptionManager(Box7SubscriptionManager paramBox7SubscriptionManager)
+  {
+    Box7SubscriptionManager_MembersInjector.injectBox7Cache(paramBox7SubscriptionManager, (Box7Cache)this.provideBox7CacheProvider.get());
+    return paramBox7SubscriptionManager;
+  }
+  
+  private CheckBoxForm injectCheckBoxForm(CheckBoxForm paramCheckBoxForm)
+  {
+    CheckBoxForm_MembersInjector.injectLocalizer(paramCheckBoxForm, (Localizer)this.provideLocalizerProvider.get());
+    return paramCheckBoxForm;
+  }
+  
+  private ConsentCheckBoxForm injectConsentCheckBoxForm(ConsentCheckBoxForm paramConsentCheckBoxForm)
+  {
+    ConsentCheckBoxForm_MembersInjector.injectLocalizer(paramConsentCheckBoxForm, (Localizer)this.provideLocalizerProvider.get());
+    return paramConsentCheckBoxForm;
+  }
+  
+  private CounterPackView injectCounterPackView(CounterPackView paramCounterPackView)
+  {
+    CounterPackView_MembersInjector.injectLocalizer(paramCounterPackView, (Localizer)this.provideLocalizerProvider.get());
+    CounterPackView_MembersInjector.injectBox7Cache(paramCounterPackView, (Box7Cache)this.provideBox7CacheProvider.get());
+    CounterPackView_MembersInjector.injectSubscriptionModelRepository(paramCounterPackView, (ISubscriptionModelRepository)this.provideISubscriptionModelRepositoryProvider.get());
+    return paramCounterPackView;
+  }
+  
+  private CounterViewModel injectCounterViewModel(CounterViewModel paramCounterViewModel)
+  {
+    CounterViewModel_MembersInjector.injectLocalizer(paramCounterViewModel, (Localizer)this.provideLocalizerProvider.get());
+    CounterViewModel_MembersInjector.injectLoginPreferences(paramCounterViewModel, (LoginPreferences)this.provideLoginPreferencesProvider.get());
+    return paramCounterViewModel;
+  }
+  
+  private CustomButton injectCustomButton(CustomButton paramCustomButton)
+  {
+    CustomButton_MembersInjector.injectLocalizer(paramCustomButton, (Localizer)this.provideLocalizerProvider.get());
+    return paramCustomButton;
+  }
+  
+  private CustomTextView injectCustomTextView(CustomTextView paramCustomTextView)
+  {
+    CustomTextView_MembersInjector.injectLocalizer(paramCustomTextView, (Localizer)this.provideLocalizerProvider.get());
+    return paramCustomTextView;
+  }
+  
+  private DaggerApplication injectDaggerApplication(DaggerApplication paramDaggerApplication)
+  {
+    DaggerApplication_MembersInjector.injectActivityInjector(paramDaggerApplication, getDispatchingAndroidInjectorOfActivity());
+    DaggerApplication_MembersInjector.injectBroadcastReceiverInjector(paramDaggerApplication, getDispatchingAndroidInjectorOfBroadcastReceiver());
+    DaggerApplication_MembersInjector.injectFragmentInjector(paramDaggerApplication, getDispatchingAndroidInjectorOfFragment());
+    DaggerApplication_MembersInjector.injectServiceInjector(paramDaggerApplication, getDispatchingAndroidInjectorOfService());
+    DaggerApplication_MembersInjector.injectContentProviderInjector(paramDaggerApplication, getDispatchingAndroidInjectorOfContentProvider());
+    DaggerApplication_MembersInjector.injectSetInjected(paramDaggerApplication);
+    return paramDaggerApplication;
+  }
+  
+  private DetailConsentsModel injectDetailConsentsModel(DetailConsentsModel paramDetailConsentsModel)
+  {
+    DetailConsentsModel_MembersInjector.injectLocalizer(paramDetailConsentsModel, (Localizer)this.provideLocalizerProvider.get());
+    return paramDetailConsentsModel;
+  }
+  
+  private EditConsentItemModelView injectEditConsentItemModelView(EditConsentItemModelView paramEditConsentItemModelView)
+  {
+    EditConsentItemModelView_MembersInjector.injectLocalizer(paramEditConsentItemModelView, (Localizer)this.provideLocalizerProvider.get());
+    return paramEditConsentItemModelView;
+  }
+  
+  private EditConsentsModel injectEditConsentsModel(EditConsentsModel paramEditConsentsModel)
+  {
+    EditConsentsModel_MembersInjector.injectLocalizer(paramEditConsentsModel, (Localizer)this.provideLocalizerProvider.get());
+    return paramEditConsentsModel;
+  }
+  
+  private EndpointSwitchDialogFragment injectEndpointSwitchDialogFragment(EndpointSwitchDialogFragment paramEndpointSwitchDialogFragment)
+  {
+    EndpointSwitchDialogFragment_MembersInjector.injectEndpointManager(paramEndpointSwitchDialogFragment, (EndpointManager)this.provideEndpointManagerProvider.get());
+    return paramEndpointSwitchDialogFragment;
+  }
+  
+  private ImportantParagraphParsingRule injectImportantParagraphParsingRule(ImportantParagraphParsingRule paramImportantParagraphParsingRule)
+  {
+    ImportantParagraphParsingRule_MembersInjector.injectLocalizer(paramImportantParagraphParsingRule, (Localizer)this.provideLocalizerProvider.get());
+    return paramImportantParagraphParsingRule;
+  }
+  
+  private InAppInfoView injectInAppInfoView(InAppInfoView paramInAppInfoView)
+  {
+    InAppInfoView_MembersInjector.injectLocalizer(paramInAppInfoView, (Localizer)this.provideLocalizerProvider.get());
+    InAppInfoView_MembersInjector.injectTrackingHelper(paramInAppInfoView, (TrackingHelper)this.provideTrackingHelperProvider.get());
+    InAppInfoView_MembersInjector.injectCallExternalAppsUtils(paramInAppInfoView, (CallExternalAppsUtils)this.provideCallExternalAppsUtilsProvider.get());
+    InAppInfoView_MembersInjector.injectSubscriptionModelRepository(paramInAppInfoView, (ISubscriptionModelRepository)this.provideISubscriptionModelRepositoryProvider.get());
+    InAppInfoView_MembersInjector.injectUiUtils(paramInAppInfoView, (UiUtils)this.provideUiUtilsProvider.get());
+    return paramInAppInfoView;
+  }
+  
+  private MoeImageView injectMoeImageView(MoeImageView paramMoeImageView)
+  {
+    MoeImageView_MembersInjector.injectLocalizer(paramMoeImageView, (Localizer)this.provideLocalizerProvider.get());
+    return paramMoeImageView;
+  }
+  
+  private MoneyModelFormatter injectMoneyModelFormatter(MoneyModelFormatter paramMoneyModelFormatter)
+  {
+    MoneyModelFormatter_MembersInjector.injectLocalizer(paramMoneyModelFormatter, (Localizer)this.provideLocalizerProvider.get());
+    return paramMoneyModelFormatter;
+  }
+  
+  private OnBoardingTabView injectOnBoardingTabView(OnBoardingTabView paramOnBoardingTabView)
+  {
+    OnBoardingTabView_MembersInjector.injectLocalizer(paramOnBoardingTabView, (Localizer)this.provideLocalizerProvider.get());
+    return paramOnBoardingTabView;
+  }
+  
+  private PackDetailsView injectPackDetailsView(PackDetailsView paramPackDetailsView)
+  {
+    PackDetailsView_MembersInjector.injectLocalizer(paramPackDetailsView, (Localizer)this.provideLocalizerProvider.get());
+    return paramPackDetailsView;
+  }
+  
+  private PackFamilyView injectPackFamilyView(PackFamilyView paramPackFamilyView)
+  {
+    PackFamilyView_MembersInjector.injectUiUtils(paramPackFamilyView, (UiUtils)this.provideUiUtilsProvider.get());
+    PackFamilyView_MembersInjector.injectLocalizer(paramPackFamilyView, (Localizer)this.provideLocalizerProvider.get());
+    return paramPackFamilyView;
+  }
+  
+  private PackUnbookView injectPackUnbookView(PackUnbookView paramPackUnbookView)
+  {
+    PackUnbookView_MembersInjector.injectLocalizer(paramPackUnbookView, (Localizer)this.provideLocalizerProvider.get());
+    return paramPackUnbookView;
+  }
+  
+  private PackagesView injectPackagesView(PackagesView paramPackagesView)
+  {
+    PackagesView_MembersInjector.injectLocalizer(paramPackagesView, (Localizer)this.provideLocalizerProvider.get());
+    return paramPackagesView;
+  }
+  
+  private RatingShowingRule injectRatingShowingRule(RatingShowingRule paramRatingShowingRule)
+  {
+    RatingShowingRule_MembersInjector.injectLocalizer(paramRatingShowingRule, (Localizer)this.provideLocalizerProvider.get());
+    RatingShowingRule_MembersInjector.injectRatingPreferences(paramRatingShowingRule, (RatingPreferences)this.provideFeedbackPreferencesProvider.get());
+    return paramRatingShowingRule;
+  }
+  
+  private ResetApplicationUtil injectResetApplicationUtil(ResetApplicationUtil paramResetApplicationUtil)
+  {
+    ResetApplicationUtil_MembersInjector.injectPreferences(paramResetApplicationUtil, (Preferences)this.providePreferencesProvider.get());
+    return paramResetApplicationUtil;
+  }
+  
+  private SimSwapReceiver injectSimSwapReceiver(SimSwapReceiver paramSimSwapReceiver)
+  {
+    SimSwapReceiver_MembersInjector.injectBus(paramSimSwapReceiver, (MainThreadBus)this.provideMainThreadBusProvider.get());
+    return paramSimSwapReceiver;
+  }
+  
+  private TEFPasswordHelper injectTEFPasswordHelper(TEFPasswordHelper paramTEFPasswordHelper)
+  {
+    TEFPasswordHelper_MembersInjector.injectLocalizer(paramTEFPasswordHelper, (Localizer)this.provideLocalizerProvider.get());
+    return paramTEFPasswordHelper;
+  }
+  
+  private TabBarView injectTabBarView(TabBarView paramTabBarView)
+  {
+    TabBarView_MembersInjector.injectLocalizer(paramTabBarView, (Localizer)this.provideLocalizerProvider.get());
+    TabBarView_MembersInjector.injectPerformanceTimingManager(paramTabBarView, (IPerformanceTimingManager)this.provideIPerformanceTimingManagerProvider.get());
+    return paramTabBarView;
+  }
+  
+  private TimeoutReceiver injectTimeoutReceiver(TimeoutReceiver paramTimeoutReceiver)
+  {
+    TimeoutReceiver_MembersInjector.injectBus(paramTimeoutReceiver, (MainThreadBus)this.provideMainThreadBusProvider.get());
+    return paramTimeoutReceiver;
+  }
+  
+  private UiUtils injectUiUtils(UiUtils paramUiUtils)
+  {
+    UiUtils_MembersInjector.injectImageUtils(paramUiUtils, (ImageUtils)this.provideImageUtilsProvider.get());
+    return paramUiUtils;
+  }
+  
+  private VasPresenter injectVasPresenter(VasPresenter paramVasPresenter)
+  {
+    VasPresenter_MembersInjector.injectLocalizer(paramVasPresenter, (Localizer)this.provideLocalizerProvider.get());
+    return paramVasPresenter;
+  }
+  
+  private VasView injectVasView(VasView paramVasView)
+  {
+    VasView_MembersInjector.injectLocalizer(paramVasView, (Localizer)this.provideLocalizerProvider.get());
+    VasView_MembersInjector.injectUiUtils(paramVasView, (UiUtils)this.provideUiUtilsProvider.get());
+    return paramVasView;
+  }
+  
+  public final void inject(DaggerApplication paramDaggerApplication)
+  {
+    injectDaggerApplication(paramDaggerApplication);
+  }
+  
+  public final void inject(ReloginPresenter paramReloginPresenter) {}
+  
+  public final void inject(SimSwapReceiver paramSimSwapReceiver)
+  {
+    injectSimSwapReceiver(paramSimSwapReceiver);
+  }
+  
+  public final void inject(TimeoutReceiver paramTimeoutReceiver)
+  {
+    injectTimeoutReceiver(paramTimeoutReceiver);
+  }
+  
+  public final void inject(BankDetailsView paramBankDetailsView)
+  {
+    injectBankDetailsView(paramBankDetailsView);
+  }
+  
+  public final void inject(BookedPackView paramBookedPackView)
+  {
+    injectBookedPackView(paramBookedPackView);
+  }
+  
+  public final void inject(CustomButton paramCustomButton)
+  {
+    injectCustomButton(paramCustomButton);
+  }
+  
+  public final void inject(CellCardView paramCellCardView) {}
+  
+  public final void inject(CheckBoxForm paramCheckBoxForm)
+  {
+    injectCheckBoxForm(paramCheckBoxForm);
+  }
+  
+  public final void inject(ConsentCheckBoxForm paramConsentCheckBoxForm)
+  {
+    injectConsentCheckBoxForm(paramConsentCheckBoxForm);
+  }
+  
+  public final void inject(EditConsentItemModelView paramEditConsentItemModelView)
+  {
+    injectEditConsentItemModelView(paramEditConsentItemModelView);
+  }
+  
+  public final void inject(B2PDialogBuilder paramB2PDialogBuilder) {}
+  
+  public final void inject(InputForm paramInputForm) {}
+  
+  public final void inject(ExpandableCellCardView paramExpandableCellCardView) {}
+  
+  public final void inject(ExpandableTableView paramExpandableTableView) {}
+  
+  public final void inject(LegalPilleView paramLegalPilleView) {}
+  
+  public final void inject(RatingBarForm paramRatingBarForm) {}
+  
+  public final void inject(TabBarView paramTabBarView)
+  {
+    injectTabBarView(paramTabBarView);
+  }
+  
+  public final void inject(CustomTextView paramCustomTextView)
+  {
+    injectCustomTextView(paramCustomTextView);
+  }
+  
+  public final void inject(BusEventReceiver paramBusEventReceiver) {}
+  
+  public final void inject(PackDataModel paramPackDataModel) {}
+  
+  public final void inject(PackViewModel paramPackViewModel) {}
+  
+  public final void inject(Box7Cache paramBox7Cache) {}
+  
+  public final void inject(Box7AccountsManager paramBox7AccountsManager) {}
+  
+  public final void inject(Box7CustomerManager paramBox7CustomerManager) {}
+  
+  public final void inject(Box7LoginAccountManager paramBox7LoginAccountManager) {}
+  
+  public final void inject(Box7MiscManager paramBox7MiscManager) {}
+  
+  public final void inject(Box7SubscriptionManager paramBox7SubscriptionManager)
+  {
+    injectBox7SubscriptionManager(paramBox7SubscriptionManager);
+  }
+  
+  public final void inject(LocalizationManagerFactory paramLocalizationManagerFactory) {}
+  
+  public final void inject(LocalizerBatchOperationFactory paramLocalizerBatchOperationFactory) {}
+  
+  public final void inject(MoeImageView paramMoeImageView)
+  {
+    injectMoeImageView(paramMoeImageView);
+  }
+  
+  public final void inject(MoeUpdateManager paramMoeUpdateManager) {}
+  
+  public final void inject(MoeStreamingResourceTask paramMoeStreamingResourceTask) {}
+  
+  public final void inject(MoeStreamingResourceTaskFactory paramMoeStreamingResourceTaskFactory) {}
+  
+  public final void inject(MoeTask paramMoeTask) {}
+  
+  public final void inject(MoeTaskFactory paramMoeTaskFactory) {}
+  
+  public final void inject(LoginManager paramLoginManager) {}
+  
+  public final void inject(B2PDatabase paramB2PDatabase) {}
+  
+  public final void inject(DateUtils paramDateUtils) {}
+  
+  public final void inject(ErrorUtils paramErrorUtils) {}
+  
+  public final void inject(ImageUtils paramImageUtils) {}
+  
+  public final void inject(JsonUtil paramJsonUtil) {}
+  
+  public final void inject(NetworkUtils paramNetworkUtils) {}
+  
+  public final void inject(PermissionUtils paramPermissionUtils) {}
+  
+  public final void inject(SimUtils paramSimUtils) {}
+  
+  public final void inject(Timer paramTimer) {}
+  
+  public final void inject(UiUtils paramUiUtils)
+  {
+    injectUiUtils(paramUiUtils);
+  }
+  
+  public final void inject(MoneyModelFormatter paramMoneyModelFormatter)
+  {
+    injectMoneyModelFormatter(paramMoneyModelFormatter);
+  }
+  
+  public final void inject(TEFPasswordHelper paramTEFPasswordHelper)
+  {
+    injectTEFPasswordHelper(paramTEFPasswordHelper);
+  }
+  
+  public final void inject(ResetApplicationUtil paramResetApplicationUtil)
+  {
+    injectResetApplicationUtil(paramResetApplicationUtil);
+  }
+  
+  public final void inject(NetworkPreferences paramNetworkPreferences) {}
+  
+  public final void inject(ChangeAddressPresenter paramChangeAddressPresenter) {}
+  
+  public final void inject(ChangeEmailPresenter paramChangeEmailPresenter) {}
+  
+  public final void inject(ChangePasswordPresenter paramChangePasswordPresenter) {}
+  
+  public final void inject(CustomerDetailsFragmentPresenter paramCustomerDetailsFragmentPresenter) {}
+  
+  public final void inject(MyAccountFragmentPresenter paramMyAccountFragmentPresenter) {}
+  
+  public final void inject(NotRegisteredFragmentPresenter paramNotRegisteredFragmentPresenter) {}
+  
+  public final void inject(PhoneNumberView paramPhoneNumberView) {}
+  
+  public final void inject(ChangeAccountPresenter paramChangeAccountPresenter) {}
+  
+  public final void inject(ConsentsPresenter paramConsentsPresenter) {}
+  
+  public final void inject(DetailConsentsModel paramDetailConsentsModel)
+  {
+    injectDetailConsentsModel(paramDetailConsentsModel);
+  }
+  
+  public final void inject(EditConsentsModel paramEditConsentsModel)
+  {
+    injectEditConsentsModel(paramEditConsentsModel);
+  }
+  
+  public final void inject(ImportantParagraphParsingRule paramImportantParagraphParsingRule)
+  {
+    injectImportantParagraphParsingRule(paramImportantParagraphParsingRule);
+  }
+  
+  public final void inject(EditConsentsViewHolder paramEditConsentsViewHolder) {}
+  
+  public final void inject(ConsumeFragmentPresenter paramConsumeFragmentPresenter) {}
+  
+  public final void inject(ConsumeOverviewFragmentPresenter paramConsumeOverviewFragmentPresenter) {}
+  
+  public final void inject(CounterPackView paramCounterPackView)
+  {
+    injectCounterPackView(paramCounterPackView);
+  }
+  
+  public final void inject(EVNDataModel paramEVNDataModel) {}
+  
+  public final void inject(BarrierPresenter paramBarrierPresenter) {}
+  
+  public final void inject(DirectDebitFragmentPresenter paramDirectDebitFragmentPresenter) {}
+  
+  public final void inject(DirectDebitConfirmationFragmentPresenter paramDirectDebitConfirmationFragmentPresenter) {}
+  
+  public final void inject(DirectDebitMethodFragmentPresenter paramDirectDebitMethodFragmentPresenter) {}
+  
+  public final void inject(DirectDebitPaymentChoiceActivityPresenter paramDirectDebitPaymentChoiceActivityPresenter) {}
+  
+  public final void inject(DirectDebitPaymentChoiceConfirmFragmentPresenter paramDirectDebitPaymentChoiceConfirmFragmentPresenter) {}
+  
+  public final void inject(DirectDebitPaymentChoiceFragmentPresenter paramDirectDebitPaymentChoiceFragmentPresenter) {}
+  
+  public final void inject(DirectDebitSettingsFragmentPresenter paramDirectDebitSettingsFragmentPresenter) {}
+  
+  public final void inject(AnalyticsPresenter paramAnalyticsPresenter) {}
+  
+  public final void inject(AnalyticsDialog paramAnalyticsDialog)
+  {
+    injectAnalyticsDialog(paramAnalyticsDialog);
+  }
+  
+  public final void inject(ImprintActivityPresenter paramImprintActivityPresenter) {}
+  
+  public final void inject(LicenseActivityPresenter paramLicenseActivityPresenter) {}
+  
+  public final void inject(TermsPresenter paramTermsPresenter) {}
+  
+  public final void inject(CounterViewModel paramCounterViewModel)
+  {
+    injectCounterViewModel(paramCounterViewModel);
+  }
+  
+  public final void inject(CurrentCreditPresenter paramCurrentCreditPresenter) {}
+  
+  public final void inject(CurrentCreditView paramCurrentCreditView) {}
+  
+  public final void inject(InAppInfoView paramInAppInfoView)
+  {
+    injectInAppInfoView(paramInAppInfoView);
+  }
+  
+  public final void inject(LoginPresenter paramLoginPresenter) {}
+  
+  public final void inject(OnBoardingTabView paramOnBoardingTabView)
+  {
+    injectOnBoardingTabView(paramOnBoardingTabView);
+  }
+  
+  public final void inject(PackBookFragmentPresenter paramPackBookFragmentPresenter) {}
+  
+  public final void inject(PackagesView paramPackagesView)
+  {
+    injectPackagesView(paramPackagesView);
+  }
+  
+  public final void inject(PackBookConfirmFragmentPresenter paramPackBookConfirmFragmentPresenter) {}
+  
+  public final void inject(PackCancelFragmentPresenter paramPackCancelFragmentPresenter) {}
+  
+  public final void inject(PackCancelConfirmFragmentPresenter paramPackCancelConfirmFragmentPresenter) {}
+  
+  public final void inject(PackDetailsPresenter paramPackDetailsPresenter) {}
+  
+  public final void inject(PackDetailsView paramPackDetailsView)
+  {
+    injectPackDetailsView(paramPackDetailsView);
+  }
+  
+  public final void inject(PackFamilyPresenter paramPackFamilyPresenter) {}
+  
+  public final void inject(PackFamilyView paramPackFamilyView)
+  {
+    injectPackFamilyView(paramPackFamilyView);
+  }
+  
+  public final void inject(CarouselView paramCarouselView) {}
+  
+  public final void inject(TeaserView paramTeaserView) {}
+  
+  public final void inject(PackUnbookView paramPackUnbookView)
+  {
+    injectPackUnbookView(paramPackUnbookView);
+  }
+  
+  public final void inject(VasInfoPresenter paramVasInfoPresenter) {}
+  
+  public final void inject(VasPresenter paramVasPresenter)
+  {
+    injectVasPresenter(paramVasPresenter);
+  }
+  
+  public final void inject(VasView paramVasView)
+  {
+    injectVasView(paramVasView);
+  }
+  
+  public final void inject(FeedbackScreenFragmentPresenter paramFeedbackScreenFragmentPresenter) {}
+  
+  public final void inject(RatingShowingRule paramRatingShowingRule)
+  {
+    injectRatingShowingRule(paramRatingShowingRule);
+  }
+  
+  public final void inject(StarRatingPresenter paramStarRatingPresenter) {}
+  
+  public final void inject(ReAuthFragmentPresenter paramReAuthFragmentPresenter) {}
+  
+  public final void inject(ResetFragmentPresenter paramResetFragmentPresenter) {}
+  
+  public final void inject(ResetPasswordFragmentPresenter paramResetPasswordFragmentPresenter) {}
+  
+  public final void inject(SplashPresenter paramSplashPresenter) {}
+  
+  public final void inject(EndpointSwitchDialogFragment paramEndpointSwitchDialogFragment)
+  {
+    injectEndpointSwitchDialogFragment(paramEndpointSwitchDialogFragment);
+  }
+  
+  public final void inject(TopUpBankPresenter paramTopUpBankPresenter) {}
+  
+  public final void inject(TopUpChoiceFragmentPresenter paramTopUpChoiceFragmentPresenter) {}
+  
+  public final void inject(DepositSelectorView paramDepositSelectorView) {}
+  
+  public final void inject(TopUpVoucherFragmentPresenter paramTopUpVoucherFragmentPresenter) {}
+  
+  public final void inject(PiaEntryView paramPiaEntryView) {}
+  
+  final class AccountOverviewActivitySubcomponentBuilder
+    extends ActivityBindingModule_AccountOverviewActivityInjector.AccountOverviewActivitySubcomponent.Builder
+  {
+    private AccountOverviewActivity seedInstance;
+    
+    private AccountOverviewActivitySubcomponentBuilder() {}
+    
+    public final ActivityBindingModule_AccountOverviewActivityInjector.AccountOverviewActivitySubcomponent build()
+    {
+      if (this.seedInstance != null) {
+        return new DaggerAppComponent.AccountOverviewActivitySubcomponentImpl(DaggerAppComponent.this, this, null);
+      }
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append(AccountOverviewActivity.class.getCanonicalName());
+      localStringBuilder.append(" must be set");
+      throw new IllegalStateException(localStringBuilder.toString());
+    }
+    
+    public final void seedInstance(AccountOverviewActivity paramAccountOverviewActivity)
+    {
+      this.seedInstance = ((AccountOverviewActivity)Preconditions.checkNotNull(paramAccountOverviewActivity));
+    }
+  }
+  
+  final class AccountOverviewActivitySubcomponentImpl
+    implements ActivityBindingModule_AccountOverviewActivityInjector.AccountOverviewActivitySubcomponent
+  {
+    private Provider<CustomerDetailsFragmentModule_CustomerDetailsFragmentInjector.CustomerDetailsFragmentSubcomponent.Builder> customerDetailsFragmentSubcomponentBuilderProvider;
+    private Provider<AccountOverviewActivityModule_NotRegisteredFragmentInjector.NotRegisteredFragmentSubcomponent.Builder> notRegisteredFragmentSubcomponentBuilderProvider;
+    private Provider<AccountOverviewActivityModule_ReAuthFragmentInjector.ReAuthFragmentSubcomponent.Builder> reAuthFragmentSubcomponentBuilderProvider;
+    private AccountOverviewActivity seedInstance;
+    
+    private AccountOverviewActivitySubcomponentImpl(DaggerAppComponent.AccountOverviewActivitySubcomponentBuilder paramAccountOverviewActivitySubcomponentBuilder)
+    {
+      initialize(paramAccountOverviewActivitySubcomponentBuilder);
+    }
+    
+    private Box7CustomerManager getBox7CustomerManager()
+    {
+      return new Box7CustomerManager(DaggerAppComponent.this.getAddressesApi(), DaggerAppComponent.this.getCustomersApi(), DaggerAppComponent.this.getThirdPartyApi(), DaggerAppComponent.this.getSimCardsApi(), (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get(), (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+    }
+    
+    private Box7SubscriptionManager getBox7SubscriptionManager()
+    {
+      return injectBox7SubscriptionManager(Box7SubscriptionManager_Factory.newBox7SubscriptionManager(DaggerAppComponent.this.getPacksApi(), DaggerAppComponent.this.getTopupsApi(), DaggerAppComponent.this.getSubscriptionsApi(), DaggerAppComponent.this.getUsagesApi()));
+    }
+    
+    private CustomerDetailsFragmentPresenter getCustomerDetailsFragmentPresenter()
+    {
+      return CustomerDetailsFragmentModule_ProvideCustomerDetailsFragmentPresenterFactory.proxyProvideCustomerDetailsFragmentPresenter(getBox7CustomerManager(), (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get(), this.seedInstance, (ISubscriptionModelRepository)DaggerAppComponent.this.provideISubscriptionModelRepositoryProvider.get(), (ICustomerModelRepository)DaggerAppComponent.this.provideICustomerModelRepositoryProvider.get(), (ISimcardModelRepository)DaggerAppComponent.this.provideISimCardModelRepositoryProvider.get());
+    }
+    
+    private DispatchingAndroidInjector<android.support.v4.app.Fragment> getDispatchingAndroidInjectorOfFragment()
+    {
+      return DispatchingAndroidInjector_Factory.newDispatchingAndroidInjector(getMapOfClassOfAndProviderOfFactoryOf(), m.a());
+    }
+    
+    private Map<Class<? extends android.support.v4.app.Fragment>, Provider<AndroidInjector.Factory<? extends android.support.v4.app.Fragment>>> getMapOfClassOfAndProviderOfFactoryOf()
+    {
+      return m.a(ReAuthFragment.class, this.reAuthFragmentSubcomponentBuilderProvider, NotRegisteredFragment.class, this.notRegisteredFragmentSubcomponentBuilderProvider, CustomerDetailsFragment.class, this.customerDetailsFragmentSubcomponentBuilderProvider);
+    }
+    
+    private ReAuthFragmentPresenter getReAuthFragmentPresenter()
+    {
+      return AccountOverviewActivityModule_ProvideReAuthFragmentPresenterFactory.proxyProvideReAuthFragmentPresenter(this.seedInstance, (IHigherLoginManager)DaggerAppComponent.this.provideHigherLoginManagerProvider.get(), (ErrorUtils)DaggerAppComponent.this.provideErrorUtilsProvider.get(), (LoginPreferences)DaggerAppComponent.this.provideLoginPreferencesProvider.get(), getBox7CustomerManager(), getBox7SubscriptionManager(), (ISubscriptionsAuthorizedRepository)DaggerAppComponent.this.provideISubscriptionsAuthorizedRepositoryProvider.get(), (IBrandTariffTypePropertyModelRepository)DaggerAppComponent.this.provideIBrandTariffTypePropertyModelRepositoryProvider.get(), DaggerAppComponent.this.getNetworkUtils(), (ILoginAccountModelRepository)DaggerAppComponent.this.provideILoginAccountModelRepositoryProvider.get());
+    }
+    
+    private ViewSetterFactory getViewSetterFactory()
+    {
+      return new ViewSetterFactory((Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+    }
+    
+    private void initialize(DaggerAppComponent.AccountOverviewActivitySubcomponentBuilder paramAccountOverviewActivitySubcomponentBuilder)
+    {
+      this.reAuthFragmentSubcomponentBuilderProvider = new Provider()
+      {
+        public AccountOverviewActivityModule_ReAuthFragmentInjector.ReAuthFragmentSubcomponent.Builder get()
+        {
+          return new DaggerAppComponent.AccountOverviewActivitySubcomponentImpl.AOAM_RAFI_ReAuthFragmentSubcomponentBuilder(DaggerAppComponent.AccountOverviewActivitySubcomponentImpl.this, null);
+        }
+      };
+      this.notRegisteredFragmentSubcomponentBuilderProvider = new Provider()
+      {
+        public AccountOverviewActivityModule_NotRegisteredFragmentInjector.NotRegisteredFragmentSubcomponent.Builder get()
+        {
+          return new DaggerAppComponent.AccountOverviewActivitySubcomponentImpl.AOAM_NRFI_NotRegisteredFragmentSubcomponentBuilder(DaggerAppComponent.AccountOverviewActivitySubcomponentImpl.this, null);
+        }
+      };
+      this.customerDetailsFragmentSubcomponentBuilderProvider = new Provider()
+      {
+        public CustomerDetailsFragmentModule_CustomerDetailsFragmentInjector.CustomerDetailsFragmentSubcomponent.Builder get()
+        {
+          return new DaggerAppComponent.AccountOverviewActivitySubcomponentImpl.CustomerDetailsFragmentSubcomponentBuilder(DaggerAppComponent.AccountOverviewActivitySubcomponentImpl.this, null);
+        }
+      };
+      this.seedInstance = paramAccountOverviewActivitySubcomponentBuilder.seedInstance;
+    }
+    
+    private AccountOverviewActivity injectAccountOverviewActivity(AccountOverviewActivity paramAccountOverviewActivity)
+    {
+      DaggerAppCompatActivity_MembersInjector.injectSupportFragmentInjector(paramAccountOverviewActivity, getDispatchingAndroidInjectorOfFragment());
+      DaggerAppCompatActivity_MembersInjector.injectFrameworkFragmentInjector(paramAccountOverviewActivity, DaggerAppComponent.this.getDispatchingAndroidInjectorOfFragment());
+      B2PDialogActivity_MembersInjector.injectLocalizer(paramAccountOverviewActivity, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+      B2PDialogActivity_MembersInjector.injectTrackingHelper(paramAccountOverviewActivity, (TrackingHelper)DaggerAppComponent.this.provideTrackingHelperProvider.get());
+      B2PDialogActivity_MembersInjector.injectLoginManager(paramAccountOverviewActivity, (LoginManager)DaggerAppComponent.this.loginManagerProvider.get());
+      B2PDialogActivity_MembersInjector.injectHigherLoginManager(paramAccountOverviewActivity, (IHigherLoginManager)DaggerAppComponent.this.provideHigherLoginManagerProvider.get());
+      B2PDialogActivity_MembersInjector.injectBox7Cache(paramAccountOverviewActivity, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      B2PDialogActivity_MembersInjector.injectMainThreadBus(paramAccountOverviewActivity, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+      B2PDialogActivity_MembersInjector.injectPerformanceTimingManager(paramAccountOverviewActivity, (IPerformanceTimingManager)DaggerAppComponent.this.provideIPerformanceTimingManagerProvider.get());
+      B2PActivity_MembersInjector.injectApplication(paramAccountOverviewActivity, DaggerAppComponent.this.application);
+      B2PActivity_MembersInjector.injectBus(paramAccountOverviewActivity, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+      B2PActivity_MembersInjector.injectViewSetterFactory(paramAccountOverviewActivity, getViewSetterFactory());
+      B2PActivity_MembersInjector.injectLocalizationManagerFactory(paramAccountOverviewActivity, (LocalizationManagerFactory)DaggerAppComponent.this.provideLocalizationManagerFactoryProvider.get());
+      B2PActivity_MembersInjector.injectBusEventReceiver(paramAccountOverviewActivity, (BusEventReceiver)DaggerAppComponent.this.provideBusEventReceiverProvider.get());
+      B2PActivity_MembersInjector.injectUserPreferences(paramAccountOverviewActivity, (UserPreferences)DaggerAppComponent.this.provideUserPreferencesProvider.get());
+      B2PActivity_MembersInjector.injectLoginManager(paramAccountOverviewActivity, (LoginManager)DaggerAppComponent.this.loginManagerProvider.get());
+      B2PActivity_MembersInjector.injectBox7Cache(paramAccountOverviewActivity, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      B2PActivity_MembersInjector.injectSimUtils(paramAccountOverviewActivity, (SimUtils)DaggerAppComponent.this.provideSimUtilsProvider.get());
+      AccountOverviewActivity_MembersInjector.injectSetPresenter(paramAccountOverviewActivity, AccountOverviewActivityModule_ProvideAccountOverviewPresenterFactory.proxyProvideAccountOverviewPresenter());
+      return paramAccountOverviewActivity;
+    }
+    
+    private Box7SubscriptionManager injectBox7SubscriptionManager(Box7SubscriptionManager paramBox7SubscriptionManager)
+    {
+      Box7SubscriptionManager_MembersInjector.injectBox7Cache(paramBox7SubscriptionManager, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      return paramBox7SubscriptionManager;
+    }
+    
+    public final void inject(AccountOverviewActivity paramAccountOverviewActivity)
+    {
+      injectAccountOverviewActivity(paramAccountOverviewActivity);
+    }
+    
+    final class AOAM_NRFI_NotRegisteredFragmentSubcomponentBuilder
+      extends AccountOverviewActivityModule_NotRegisteredFragmentInjector.NotRegisteredFragmentSubcomponent.Builder
+    {
+      private NotRegisteredFragment seedInstance;
+      
+      private AOAM_NRFI_NotRegisteredFragmentSubcomponentBuilder() {}
+      
+      public final AccountOverviewActivityModule_NotRegisteredFragmentInjector.NotRegisteredFragmentSubcomponent build()
+      {
+        if (this.seedInstance != null) {
+          return new DaggerAppComponent.AccountOverviewActivitySubcomponentImpl.AOAM_NRFI_NotRegisteredFragmentSubcomponentImpl(DaggerAppComponent.AccountOverviewActivitySubcomponentImpl.this, this, null);
+        }
+        StringBuilder localStringBuilder = new StringBuilder();
+        localStringBuilder.append(NotRegisteredFragment.class.getCanonicalName());
+        localStringBuilder.append(" must be set");
+        throw new IllegalStateException(localStringBuilder.toString());
+      }
+      
+      public final void seedInstance(NotRegisteredFragment paramNotRegisteredFragment)
+      {
+        this.seedInstance = ((NotRegisteredFragment)Preconditions.checkNotNull(paramNotRegisteredFragment));
+      }
+    }
+    
+    final class AOAM_NRFI_NotRegisteredFragmentSubcomponentImpl
+      implements AccountOverviewActivityModule_NotRegisteredFragmentInjector.NotRegisteredFragmentSubcomponent
+    {
+      private AOAM_NRFI_NotRegisteredFragmentSubcomponentImpl(DaggerAppComponent.AccountOverviewActivitySubcomponentImpl.AOAM_NRFI_NotRegisteredFragmentSubcomponentBuilder paramAOAM_NRFI_NotRegisteredFragmentSubcomponentBuilder) {}
+      
+      private NotRegisteredFragmentPresenter getNotRegisteredFragmentPresenter()
+      {
+        return new NotRegisteredFragmentPresenter((Localizer)DaggerAppComponent.this.provideLocalizerProvider.get(), DaggerAppComponent.AccountOverviewActivitySubcomponentImpl.this.seedInstance, (TrackingHelper)DaggerAppComponent.this.provideTrackingHelperProvider.get());
+      }
+      
+      private NotRegisteredFragment injectNotRegisteredFragment(NotRegisteredFragment paramNotRegisteredFragment)
+      {
+        DaggerFragment_MembersInjector.injectChildFragmentInjector(paramNotRegisteredFragment, DaggerAppComponent.AccountOverviewActivitySubcomponentImpl.this.getDispatchingAndroidInjectorOfFragment());
+        B2PFragment_MembersInjector.injectApplication(paramNotRegisteredFragment, DaggerAppComponent.this.application);
+        B2PFragment_MembersInjector.injectLocalizer(paramNotRegisteredFragment, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+        B2PFragment_MembersInjector.injectViewSetterFactory(paramNotRegisteredFragment, DaggerAppComponent.AccountOverviewActivitySubcomponentImpl.this.getViewSetterFactory());
+        B2PFragment_MembersInjector.injectBus(paramNotRegisteredFragment, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+        NotRegisteredFragment_MembersInjector.injectSetPresenter(paramNotRegisteredFragment, getNotRegisteredFragmentPresenter());
+        return paramNotRegisteredFragment;
+      }
+      
+      public final void inject(NotRegisteredFragment paramNotRegisteredFragment)
+      {
+        injectNotRegisteredFragment(paramNotRegisteredFragment);
+      }
+    }
+    
+    final class AOAM_RAFI_ReAuthFragmentSubcomponentBuilder
+      extends AccountOverviewActivityModule_ReAuthFragmentInjector.ReAuthFragmentSubcomponent.Builder
+    {
+      private ReAuthFragment seedInstance;
+      
+      private AOAM_RAFI_ReAuthFragmentSubcomponentBuilder() {}
+      
+      public final AccountOverviewActivityModule_ReAuthFragmentInjector.ReAuthFragmentSubcomponent build()
+      {
+        if (this.seedInstance != null) {
+          return new DaggerAppComponent.AccountOverviewActivitySubcomponentImpl.AOAM_RAFI_ReAuthFragmentSubcomponentImpl(DaggerAppComponent.AccountOverviewActivitySubcomponentImpl.this, this, null);
+        }
+        StringBuilder localStringBuilder = new StringBuilder();
+        localStringBuilder.append(ReAuthFragment.class.getCanonicalName());
+        localStringBuilder.append(" must be set");
+        throw new IllegalStateException(localStringBuilder.toString());
+      }
+      
+      public final void seedInstance(ReAuthFragment paramReAuthFragment)
+      {
+        this.seedInstance = ((ReAuthFragment)Preconditions.checkNotNull(paramReAuthFragment));
+      }
+    }
+    
+    final class AOAM_RAFI_ReAuthFragmentSubcomponentImpl
+      implements AccountOverviewActivityModule_ReAuthFragmentInjector.ReAuthFragmentSubcomponent
+    {
+      private AOAM_RAFI_ReAuthFragmentSubcomponentImpl(DaggerAppComponent.AccountOverviewActivitySubcomponentImpl.AOAM_RAFI_ReAuthFragmentSubcomponentBuilder paramAOAM_RAFI_ReAuthFragmentSubcomponentBuilder) {}
+      
+      private ReAuthFragment injectReAuthFragment(ReAuthFragment paramReAuthFragment)
+      {
+        DaggerFragment_MembersInjector.injectChildFragmentInjector(paramReAuthFragment, DaggerAppComponent.AccountOverviewActivitySubcomponentImpl.this.getDispatchingAndroidInjectorOfFragment());
+        B2PFragment_MembersInjector.injectApplication(paramReAuthFragment, DaggerAppComponent.this.application);
+        B2PFragment_MembersInjector.injectLocalizer(paramReAuthFragment, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+        B2PFragment_MembersInjector.injectViewSetterFactory(paramReAuthFragment, DaggerAppComponent.AccountOverviewActivitySubcomponentImpl.this.getViewSetterFactory());
+        B2PFragment_MembersInjector.injectBus(paramReAuthFragment, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+        ReAuthFragment_MembersInjector.injectSetPresenter(paramReAuthFragment, DaggerAppComponent.AccountOverviewActivitySubcomponentImpl.this.getReAuthFragmentPresenter());
+        return paramReAuthFragment;
+      }
+      
+      public final void inject(ReAuthFragment paramReAuthFragment)
+      {
+        injectReAuthFragment(paramReAuthFragment);
+      }
+    }
+    
+    final class CustomerDetailsFragmentSubcomponentBuilder
+      extends CustomerDetailsFragmentModule_CustomerDetailsFragmentInjector.CustomerDetailsFragmentSubcomponent.Builder
+    {
+      private CustomerDetailsFragment seedInstance;
+      
+      private CustomerDetailsFragmentSubcomponentBuilder() {}
+      
+      public final CustomerDetailsFragmentModule_CustomerDetailsFragmentInjector.CustomerDetailsFragmentSubcomponent build()
+      {
+        if (this.seedInstance != null) {
+          return new DaggerAppComponent.AccountOverviewActivitySubcomponentImpl.CustomerDetailsFragmentSubcomponentImpl(DaggerAppComponent.AccountOverviewActivitySubcomponentImpl.this, this, null);
+        }
+        StringBuilder localStringBuilder = new StringBuilder();
+        localStringBuilder.append(CustomerDetailsFragment.class.getCanonicalName());
+        localStringBuilder.append(" must be set");
+        throw new IllegalStateException(localStringBuilder.toString());
+      }
+      
+      public final void seedInstance(CustomerDetailsFragment paramCustomerDetailsFragment)
+      {
+        this.seedInstance = ((CustomerDetailsFragment)Preconditions.checkNotNull(paramCustomerDetailsFragment));
+      }
+    }
+    
+    final class CustomerDetailsFragmentSubcomponentImpl
+      implements CustomerDetailsFragmentModule_CustomerDetailsFragmentInjector.CustomerDetailsFragmentSubcomponent
+    {
+      private CustomerDetailsFragmentSubcomponentImpl(DaggerAppComponent.AccountOverviewActivitySubcomponentImpl.CustomerDetailsFragmentSubcomponentBuilder paramCustomerDetailsFragmentSubcomponentBuilder) {}
+      
+      private CustomerDetailsFragment injectCustomerDetailsFragment(CustomerDetailsFragment paramCustomerDetailsFragment)
+      {
+        DaggerFragment_MembersInjector.injectChildFragmentInjector(paramCustomerDetailsFragment, DaggerAppComponent.AccountOverviewActivitySubcomponentImpl.this.getDispatchingAndroidInjectorOfFragment());
+        B2PFragment_MembersInjector.injectApplication(paramCustomerDetailsFragment, DaggerAppComponent.this.application);
+        B2PFragment_MembersInjector.injectLocalizer(paramCustomerDetailsFragment, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+        B2PFragment_MembersInjector.injectViewSetterFactory(paramCustomerDetailsFragment, DaggerAppComponent.AccountOverviewActivitySubcomponentImpl.this.getViewSetterFactory());
+        B2PFragment_MembersInjector.injectBus(paramCustomerDetailsFragment, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+        CustomerDetailsFragment_MembersInjector.injectSetPresenter(paramCustomerDetailsFragment, DaggerAppComponent.AccountOverviewActivitySubcomponentImpl.this.getCustomerDetailsFragmentPresenter());
+        return paramCustomerDetailsFragment;
+      }
+      
+      public final void inject(CustomerDetailsFragment paramCustomerDetailsFragment)
+      {
+        injectCustomerDetailsFragment(paramCustomerDetailsFragment);
+      }
+    }
+  }
+  
+  final class AnalyticsActivitySubcomponentBuilder
+    extends ActivityBindingModule_AnalyticsInjector.AnalyticsActivitySubcomponent.Builder
+  {
+    private AnalyticsActivity seedInstance;
+    
+    private AnalyticsActivitySubcomponentBuilder() {}
+    
+    public final ActivityBindingModule_AnalyticsInjector.AnalyticsActivitySubcomponent build()
+    {
+      if (this.seedInstance != null) {
+        return new DaggerAppComponent.AnalyticsActivitySubcomponentImpl(DaggerAppComponent.this, this, null);
+      }
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append(AnalyticsActivity.class.getCanonicalName());
+      localStringBuilder.append(" must be set");
+      throw new IllegalStateException(localStringBuilder.toString());
+    }
+    
+    public final void seedInstance(AnalyticsActivity paramAnalyticsActivity)
+    {
+      this.seedInstance = ((AnalyticsActivity)Preconditions.checkNotNull(paramAnalyticsActivity));
+    }
+  }
+  
+  final class AnalyticsActivitySubcomponentImpl
+    implements ActivityBindingModule_AnalyticsInjector.AnalyticsActivitySubcomponent
+  {
+    private AnalyticsActivity seedInstance;
+    
+    private AnalyticsActivitySubcomponentImpl(DaggerAppComponent.AnalyticsActivitySubcomponentBuilder paramAnalyticsActivitySubcomponentBuilder)
+    {
+      initialize(paramAnalyticsActivitySubcomponentBuilder);
+    }
+    
+    private AnalyticsPresenter getAnalyticsPresenter()
+    {
+      return AnalyticsActivityModule_ProvideAnalyticsPresenterFactory.proxyProvideAnalyticsPresenter(this.seedInstance, (TrackingHelper)DaggerAppComponent.this.provideTrackingHelperProvider.get(), this.seedInstance, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+    }
+    
+    private DispatchingAndroidInjector<android.support.v4.app.Fragment> getDispatchingAndroidInjectorOfFragment()
+    {
+      return DispatchingAndroidInjector_Factory.newDispatchingAndroidInjector(m.a(), m.a());
+    }
+    
+    private ViewSetterFactory getViewSetterFactory()
+    {
+      return new ViewSetterFactory((Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+    }
+    
+    private void initialize(DaggerAppComponent.AnalyticsActivitySubcomponentBuilder paramAnalyticsActivitySubcomponentBuilder)
+    {
+      this.seedInstance = paramAnalyticsActivitySubcomponentBuilder.seedInstance;
+    }
+    
+    private AnalyticsActivity injectAnalyticsActivity(AnalyticsActivity paramAnalyticsActivity)
+    {
+      DaggerAppCompatActivity_MembersInjector.injectSupportFragmentInjector(paramAnalyticsActivity, getDispatchingAndroidInjectorOfFragment());
+      DaggerAppCompatActivity_MembersInjector.injectFrameworkFragmentInjector(paramAnalyticsActivity, DaggerAppComponent.this.getDispatchingAndroidInjectorOfFragment());
+      B2PDialogActivity_MembersInjector.injectLocalizer(paramAnalyticsActivity, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+      B2PDialogActivity_MembersInjector.injectTrackingHelper(paramAnalyticsActivity, (TrackingHelper)DaggerAppComponent.this.provideTrackingHelperProvider.get());
+      B2PDialogActivity_MembersInjector.injectLoginManager(paramAnalyticsActivity, (LoginManager)DaggerAppComponent.this.loginManagerProvider.get());
+      B2PDialogActivity_MembersInjector.injectHigherLoginManager(paramAnalyticsActivity, (IHigherLoginManager)DaggerAppComponent.this.provideHigherLoginManagerProvider.get());
+      B2PDialogActivity_MembersInjector.injectBox7Cache(paramAnalyticsActivity, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      B2PDialogActivity_MembersInjector.injectMainThreadBus(paramAnalyticsActivity, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+      B2PDialogActivity_MembersInjector.injectPerformanceTimingManager(paramAnalyticsActivity, (IPerformanceTimingManager)DaggerAppComponent.this.provideIPerformanceTimingManagerProvider.get());
+      B2PActivity_MembersInjector.injectApplication(paramAnalyticsActivity, DaggerAppComponent.this.application);
+      B2PActivity_MembersInjector.injectBus(paramAnalyticsActivity, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+      B2PActivity_MembersInjector.injectViewSetterFactory(paramAnalyticsActivity, getViewSetterFactory());
+      B2PActivity_MembersInjector.injectLocalizationManagerFactory(paramAnalyticsActivity, (LocalizationManagerFactory)DaggerAppComponent.this.provideLocalizationManagerFactoryProvider.get());
+      B2PActivity_MembersInjector.injectBusEventReceiver(paramAnalyticsActivity, (BusEventReceiver)DaggerAppComponent.this.provideBusEventReceiverProvider.get());
+      B2PActivity_MembersInjector.injectUserPreferences(paramAnalyticsActivity, (UserPreferences)DaggerAppComponent.this.provideUserPreferencesProvider.get());
+      B2PActivity_MembersInjector.injectLoginManager(paramAnalyticsActivity, (LoginManager)DaggerAppComponent.this.loginManagerProvider.get());
+      B2PActivity_MembersInjector.injectBox7Cache(paramAnalyticsActivity, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      B2PActivity_MembersInjector.injectSimUtils(paramAnalyticsActivity, (SimUtils)DaggerAppComponent.this.provideSimUtilsProvider.get());
+      AnalyticsActivity_MembersInjector.injectTrackingHelper(paramAnalyticsActivity, (TrackingHelper)DaggerAppComponent.this.provideTrackingHelperProvider.get());
+      AnalyticsActivity_MembersInjector.injectSetPresenter(paramAnalyticsActivity, getAnalyticsPresenter());
+      return paramAnalyticsActivity;
+    }
+    
+    public final void inject(AnalyticsActivity paramAnalyticsActivity)
+    {
+      injectAnalyticsActivity(paramAnalyticsActivity);
+    }
+  }
+  
+  final class BarrierActivitySubcomponentBuilder
+    extends ActivityBindingModule_BarrierInjector.BarrierActivitySubcomponent.Builder
+  {
+    private BarrierActivity seedInstance;
+    
+    private BarrierActivitySubcomponentBuilder() {}
+    
+    public final ActivityBindingModule_BarrierInjector.BarrierActivitySubcomponent build()
+    {
+      if (this.seedInstance != null) {
+        return new DaggerAppComponent.BarrierActivitySubcomponentImpl(DaggerAppComponent.this, this, null);
+      }
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append(BarrierActivity.class.getCanonicalName());
+      localStringBuilder.append(" must be set");
+      throw new IllegalStateException(localStringBuilder.toString());
+    }
+    
+    public final void seedInstance(BarrierActivity paramBarrierActivity)
+    {
+      this.seedInstance = ((BarrierActivity)Preconditions.checkNotNull(paramBarrierActivity));
+    }
+  }
+  
+  final class BarrierActivitySubcomponentImpl
+    implements ActivityBindingModule_BarrierInjector.BarrierActivitySubcomponent
+  {
+    private BarrierActivity seedInstance;
+    
+    private BarrierActivitySubcomponentImpl(DaggerAppComponent.BarrierActivitySubcomponentBuilder paramBarrierActivitySubcomponentBuilder)
+    {
+      initialize(paramBarrierActivitySubcomponentBuilder);
+    }
+    
+    private BarrierPresenter getBarrierPresenter()
+    {
+      return BarrierActivityModule_ProvideBarrierPresenterFactory.proxyProvideBarrierPresenter(this.seedInstance, this.seedInstance, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get(), getBox7CustomerManager(), (IThirdPartyServiceSettingsModelRepository)DaggerAppComponent.this.provideIThirdPartyServiceSettingsModelRepositoryProvider.get());
+    }
+    
+    private Box7CustomerManager getBox7CustomerManager()
+    {
+      return new Box7CustomerManager(DaggerAppComponent.this.getAddressesApi(), DaggerAppComponent.this.getCustomersApi(), DaggerAppComponent.this.getThirdPartyApi(), DaggerAppComponent.this.getSimCardsApi(), (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get(), (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+    }
+    
+    private DispatchingAndroidInjector<android.support.v4.app.Fragment> getDispatchingAndroidInjectorOfFragment()
+    {
+      return DispatchingAndroidInjector_Factory.newDispatchingAndroidInjector(m.a(), m.a());
+    }
+    
+    private ViewSetterFactory getViewSetterFactory()
+    {
+      return new ViewSetterFactory((Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+    }
+    
+    private void initialize(DaggerAppComponent.BarrierActivitySubcomponentBuilder paramBarrierActivitySubcomponentBuilder)
+    {
+      this.seedInstance = paramBarrierActivitySubcomponentBuilder.seedInstance;
+    }
+    
+    private BarrierActivity injectBarrierActivity(BarrierActivity paramBarrierActivity)
+    {
+      DaggerAppCompatActivity_MembersInjector.injectSupportFragmentInjector(paramBarrierActivity, getDispatchingAndroidInjectorOfFragment());
+      DaggerAppCompatActivity_MembersInjector.injectFrameworkFragmentInjector(paramBarrierActivity, DaggerAppComponent.this.getDispatchingAndroidInjectorOfFragment());
+      B2PDialogActivity_MembersInjector.injectLocalizer(paramBarrierActivity, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+      B2PDialogActivity_MembersInjector.injectTrackingHelper(paramBarrierActivity, (TrackingHelper)DaggerAppComponent.this.provideTrackingHelperProvider.get());
+      B2PDialogActivity_MembersInjector.injectLoginManager(paramBarrierActivity, (LoginManager)DaggerAppComponent.this.loginManagerProvider.get());
+      B2PDialogActivity_MembersInjector.injectHigherLoginManager(paramBarrierActivity, (IHigherLoginManager)DaggerAppComponent.this.provideHigherLoginManagerProvider.get());
+      B2PDialogActivity_MembersInjector.injectBox7Cache(paramBarrierActivity, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      B2PDialogActivity_MembersInjector.injectMainThreadBus(paramBarrierActivity, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+      B2PDialogActivity_MembersInjector.injectPerformanceTimingManager(paramBarrierActivity, (IPerformanceTimingManager)DaggerAppComponent.this.provideIPerformanceTimingManagerProvider.get());
+      B2PActivity_MembersInjector.injectApplication(paramBarrierActivity, DaggerAppComponent.this.application);
+      B2PActivity_MembersInjector.injectBus(paramBarrierActivity, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+      B2PActivity_MembersInjector.injectViewSetterFactory(paramBarrierActivity, getViewSetterFactory());
+      B2PActivity_MembersInjector.injectLocalizationManagerFactory(paramBarrierActivity, (LocalizationManagerFactory)DaggerAppComponent.this.provideLocalizationManagerFactoryProvider.get());
+      B2PActivity_MembersInjector.injectBusEventReceiver(paramBarrierActivity, (BusEventReceiver)DaggerAppComponent.this.provideBusEventReceiverProvider.get());
+      B2PActivity_MembersInjector.injectUserPreferences(paramBarrierActivity, (UserPreferences)DaggerAppComponent.this.provideUserPreferencesProvider.get());
+      B2PActivity_MembersInjector.injectLoginManager(paramBarrierActivity, (LoginManager)DaggerAppComponent.this.loginManagerProvider.get());
+      B2PActivity_MembersInjector.injectBox7Cache(paramBarrierActivity, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      B2PActivity_MembersInjector.injectSimUtils(paramBarrierActivity, (SimUtils)DaggerAppComponent.this.provideSimUtilsProvider.get());
+      BarrierActivity_MembersInjector.injectSetPresenter(paramBarrierActivity, getBarrierPresenter());
+      return paramBarrierActivity;
+    }
+    
+    public final void inject(BarrierActivity paramBarrierActivity)
+    {
+      injectBarrierActivity(paramBarrierActivity);
+    }
+  }
+  
+  static final class Builder
+    implements AppComponent.Builder
+  {
+    private Application application;
+    private Box7APIModule box7APIModule;
+    private DatabaseModule databaseModule;
+    private ManagerModule managerModule;
+    private MoeModule moeModule;
+    private RepositoryModule repositoryModule;
+    private SecurityModule securityModule;
+    
+    public final Builder application(Application paramApplication)
+    {
+      this.application = ((Application)Preconditions.checkNotNull(paramApplication));
+      return this;
+    }
+    
+    public final AppComponent build()
+    {
+      if (this.moeModule == null) {
+        this.moeModule = new MoeModule();
+      }
+      if (this.repositoryModule == null) {
+        this.repositoryModule = new RepositoryModule();
+      }
+      if (this.box7APIModule == null) {
+        this.box7APIModule = new Box7APIModule();
+      }
+      if (this.managerModule == null) {
+        this.managerModule = new ManagerModule();
+      }
+      if (this.securityModule == null) {
+        this.securityModule = new SecurityModule();
+      }
+      if (this.databaseModule == null) {
+        this.databaseModule = new DatabaseModule();
+      }
+      if (this.application != null) {
+        return new DaggerAppComponent(this, null);
+      }
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append(Application.class.getCanonicalName());
+      localStringBuilder.append(" must be set");
+      throw new IllegalStateException(localStringBuilder.toString());
+    }
+  }
+  
+  final class ChangeAccountActivitySubcomponentBuilder
+    extends ActivityBindingModule_ChangeAccountInjector.ChangeAccountActivitySubcomponent.Builder
+  {
+    private ChangeAccountActivity seedInstance;
+    
+    private ChangeAccountActivitySubcomponentBuilder() {}
+    
+    public final ActivityBindingModule_ChangeAccountInjector.ChangeAccountActivitySubcomponent build()
+    {
+      if (this.seedInstance != null) {
+        return new DaggerAppComponent.ChangeAccountActivitySubcomponentImpl(DaggerAppComponent.this, this, null);
+      }
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append(ChangeAccountActivity.class.getCanonicalName());
+      localStringBuilder.append(" must be set");
+      throw new IllegalStateException(localStringBuilder.toString());
+    }
+    
+    public final void seedInstance(ChangeAccountActivity paramChangeAccountActivity)
+    {
+      this.seedInstance = ((ChangeAccountActivity)Preconditions.checkNotNull(paramChangeAccountActivity));
+    }
+  }
+  
+  final class ChangeAccountActivitySubcomponentImpl
+    implements ActivityBindingModule_ChangeAccountInjector.ChangeAccountActivitySubcomponent
+  {
+    private ChangeAccountActivity seedInstance;
+    
+    private ChangeAccountActivitySubcomponentImpl(DaggerAppComponent.ChangeAccountActivitySubcomponentBuilder paramChangeAccountActivitySubcomponentBuilder)
+    {
+      initialize(paramChangeAccountActivitySubcomponentBuilder);
+    }
+    
+    private Box7CustomerManager getBox7CustomerManager()
+    {
+      return new Box7CustomerManager(DaggerAppComponent.this.getAddressesApi(), DaggerAppComponent.this.getCustomersApi(), DaggerAppComponent.this.getThirdPartyApi(), DaggerAppComponent.this.getSimCardsApi(), (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get(), (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+    }
+    
+    private ChangeAccountPresenter getChangeAccountPresenter()
+    {
+      return ChangeAccountActivityModule_ProvideChangeAccountPresenterFactory.proxyProvideChangeAccountPresenter(this.seedInstance, getBox7CustomerManager(), (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get(), (MailVerificationUtil)DaggerAppComponent.this.provideMailVerificationUtilProvider.get());
+    }
+    
+    private DispatchingAndroidInjector<android.support.v4.app.Fragment> getDispatchingAndroidInjectorOfFragment()
+    {
+      return DispatchingAndroidInjector_Factory.newDispatchingAndroidInjector(m.a(), m.a());
+    }
+    
+    private ViewSetterFactory getViewSetterFactory()
+    {
+      return new ViewSetterFactory((Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+    }
+    
+    private void initialize(DaggerAppComponent.ChangeAccountActivitySubcomponentBuilder paramChangeAccountActivitySubcomponentBuilder)
+    {
+      this.seedInstance = paramChangeAccountActivitySubcomponentBuilder.seedInstance;
+    }
+    
+    private ChangeAccountActivity injectChangeAccountActivity(ChangeAccountActivity paramChangeAccountActivity)
+    {
+      DaggerAppCompatActivity_MembersInjector.injectSupportFragmentInjector(paramChangeAccountActivity, getDispatchingAndroidInjectorOfFragment());
+      DaggerAppCompatActivity_MembersInjector.injectFrameworkFragmentInjector(paramChangeAccountActivity, DaggerAppComponent.this.getDispatchingAndroidInjectorOfFragment());
+      B2PDialogActivity_MembersInjector.injectLocalizer(paramChangeAccountActivity, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+      B2PDialogActivity_MembersInjector.injectTrackingHelper(paramChangeAccountActivity, (TrackingHelper)DaggerAppComponent.this.provideTrackingHelperProvider.get());
+      B2PDialogActivity_MembersInjector.injectLoginManager(paramChangeAccountActivity, (LoginManager)DaggerAppComponent.this.loginManagerProvider.get());
+      B2PDialogActivity_MembersInjector.injectHigherLoginManager(paramChangeAccountActivity, (IHigherLoginManager)DaggerAppComponent.this.provideHigherLoginManagerProvider.get());
+      B2PDialogActivity_MembersInjector.injectBox7Cache(paramChangeAccountActivity, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      B2PDialogActivity_MembersInjector.injectMainThreadBus(paramChangeAccountActivity, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+      B2PDialogActivity_MembersInjector.injectPerformanceTimingManager(paramChangeAccountActivity, (IPerformanceTimingManager)DaggerAppComponent.this.provideIPerformanceTimingManagerProvider.get());
+      B2PActivity_MembersInjector.injectApplication(paramChangeAccountActivity, DaggerAppComponent.this.application);
+      B2PActivity_MembersInjector.injectBus(paramChangeAccountActivity, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+      B2PActivity_MembersInjector.injectViewSetterFactory(paramChangeAccountActivity, getViewSetterFactory());
+      B2PActivity_MembersInjector.injectLocalizationManagerFactory(paramChangeAccountActivity, (LocalizationManagerFactory)DaggerAppComponent.this.provideLocalizationManagerFactoryProvider.get());
+      B2PActivity_MembersInjector.injectBusEventReceiver(paramChangeAccountActivity, (BusEventReceiver)DaggerAppComponent.this.provideBusEventReceiverProvider.get());
+      B2PActivity_MembersInjector.injectUserPreferences(paramChangeAccountActivity, (UserPreferences)DaggerAppComponent.this.provideUserPreferencesProvider.get());
+      B2PActivity_MembersInjector.injectLoginManager(paramChangeAccountActivity, (LoginManager)DaggerAppComponent.this.loginManagerProvider.get());
+      B2PActivity_MembersInjector.injectBox7Cache(paramChangeAccountActivity, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      B2PActivity_MembersInjector.injectSimUtils(paramChangeAccountActivity, (SimUtils)DaggerAppComponent.this.provideSimUtilsProvider.get());
+      ChangeAccountActivity_MembersInjector.injectSetPresenter(paramChangeAccountActivity, getChangeAccountPresenter());
+      return paramChangeAccountActivity;
+    }
+    
+    public final void inject(ChangeAccountActivity paramChangeAccountActivity)
+    {
+      injectChangeAccountActivity(paramChangeAccountActivity);
+    }
+  }
+  
+  final class ChangeAddressActivitySubcomponentBuilder
+    extends ActivityBindingModule_ChangeAddressInjector.ChangeAddressActivitySubcomponent.Builder
+  {
+    private ChangeAddressActivity seedInstance;
+    
+    private ChangeAddressActivitySubcomponentBuilder() {}
+    
+    public final ActivityBindingModule_ChangeAddressInjector.ChangeAddressActivitySubcomponent build()
+    {
+      if (this.seedInstance != null) {
+        return new DaggerAppComponent.ChangeAddressActivitySubcomponentImpl(DaggerAppComponent.this, this, null);
+      }
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append(ChangeAddressActivity.class.getCanonicalName());
+      localStringBuilder.append(" must be set");
+      throw new IllegalStateException(localStringBuilder.toString());
+    }
+    
+    public final void seedInstance(ChangeAddressActivity paramChangeAddressActivity)
+    {
+      this.seedInstance = ((ChangeAddressActivity)Preconditions.checkNotNull(paramChangeAddressActivity));
+    }
+  }
+  
+  final class ChangeAddressActivitySubcomponentImpl
+    implements ActivityBindingModule_ChangeAddressInjector.ChangeAddressActivitySubcomponent
+  {
+    private ChangeAddressActivity seedInstance;
+    
+    private ChangeAddressActivitySubcomponentImpl(DaggerAppComponent.ChangeAddressActivitySubcomponentBuilder paramChangeAddressActivitySubcomponentBuilder)
+    {
+      initialize(paramChangeAddressActivitySubcomponentBuilder);
+    }
+    
+    private Box7CustomerManager getBox7CustomerManager()
+    {
+      return new Box7CustomerManager(DaggerAppComponent.this.getAddressesApi(), DaggerAppComponent.this.getCustomersApi(), DaggerAppComponent.this.getThirdPartyApi(), DaggerAppComponent.this.getSimCardsApi(), (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get(), (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+    }
+    
+    private ChangeAddressPresenter getChangeAddressPresenter()
+    {
+      return ChangeAddressActivityModule_ProvideChangeAddressPresenterFactory.proxyProvideChangeAddressPresenter(this.seedInstance, this.seedInstance, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get(), getBox7CustomerManager(), (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get(), (HotlineUtils)DaggerAppComponent.this.provideHotlineUtilsProvider.get(), (TrackingHelper)DaggerAppComponent.this.provideTrackingHelperProvider.get(), (ICustomerModelRepository)DaggerAppComponent.this.provideICustomerModelRepositoryProvider.get(), (ISubscriptionModelRepository)DaggerAppComponent.this.provideISubscriptionModelRepositoryProvider.get());
+    }
+    
+    private DispatchingAndroidInjector<android.support.v4.app.Fragment> getDispatchingAndroidInjectorOfFragment()
+    {
+      return DispatchingAndroidInjector_Factory.newDispatchingAndroidInjector(m.a(), m.a());
+    }
+    
+    private ViewSetterFactory getViewSetterFactory()
+    {
+      return new ViewSetterFactory((Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+    }
+    
+    private void initialize(DaggerAppComponent.ChangeAddressActivitySubcomponentBuilder paramChangeAddressActivitySubcomponentBuilder)
+    {
+      this.seedInstance = paramChangeAddressActivitySubcomponentBuilder.seedInstance;
+    }
+    
+    private ChangeAddressActivity injectChangeAddressActivity(ChangeAddressActivity paramChangeAddressActivity)
+    {
+      DaggerAppCompatActivity_MembersInjector.injectSupportFragmentInjector(paramChangeAddressActivity, getDispatchingAndroidInjectorOfFragment());
+      DaggerAppCompatActivity_MembersInjector.injectFrameworkFragmentInjector(paramChangeAddressActivity, DaggerAppComponent.this.getDispatchingAndroidInjectorOfFragment());
+      B2PDialogActivity_MembersInjector.injectLocalizer(paramChangeAddressActivity, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+      B2PDialogActivity_MembersInjector.injectTrackingHelper(paramChangeAddressActivity, (TrackingHelper)DaggerAppComponent.this.provideTrackingHelperProvider.get());
+      B2PDialogActivity_MembersInjector.injectLoginManager(paramChangeAddressActivity, (LoginManager)DaggerAppComponent.this.loginManagerProvider.get());
+      B2PDialogActivity_MembersInjector.injectHigherLoginManager(paramChangeAddressActivity, (IHigherLoginManager)DaggerAppComponent.this.provideHigherLoginManagerProvider.get());
+      B2PDialogActivity_MembersInjector.injectBox7Cache(paramChangeAddressActivity, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      B2PDialogActivity_MembersInjector.injectMainThreadBus(paramChangeAddressActivity, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+      B2PDialogActivity_MembersInjector.injectPerformanceTimingManager(paramChangeAddressActivity, (IPerformanceTimingManager)DaggerAppComponent.this.provideIPerformanceTimingManagerProvider.get());
+      B2PActivity_MembersInjector.injectApplication(paramChangeAddressActivity, DaggerAppComponent.this.application);
+      B2PActivity_MembersInjector.injectBus(paramChangeAddressActivity, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+      B2PActivity_MembersInjector.injectViewSetterFactory(paramChangeAddressActivity, getViewSetterFactory());
+      B2PActivity_MembersInjector.injectLocalizationManagerFactory(paramChangeAddressActivity, (LocalizationManagerFactory)DaggerAppComponent.this.provideLocalizationManagerFactoryProvider.get());
+      B2PActivity_MembersInjector.injectBusEventReceiver(paramChangeAddressActivity, (BusEventReceiver)DaggerAppComponent.this.provideBusEventReceiverProvider.get());
+      B2PActivity_MembersInjector.injectUserPreferences(paramChangeAddressActivity, (UserPreferences)DaggerAppComponent.this.provideUserPreferencesProvider.get());
+      B2PActivity_MembersInjector.injectLoginManager(paramChangeAddressActivity, (LoginManager)DaggerAppComponent.this.loginManagerProvider.get());
+      B2PActivity_MembersInjector.injectBox7Cache(paramChangeAddressActivity, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      B2PActivity_MembersInjector.injectSimUtils(paramChangeAddressActivity, (SimUtils)DaggerAppComponent.this.provideSimUtilsProvider.get());
+      ChangeAddressActivity_MembersInjector.injectSetPresenterImpl(paramChangeAddressActivity, getChangeAddressPresenter());
+      return paramChangeAddressActivity;
+    }
+    
+    public final void inject(ChangeAddressActivity paramChangeAddressActivity)
+    {
+      injectChangeAddressActivity(paramChangeAddressActivity);
+    }
+  }
+  
+  final class ChangeEmailActivitySubcomponentBuilder
+    extends ActivityBindingModule_ChangeEmailInjector.ChangeEmailActivitySubcomponent.Builder
+  {
+    private ChangeEmailActivity seedInstance;
+    
+    private ChangeEmailActivitySubcomponentBuilder() {}
+    
+    public final ActivityBindingModule_ChangeEmailInjector.ChangeEmailActivitySubcomponent build()
+    {
+      if (this.seedInstance != null) {
+        return new DaggerAppComponent.ChangeEmailActivitySubcomponentImpl(DaggerAppComponent.this, this, null);
+      }
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append(ChangeEmailActivity.class.getCanonicalName());
+      localStringBuilder.append(" must be set");
+      throw new IllegalStateException(localStringBuilder.toString());
+    }
+    
+    public final void seedInstance(ChangeEmailActivity paramChangeEmailActivity)
+    {
+      this.seedInstance = ((ChangeEmailActivity)Preconditions.checkNotNull(paramChangeEmailActivity));
+    }
+  }
+  
+  final class ChangeEmailActivitySubcomponentImpl
+    implements ActivityBindingModule_ChangeEmailInjector.ChangeEmailActivitySubcomponent
+  {
+    private ChangeEmailActivity seedInstance;
+    
+    private ChangeEmailActivitySubcomponentImpl(DaggerAppComponent.ChangeEmailActivitySubcomponentBuilder paramChangeEmailActivitySubcomponentBuilder)
+    {
+      initialize(paramChangeEmailActivitySubcomponentBuilder);
+    }
+    
+    private Box7CustomerManager getBox7CustomerManager()
+    {
+      return new Box7CustomerManager(DaggerAppComponent.this.getAddressesApi(), DaggerAppComponent.this.getCustomersApi(), DaggerAppComponent.this.getThirdPartyApi(), DaggerAppComponent.this.getSimCardsApi(), (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get(), (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+    }
+    
+    private Box7SubscriptionManager getBox7SubscriptionManager()
+    {
+      return injectBox7SubscriptionManager(Box7SubscriptionManager_Factory.newBox7SubscriptionManager(DaggerAppComponent.this.getPacksApi(), DaggerAppComponent.this.getTopupsApi(), DaggerAppComponent.this.getSubscriptionsApi(), DaggerAppComponent.this.getUsagesApi()));
+    }
+    
+    private ChangeEmailPresenter getChangeEmailPresenter()
+    {
+      return ChangeEmailActivityModule_ProvideChangeEmailPresenterFactory.proxyProvideChangeEmailPresenter(this.seedInstance, this.seedInstance, (HotlineUtils)DaggerAppComponent.this.provideHotlineUtilsProvider.get(), (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get(), getBox7CustomerManager(), (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get(), getBox7SubscriptionManager(), (MailVerificationUtil)DaggerAppComponent.this.provideMailVerificationUtilProvider.get(), (TrackingHelper)DaggerAppComponent.this.provideTrackingHelperProvider.get(), (ISubscriptionModelRepository)DaggerAppComponent.this.provideISubscriptionModelRepositoryProvider.get(), (ICustomerModelRepository)DaggerAppComponent.this.provideICustomerModelRepositoryProvider.get());
+    }
+    
+    private DispatchingAndroidInjector<android.support.v4.app.Fragment> getDispatchingAndroidInjectorOfFragment()
+    {
+      return DispatchingAndroidInjector_Factory.newDispatchingAndroidInjector(m.a(), m.a());
+    }
+    
+    private ViewSetterFactory getViewSetterFactory()
+    {
+      return new ViewSetterFactory((Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+    }
+    
+    private void initialize(DaggerAppComponent.ChangeEmailActivitySubcomponentBuilder paramChangeEmailActivitySubcomponentBuilder)
+    {
+      this.seedInstance = paramChangeEmailActivitySubcomponentBuilder.seedInstance;
+    }
+    
+    private Box7SubscriptionManager injectBox7SubscriptionManager(Box7SubscriptionManager paramBox7SubscriptionManager)
+    {
+      Box7SubscriptionManager_MembersInjector.injectBox7Cache(paramBox7SubscriptionManager, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      return paramBox7SubscriptionManager;
+    }
+    
+    private ChangeEmailActivity injectChangeEmailActivity(ChangeEmailActivity paramChangeEmailActivity)
+    {
+      DaggerAppCompatActivity_MembersInjector.injectSupportFragmentInjector(paramChangeEmailActivity, getDispatchingAndroidInjectorOfFragment());
+      DaggerAppCompatActivity_MembersInjector.injectFrameworkFragmentInjector(paramChangeEmailActivity, DaggerAppComponent.this.getDispatchingAndroidInjectorOfFragment());
+      B2PDialogActivity_MembersInjector.injectLocalizer(paramChangeEmailActivity, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+      B2PDialogActivity_MembersInjector.injectTrackingHelper(paramChangeEmailActivity, (TrackingHelper)DaggerAppComponent.this.provideTrackingHelperProvider.get());
+      B2PDialogActivity_MembersInjector.injectLoginManager(paramChangeEmailActivity, (LoginManager)DaggerAppComponent.this.loginManagerProvider.get());
+      B2PDialogActivity_MembersInjector.injectHigherLoginManager(paramChangeEmailActivity, (IHigherLoginManager)DaggerAppComponent.this.provideHigherLoginManagerProvider.get());
+      B2PDialogActivity_MembersInjector.injectBox7Cache(paramChangeEmailActivity, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      B2PDialogActivity_MembersInjector.injectMainThreadBus(paramChangeEmailActivity, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+      B2PDialogActivity_MembersInjector.injectPerformanceTimingManager(paramChangeEmailActivity, (IPerformanceTimingManager)DaggerAppComponent.this.provideIPerformanceTimingManagerProvider.get());
+      B2PActivity_MembersInjector.injectApplication(paramChangeEmailActivity, DaggerAppComponent.this.application);
+      B2PActivity_MembersInjector.injectBus(paramChangeEmailActivity, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+      B2PActivity_MembersInjector.injectViewSetterFactory(paramChangeEmailActivity, getViewSetterFactory());
+      B2PActivity_MembersInjector.injectLocalizationManagerFactory(paramChangeEmailActivity, (LocalizationManagerFactory)DaggerAppComponent.this.provideLocalizationManagerFactoryProvider.get());
+      B2PActivity_MembersInjector.injectBusEventReceiver(paramChangeEmailActivity, (BusEventReceiver)DaggerAppComponent.this.provideBusEventReceiverProvider.get());
+      B2PActivity_MembersInjector.injectUserPreferences(paramChangeEmailActivity, (UserPreferences)DaggerAppComponent.this.provideUserPreferencesProvider.get());
+      B2PActivity_MembersInjector.injectLoginManager(paramChangeEmailActivity, (LoginManager)DaggerAppComponent.this.loginManagerProvider.get());
+      B2PActivity_MembersInjector.injectBox7Cache(paramChangeEmailActivity, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      B2PActivity_MembersInjector.injectSimUtils(paramChangeEmailActivity, (SimUtils)DaggerAppComponent.this.provideSimUtilsProvider.get());
+      ChangeEmailActivity_MembersInjector.injectSetPresenterImpl(paramChangeEmailActivity, getChangeEmailPresenter());
+      return paramChangeEmailActivity;
+    }
+    
+    public final void inject(ChangeEmailActivity paramChangeEmailActivity)
+    {
+      injectChangeEmailActivity(paramChangeEmailActivity);
+    }
+  }
+  
+  final class ChangePasswordActivitySubcomponentBuilder
+    extends ActivityBindingModule_ChangePasswordInjector.ChangePasswordActivitySubcomponent.Builder
+  {
+    private ChangePasswordActivity seedInstance;
+    
+    private ChangePasswordActivitySubcomponentBuilder() {}
+    
+    public final ActivityBindingModule_ChangePasswordInjector.ChangePasswordActivitySubcomponent build()
+    {
+      if (this.seedInstance != null) {
+        return new DaggerAppComponent.ChangePasswordActivitySubcomponentImpl(DaggerAppComponent.this, this, null);
+      }
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append(ChangePasswordActivity.class.getCanonicalName());
+      localStringBuilder.append(" must be set");
+      throw new IllegalStateException(localStringBuilder.toString());
+    }
+    
+    public final void seedInstance(ChangePasswordActivity paramChangePasswordActivity)
+    {
+      this.seedInstance = ((ChangePasswordActivity)Preconditions.checkNotNull(paramChangePasswordActivity));
+    }
+  }
+  
+  final class ChangePasswordActivitySubcomponentImpl
+    implements ActivityBindingModule_ChangePasswordInjector.ChangePasswordActivitySubcomponent
+  {
+    private ChangePasswordActivity seedInstance;
+    
+    private ChangePasswordActivitySubcomponentImpl(DaggerAppComponent.ChangePasswordActivitySubcomponentBuilder paramChangePasswordActivitySubcomponentBuilder)
+    {
+      initialize(paramChangePasswordActivitySubcomponentBuilder);
+    }
+    
+    private Box7LoginAccountManager getBox7LoginAccountManager()
+    {
+      return new Box7LoginAccountManager(DaggerAppComponent.this.getLoginAccountsApi());
+    }
+    
+    private ChangePasswordPresenter getChangePasswordPresenter()
+    {
+      return ChangePasswordActivityModule_ProvideChangePasswordPresenterFactory.proxyProvideChangePasswordPresenter(this.seedInstance, this.seedInstance, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get(), (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get(), getBox7LoginAccountManager(), (LoginPreferences)DaggerAppComponent.this.provideLoginPreferencesProvider.get(), (TEFPasswordHelper)DaggerAppComponent.this.tefPasswordHelperProvider.get(), (TrackingHelper)DaggerAppComponent.this.provideTrackingHelperProvider.get(), DaggerAppComponent.this.getBox7RestApiLib(), (ICustomerModelRepository)DaggerAppComponent.this.provideICustomerModelRepositoryProvider.get(), (TimeoutPreferences)DaggerAppComponent.this.provideTimeOutPreferencesProvider.get(), (LoginManager)DaggerAppComponent.this.loginManagerProvider.get());
+    }
+    
+    private DispatchingAndroidInjector<android.support.v4.app.Fragment> getDispatchingAndroidInjectorOfFragment()
+    {
+      return DispatchingAndroidInjector_Factory.newDispatchingAndroidInjector(m.a(), m.a());
+    }
+    
+    private ViewSetterFactory getViewSetterFactory()
+    {
+      return new ViewSetterFactory((Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+    }
+    
+    private void initialize(DaggerAppComponent.ChangePasswordActivitySubcomponentBuilder paramChangePasswordActivitySubcomponentBuilder)
+    {
+      this.seedInstance = paramChangePasswordActivitySubcomponentBuilder.seedInstance;
+    }
+    
+    private ChangePasswordActivity injectChangePasswordActivity(ChangePasswordActivity paramChangePasswordActivity)
+    {
+      DaggerAppCompatActivity_MembersInjector.injectSupportFragmentInjector(paramChangePasswordActivity, getDispatchingAndroidInjectorOfFragment());
+      DaggerAppCompatActivity_MembersInjector.injectFrameworkFragmentInjector(paramChangePasswordActivity, DaggerAppComponent.this.getDispatchingAndroidInjectorOfFragment());
+      B2PDialogActivity_MembersInjector.injectLocalizer(paramChangePasswordActivity, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+      B2PDialogActivity_MembersInjector.injectTrackingHelper(paramChangePasswordActivity, (TrackingHelper)DaggerAppComponent.this.provideTrackingHelperProvider.get());
+      B2PDialogActivity_MembersInjector.injectLoginManager(paramChangePasswordActivity, (LoginManager)DaggerAppComponent.this.loginManagerProvider.get());
+      B2PDialogActivity_MembersInjector.injectHigherLoginManager(paramChangePasswordActivity, (IHigherLoginManager)DaggerAppComponent.this.provideHigherLoginManagerProvider.get());
+      B2PDialogActivity_MembersInjector.injectBox7Cache(paramChangePasswordActivity, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      B2PDialogActivity_MembersInjector.injectMainThreadBus(paramChangePasswordActivity, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+      B2PDialogActivity_MembersInjector.injectPerformanceTimingManager(paramChangePasswordActivity, (IPerformanceTimingManager)DaggerAppComponent.this.provideIPerformanceTimingManagerProvider.get());
+      B2PActivity_MembersInjector.injectApplication(paramChangePasswordActivity, DaggerAppComponent.this.application);
+      B2PActivity_MembersInjector.injectBus(paramChangePasswordActivity, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+      B2PActivity_MembersInjector.injectViewSetterFactory(paramChangePasswordActivity, getViewSetterFactory());
+      B2PActivity_MembersInjector.injectLocalizationManagerFactory(paramChangePasswordActivity, (LocalizationManagerFactory)DaggerAppComponent.this.provideLocalizationManagerFactoryProvider.get());
+      B2PActivity_MembersInjector.injectBusEventReceiver(paramChangePasswordActivity, (BusEventReceiver)DaggerAppComponent.this.provideBusEventReceiverProvider.get());
+      B2PActivity_MembersInjector.injectUserPreferences(paramChangePasswordActivity, (UserPreferences)DaggerAppComponent.this.provideUserPreferencesProvider.get());
+      B2PActivity_MembersInjector.injectLoginManager(paramChangePasswordActivity, (LoginManager)DaggerAppComponent.this.loginManagerProvider.get());
+      B2PActivity_MembersInjector.injectBox7Cache(paramChangePasswordActivity, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      B2PActivity_MembersInjector.injectSimUtils(paramChangePasswordActivity, (SimUtils)DaggerAppComponent.this.provideSimUtilsProvider.get());
+      ChangePasswordActivity_MembersInjector.injectSetPresenterImpl(paramChangePasswordActivity, getChangePasswordPresenter());
+      return paramChangePasswordActivity;
+    }
+    
+    public final void inject(ChangePasswordActivity paramChangePasswordActivity)
+    {
+      injectChangePasswordActivity(paramChangePasswordActivity);
+    }
+  }
+  
+  final class ConsentsActivitySubcomponentBuilder
+    extends ActivityBindingModule_ConsentsInjector.ConsentsActivitySubcomponent.Builder
+  {
+    private ConsentsActivity seedInstance;
+    
+    private ConsentsActivitySubcomponentBuilder() {}
+    
+    public final ActivityBindingModule_ConsentsInjector.ConsentsActivitySubcomponent build()
+    {
+      if (this.seedInstance != null) {
+        return new DaggerAppComponent.ConsentsActivitySubcomponentImpl(DaggerAppComponent.this, this, null);
+      }
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append(ConsentsActivity.class.getCanonicalName());
+      localStringBuilder.append(" must be set");
+      throw new IllegalStateException(localStringBuilder.toString());
+    }
+    
+    public final void seedInstance(ConsentsActivity paramConsentsActivity)
+    {
+      this.seedInstance = ((ConsentsActivity)Preconditions.checkNotNull(paramConsentsActivity));
+    }
+  }
+  
+  final class ConsentsActivitySubcomponentImpl
+    implements ActivityBindingModule_ConsentsInjector.ConsentsActivitySubcomponent
+  {
+    private ConsentsActivity seedInstance;
+    
+    private ConsentsActivitySubcomponentImpl(DaggerAppComponent.ConsentsActivitySubcomponentBuilder paramConsentsActivitySubcomponentBuilder)
+    {
+      initialize(paramConsentsActivitySubcomponentBuilder);
+    }
+    
+    private ConsentsPresenter getConsentsPresenter()
+    {
+      return ConsentsActivityModule_ProvideConsentsPresenterFactory.proxyProvideConsentsPresenter(this.seedInstance, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get(), (IConsentRepository)DaggerAppComponent.this.provideIConsentRepositoryProvider.get());
+    }
+    
+    private DispatchingAndroidInjector<android.support.v4.app.Fragment> getDispatchingAndroidInjectorOfFragment()
+    {
+      return DispatchingAndroidInjector_Factory.newDispatchingAndroidInjector(m.a(), m.a());
+    }
+    
+    private ViewSetterFactory getViewSetterFactory()
+    {
+      return new ViewSetterFactory((Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+    }
+    
+    private void initialize(DaggerAppComponent.ConsentsActivitySubcomponentBuilder paramConsentsActivitySubcomponentBuilder)
+    {
+      this.seedInstance = paramConsentsActivitySubcomponentBuilder.seedInstance;
+    }
+    
+    private ConsentsActivity injectConsentsActivity(ConsentsActivity paramConsentsActivity)
+    {
+      DaggerAppCompatActivity_MembersInjector.injectSupportFragmentInjector(paramConsentsActivity, getDispatchingAndroidInjectorOfFragment());
+      DaggerAppCompatActivity_MembersInjector.injectFrameworkFragmentInjector(paramConsentsActivity, DaggerAppComponent.this.getDispatchingAndroidInjectorOfFragment());
+      B2PDialogActivity_MembersInjector.injectLocalizer(paramConsentsActivity, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+      B2PDialogActivity_MembersInjector.injectTrackingHelper(paramConsentsActivity, (TrackingHelper)DaggerAppComponent.this.provideTrackingHelperProvider.get());
+      B2PDialogActivity_MembersInjector.injectLoginManager(paramConsentsActivity, (LoginManager)DaggerAppComponent.this.loginManagerProvider.get());
+      B2PDialogActivity_MembersInjector.injectHigherLoginManager(paramConsentsActivity, (IHigherLoginManager)DaggerAppComponent.this.provideHigherLoginManagerProvider.get());
+      B2PDialogActivity_MembersInjector.injectBox7Cache(paramConsentsActivity, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      B2PDialogActivity_MembersInjector.injectMainThreadBus(paramConsentsActivity, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+      B2PDialogActivity_MembersInjector.injectPerformanceTimingManager(paramConsentsActivity, (IPerformanceTimingManager)DaggerAppComponent.this.provideIPerformanceTimingManagerProvider.get());
+      B2PActivity_MembersInjector.injectApplication(paramConsentsActivity, DaggerAppComponent.this.application);
+      B2PActivity_MembersInjector.injectBus(paramConsentsActivity, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+      B2PActivity_MembersInjector.injectViewSetterFactory(paramConsentsActivity, getViewSetterFactory());
+      B2PActivity_MembersInjector.injectLocalizationManagerFactory(paramConsentsActivity, (LocalizationManagerFactory)DaggerAppComponent.this.provideLocalizationManagerFactoryProvider.get());
+      B2PActivity_MembersInjector.injectBusEventReceiver(paramConsentsActivity, (BusEventReceiver)DaggerAppComponent.this.provideBusEventReceiverProvider.get());
+      B2PActivity_MembersInjector.injectUserPreferences(paramConsentsActivity, (UserPreferences)DaggerAppComponent.this.provideUserPreferencesProvider.get());
+      B2PActivity_MembersInjector.injectLoginManager(paramConsentsActivity, (LoginManager)DaggerAppComponent.this.loginManagerProvider.get());
+      B2PActivity_MembersInjector.injectBox7Cache(paramConsentsActivity, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      B2PActivity_MembersInjector.injectSimUtils(paramConsentsActivity, (SimUtils)DaggerAppComponent.this.provideSimUtilsProvider.get());
+      ConsentsActivity_MembersInjector.injectSetPresenterImpl(paramConsentsActivity, getConsentsPresenter());
+      return paramConsentsActivity;
+    }
+    
+    public final void inject(ConsentsActivity paramConsentsActivity)
+    {
+      injectConsentsActivity(paramConsentsActivity);
+    }
+  }
+  
+  final class DirectDebitActivitySubcomponentBuilder
+    extends ActivityBindingModule_DirectDebitInjector.DirectDebitActivitySubcomponent.Builder
+  {
+    private DirectDebitActivity seedInstance;
+    
+    private DirectDebitActivitySubcomponentBuilder() {}
+    
+    public final ActivityBindingModule_DirectDebitInjector.DirectDebitActivitySubcomponent build()
+    {
+      if (this.seedInstance != null) {
+        return new DaggerAppComponent.DirectDebitActivitySubcomponentImpl(DaggerAppComponent.this, this, null);
+      }
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append(DirectDebitActivity.class.getCanonicalName());
+      localStringBuilder.append(" must be set");
+      throw new IllegalStateException(localStringBuilder.toString());
+    }
+    
+    public final void seedInstance(DirectDebitActivity paramDirectDebitActivity)
+    {
+      this.seedInstance = ((DirectDebitActivity)Preconditions.checkNotNull(paramDirectDebitActivity));
+    }
+  }
+  
+  final class DirectDebitActivitySubcomponentImpl
+    implements ActivityBindingModule_DirectDebitInjector.DirectDebitActivitySubcomponent
+  {
+    private Provider<DirectDebitConfirmationFragmentModule_DirectDebitConfirmationFragmentInjector.DirectDebitConfirmationFragmentSubcomponent.Builder> directDebitConfirmationFragmentSubcomponentBuilderProvider;
+    private Provider<DirectDebitFragmentModule_DirectDebitFragmentInjector.DirectDebitFragmentSubcomponent.Builder> directDebitFragmentSubcomponentBuilderProvider;
+    private DirectDebitActivity seedInstance;
+    
+    private DirectDebitActivitySubcomponentImpl(DaggerAppComponent.DirectDebitActivitySubcomponentBuilder paramDirectDebitActivitySubcomponentBuilder)
+    {
+      initialize(paramDirectDebitActivitySubcomponentBuilder);
+    }
+    
+    private Box7AccountsManager getBox7AccountsManager()
+    {
+      return new Box7AccountsManager(DaggerAppComponent.this.getAccountsApi(), DaggerAppComponent.this.getBankaccountsApi(), DaggerAppComponent.this.getBillingsApi(), (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+    }
+    
+    private DirectDebitConfirmationFragmentPresenter getDirectDebitConfirmationFragmentPresenter()
+    {
+      return DirectDebitConfirmationFragmentModule_ProvideDirectDebitConfirmationFragmentPresenterFactory.proxyProvideDirectDebitConfirmationFragmentPresenter((Localizer)DaggerAppComponent.this.provideLocalizerProvider.get(), this.seedInstance, (TrackingHelper)DaggerAppComponent.this.provideTrackingHelperProvider.get(), getBox7AccountsManager(), (BankUtils)DaggerAppComponent.this.provideBankUtilsProvider.get(), (IPrepaidTopupConfigurationModelRepository)DaggerAppComponent.this.provideIPrepaidTopupConfigurationModelRepositoryProvider.get());
+    }
+    
+    private DirectDebitFragmentPresenter getDirectDebitFragmentPresenter()
+    {
+      return DirectDebitFragmentModule_ProvideDirectDebitFragmentPresenterFactory.proxyProvideDirectDebitFragmentPresenter((Localizer)DaggerAppComponent.this.provideLocalizerProvider.get(), this.seedInstance, getBox7AccountsManager(), (HotlineUtils)DaggerAppComponent.this.provideHotlineUtilsProvider.get(), (BankUtils)DaggerAppComponent.this.provideBankUtilsProvider.get(), (ICustomerModelRepository)DaggerAppComponent.this.provideICustomerModelRepositoryProvider.get());
+    }
+    
+    private DispatchingAndroidInjector<android.support.v4.app.Fragment> getDispatchingAndroidInjectorOfFragment()
+    {
+      return DispatchingAndroidInjector_Factory.newDispatchingAndroidInjector(getMapOfClassOfAndProviderOfFactoryOf(), m.a());
+    }
+    
+    private Map<Class<? extends android.support.v4.app.Fragment>, Provider<AndroidInjector.Factory<? extends android.support.v4.app.Fragment>>> getMapOfClassOfAndProviderOfFactoryOf()
+    {
+      return m.a(DirectDebitFragment.class, this.directDebitFragmentSubcomponentBuilderProvider, DirectDebitConfirmationFragment.class, this.directDebitConfirmationFragmentSubcomponentBuilderProvider);
+    }
+    
+    private ViewSetterFactory getViewSetterFactory()
+    {
+      return new ViewSetterFactory((Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+    }
+    
+    private void initialize(DaggerAppComponent.DirectDebitActivitySubcomponentBuilder paramDirectDebitActivitySubcomponentBuilder)
+    {
+      this.directDebitFragmentSubcomponentBuilderProvider = new Provider()
+      {
+        public DirectDebitFragmentModule_DirectDebitFragmentInjector.DirectDebitFragmentSubcomponent.Builder get()
+        {
+          return new DaggerAppComponent.DirectDebitActivitySubcomponentImpl.DirectDebitFragmentSubcomponentBuilder(DaggerAppComponent.DirectDebitActivitySubcomponentImpl.this, null);
+        }
+      };
+      this.directDebitConfirmationFragmentSubcomponentBuilderProvider = new Provider()
+      {
+        public DirectDebitConfirmationFragmentModule_DirectDebitConfirmationFragmentInjector.DirectDebitConfirmationFragmentSubcomponent.Builder get()
+        {
+          return new DaggerAppComponent.DirectDebitActivitySubcomponentImpl.DirectDebitConfirmationFragmentSubcomponentBuilder(DaggerAppComponent.DirectDebitActivitySubcomponentImpl.this, null);
+        }
+      };
+      this.seedInstance = paramDirectDebitActivitySubcomponentBuilder.seedInstance;
+    }
+    
+    private DirectDebitActivity injectDirectDebitActivity(DirectDebitActivity paramDirectDebitActivity)
+    {
+      DaggerAppCompatActivity_MembersInjector.injectSupportFragmentInjector(paramDirectDebitActivity, getDispatchingAndroidInjectorOfFragment());
+      DaggerAppCompatActivity_MembersInjector.injectFrameworkFragmentInjector(paramDirectDebitActivity, DaggerAppComponent.this.getDispatchingAndroidInjectorOfFragment());
+      B2PDialogActivity_MembersInjector.injectLocalizer(paramDirectDebitActivity, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+      B2PDialogActivity_MembersInjector.injectTrackingHelper(paramDirectDebitActivity, (TrackingHelper)DaggerAppComponent.this.provideTrackingHelperProvider.get());
+      B2PDialogActivity_MembersInjector.injectLoginManager(paramDirectDebitActivity, (LoginManager)DaggerAppComponent.this.loginManagerProvider.get());
+      B2PDialogActivity_MembersInjector.injectHigherLoginManager(paramDirectDebitActivity, (IHigherLoginManager)DaggerAppComponent.this.provideHigherLoginManagerProvider.get());
+      B2PDialogActivity_MembersInjector.injectBox7Cache(paramDirectDebitActivity, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      B2PDialogActivity_MembersInjector.injectMainThreadBus(paramDirectDebitActivity, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+      B2PDialogActivity_MembersInjector.injectPerformanceTimingManager(paramDirectDebitActivity, (IPerformanceTimingManager)DaggerAppComponent.this.provideIPerformanceTimingManagerProvider.get());
+      B2PActivity_MembersInjector.injectApplication(paramDirectDebitActivity, DaggerAppComponent.this.application);
+      B2PActivity_MembersInjector.injectBus(paramDirectDebitActivity, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+      B2PActivity_MembersInjector.injectViewSetterFactory(paramDirectDebitActivity, getViewSetterFactory());
+      B2PActivity_MembersInjector.injectLocalizationManagerFactory(paramDirectDebitActivity, (LocalizationManagerFactory)DaggerAppComponent.this.provideLocalizationManagerFactoryProvider.get());
+      B2PActivity_MembersInjector.injectBusEventReceiver(paramDirectDebitActivity, (BusEventReceiver)DaggerAppComponent.this.provideBusEventReceiverProvider.get());
+      B2PActivity_MembersInjector.injectUserPreferences(paramDirectDebitActivity, (UserPreferences)DaggerAppComponent.this.provideUserPreferencesProvider.get());
+      B2PActivity_MembersInjector.injectLoginManager(paramDirectDebitActivity, (LoginManager)DaggerAppComponent.this.loginManagerProvider.get());
+      B2PActivity_MembersInjector.injectBox7Cache(paramDirectDebitActivity, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      B2PActivity_MembersInjector.injectSimUtils(paramDirectDebitActivity, (SimUtils)DaggerAppComponent.this.provideSimUtilsProvider.get());
+      return paramDirectDebitActivity;
+    }
+    
+    public final void inject(DirectDebitActivity paramDirectDebitActivity)
+    {
+      injectDirectDebitActivity(paramDirectDebitActivity);
+    }
+    
+    final class DirectDebitConfirmationFragmentSubcomponentBuilder
+      extends DirectDebitConfirmationFragmentModule_DirectDebitConfirmationFragmentInjector.DirectDebitConfirmationFragmentSubcomponent.Builder
+    {
+      private DirectDebitConfirmationFragment seedInstance;
+      
+      private DirectDebitConfirmationFragmentSubcomponentBuilder() {}
+      
+      public final DirectDebitConfirmationFragmentModule_DirectDebitConfirmationFragmentInjector.DirectDebitConfirmationFragmentSubcomponent build()
+      {
+        if (this.seedInstance != null) {
+          return new DaggerAppComponent.DirectDebitActivitySubcomponentImpl.DirectDebitConfirmationFragmentSubcomponentImpl(DaggerAppComponent.DirectDebitActivitySubcomponentImpl.this, this, null);
+        }
+        StringBuilder localStringBuilder = new StringBuilder();
+        localStringBuilder.append(DirectDebitConfirmationFragment.class.getCanonicalName());
+        localStringBuilder.append(" must be set");
+        throw new IllegalStateException(localStringBuilder.toString());
+      }
+      
+      public final void seedInstance(DirectDebitConfirmationFragment paramDirectDebitConfirmationFragment)
+      {
+        this.seedInstance = ((DirectDebitConfirmationFragment)Preconditions.checkNotNull(paramDirectDebitConfirmationFragment));
+      }
+    }
+    
+    final class DirectDebitConfirmationFragmentSubcomponentImpl
+      implements DirectDebitConfirmationFragmentModule_DirectDebitConfirmationFragmentInjector.DirectDebitConfirmationFragmentSubcomponent
+    {
+      private DirectDebitConfirmationFragmentSubcomponentImpl(DaggerAppComponent.DirectDebitActivitySubcomponentImpl.DirectDebitConfirmationFragmentSubcomponentBuilder paramDirectDebitConfirmationFragmentSubcomponentBuilder) {}
+      
+      private DirectDebitConfirmationFragment injectDirectDebitConfirmationFragment(DirectDebitConfirmationFragment paramDirectDebitConfirmationFragment)
+      {
+        DaggerFragment_MembersInjector.injectChildFragmentInjector(paramDirectDebitConfirmationFragment, DaggerAppComponent.DirectDebitActivitySubcomponentImpl.this.getDispatchingAndroidInjectorOfFragment());
+        B2PFragment_MembersInjector.injectApplication(paramDirectDebitConfirmationFragment, DaggerAppComponent.this.application);
+        B2PFragment_MembersInjector.injectLocalizer(paramDirectDebitConfirmationFragment, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+        B2PFragment_MembersInjector.injectViewSetterFactory(paramDirectDebitConfirmationFragment, DaggerAppComponent.DirectDebitActivitySubcomponentImpl.this.getViewSetterFactory());
+        B2PFragment_MembersInjector.injectBus(paramDirectDebitConfirmationFragment, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+        DirectDebitConfirmationFragment_MembersInjector.injectSetPresenter(paramDirectDebitConfirmationFragment, DaggerAppComponent.DirectDebitActivitySubcomponentImpl.this.getDirectDebitConfirmationFragmentPresenter());
+        return paramDirectDebitConfirmationFragment;
+      }
+      
+      public final void inject(DirectDebitConfirmationFragment paramDirectDebitConfirmationFragment)
+      {
+        injectDirectDebitConfirmationFragment(paramDirectDebitConfirmationFragment);
+      }
+    }
+    
+    final class DirectDebitFragmentSubcomponentBuilder
+      extends DirectDebitFragmentModule_DirectDebitFragmentInjector.DirectDebitFragmentSubcomponent.Builder
+    {
+      private DirectDebitFragment seedInstance;
+      
+      private DirectDebitFragmentSubcomponentBuilder() {}
+      
+      public final DirectDebitFragmentModule_DirectDebitFragmentInjector.DirectDebitFragmentSubcomponent build()
+      {
+        if (this.seedInstance != null) {
+          return new DaggerAppComponent.DirectDebitActivitySubcomponentImpl.DirectDebitFragmentSubcomponentImpl(DaggerAppComponent.DirectDebitActivitySubcomponentImpl.this, this, null);
+        }
+        StringBuilder localStringBuilder = new StringBuilder();
+        localStringBuilder.append(DirectDebitFragment.class.getCanonicalName());
+        localStringBuilder.append(" must be set");
+        throw new IllegalStateException(localStringBuilder.toString());
+      }
+      
+      public final void seedInstance(DirectDebitFragment paramDirectDebitFragment)
+      {
+        this.seedInstance = ((DirectDebitFragment)Preconditions.checkNotNull(paramDirectDebitFragment));
+      }
+    }
+    
+    final class DirectDebitFragmentSubcomponentImpl
+      implements DirectDebitFragmentModule_DirectDebitFragmentInjector.DirectDebitFragmentSubcomponent
+    {
+      private DirectDebitFragmentSubcomponentImpl(DaggerAppComponent.DirectDebitActivitySubcomponentImpl.DirectDebitFragmentSubcomponentBuilder paramDirectDebitFragmentSubcomponentBuilder) {}
+      
+      private DirectDebitFragment injectDirectDebitFragment(DirectDebitFragment paramDirectDebitFragment)
+      {
+        DaggerFragment_MembersInjector.injectChildFragmentInjector(paramDirectDebitFragment, DaggerAppComponent.DirectDebitActivitySubcomponentImpl.this.getDispatchingAndroidInjectorOfFragment());
+        B2PFragment_MembersInjector.injectApplication(paramDirectDebitFragment, DaggerAppComponent.this.application);
+        B2PFragment_MembersInjector.injectLocalizer(paramDirectDebitFragment, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+        B2PFragment_MembersInjector.injectViewSetterFactory(paramDirectDebitFragment, DaggerAppComponent.DirectDebitActivitySubcomponentImpl.this.getViewSetterFactory());
+        B2PFragment_MembersInjector.injectBus(paramDirectDebitFragment, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+        DirectDebitFragment_MembersInjector.injectSetPresenter(paramDirectDebitFragment, DaggerAppComponent.DirectDebitActivitySubcomponentImpl.this.getDirectDebitFragmentPresenter());
+        return paramDirectDebitFragment;
+      }
+      
+      public final void inject(DirectDebitFragment paramDirectDebitFragment)
+      {
+        injectDirectDebitFragment(paramDirectDebitFragment);
+      }
+    }
+  }
+  
+  final class DirectDebitMethodActivitySubcomponentBuilder
+    extends ActivityBindingModule_DirectDebitMethodInjector.DirectDebitMethodActivitySubcomponent.Builder
+  {
+    private DirectDebitMethodActivity seedInstance;
+    
+    private DirectDebitMethodActivitySubcomponentBuilder() {}
+    
+    public final ActivityBindingModule_DirectDebitMethodInjector.DirectDebitMethodActivitySubcomponent build()
+    {
+      if (this.seedInstance != null) {
+        return new DaggerAppComponent.DirectDebitMethodActivitySubcomponentImpl(DaggerAppComponent.this, this, null);
+      }
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append(DirectDebitMethodActivity.class.getCanonicalName());
+      localStringBuilder.append(" must be set");
+      throw new IllegalStateException(localStringBuilder.toString());
+    }
+    
+    public final void seedInstance(DirectDebitMethodActivity paramDirectDebitMethodActivity)
+    {
+      this.seedInstance = ((DirectDebitMethodActivity)Preconditions.checkNotNull(paramDirectDebitMethodActivity));
+    }
+  }
+  
+  final class DirectDebitMethodActivitySubcomponentImpl
+    implements ActivityBindingModule_DirectDebitMethodInjector.DirectDebitMethodActivitySubcomponent
+  {
+    private Provider<DirectDebitMethodFragmentModule_DirectDebitMethodFragmentInjector.DirectDebitMethodFragmentSubcomponent.Builder> directDebitMethodFragmentSubcomponentBuilderProvider;
+    
+    private DirectDebitMethodActivitySubcomponentImpl(DaggerAppComponent.DirectDebitMethodActivitySubcomponentBuilder paramDirectDebitMethodActivitySubcomponentBuilder)
+    {
+      initialize(paramDirectDebitMethodActivitySubcomponentBuilder);
+    }
+    
+    private DirectDebitMethodFragmentPresenter getDirectDebitMethodFragmentPresenter()
+    {
+      return DirectDebitMethodFragmentModule_ProvideDirectDebitMethodFragmentPresenterFactory.proxyProvideDirectDebitMethodFragmentPresenter((HotlineUtils)DaggerAppComponent.this.provideHotlineUtilsProvider.get(), (ICustomerModelRepository)DaggerAppComponent.this.provideICustomerModelRepositoryProvider.get(), (ISubscriptionModelRepository)DaggerAppComponent.this.provideISubscriptionModelRepositoryProvider.get(), (RechargeSettingsModel)DaggerAppComponent.this.provideRechargeSettingsModelProvider.get(), (RechargeSettingsViewHelper)DaggerAppComponent.this.provideRechargeSettingsViewHelperProvider.get(), (IPrepaidTopupConfigurationModelRepository)DaggerAppComponent.this.provideIPrepaidTopupConfigurationModelRepositoryProvider.get(), (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get(), (RechargeSettingsSendManager)DaggerAppComponent.this.provideRechargeSettingsSendManagerProvider.get());
+    }
+    
+    private DispatchingAndroidInjector<android.support.v4.app.Fragment> getDispatchingAndroidInjectorOfFragment()
+    {
+      return DispatchingAndroidInjector_Factory.newDispatchingAndroidInjector(getMapOfClassOfAndProviderOfFactoryOf(), m.a());
+    }
+    
+    private Map<Class<? extends android.support.v4.app.Fragment>, Provider<AndroidInjector.Factory<? extends android.support.v4.app.Fragment>>> getMapOfClassOfAndProviderOfFactoryOf()
+    {
+      return m.a(DirectDebitMethodFragment.class, this.directDebitMethodFragmentSubcomponentBuilderProvider);
+    }
+    
+    private ViewSetterFactory getViewSetterFactory()
+    {
+      return new ViewSetterFactory((Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+    }
+    
+    private void initialize(DaggerAppComponent.DirectDebitMethodActivitySubcomponentBuilder paramDirectDebitMethodActivitySubcomponentBuilder)
+    {
+      this.directDebitMethodFragmentSubcomponentBuilderProvider = new Provider()
+      {
+        public DirectDebitMethodFragmentModule_DirectDebitMethodFragmentInjector.DirectDebitMethodFragmentSubcomponent.Builder get()
+        {
+          return new DaggerAppComponent.DirectDebitMethodActivitySubcomponentImpl.DirectDebitMethodFragmentSubcomponentBuilder(DaggerAppComponent.DirectDebitMethodActivitySubcomponentImpl.this, null);
+        }
+      };
+    }
+    
+    private DirectDebitMethodActivity injectDirectDebitMethodActivity(DirectDebitMethodActivity paramDirectDebitMethodActivity)
+    {
+      DaggerAppCompatActivity_MembersInjector.injectSupportFragmentInjector(paramDirectDebitMethodActivity, getDispatchingAndroidInjectorOfFragment());
+      DaggerAppCompatActivity_MembersInjector.injectFrameworkFragmentInjector(paramDirectDebitMethodActivity, DaggerAppComponent.this.getDispatchingAndroidInjectorOfFragment());
+      B2PDialogActivity_MembersInjector.injectLocalizer(paramDirectDebitMethodActivity, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+      B2PDialogActivity_MembersInjector.injectTrackingHelper(paramDirectDebitMethodActivity, (TrackingHelper)DaggerAppComponent.this.provideTrackingHelperProvider.get());
+      B2PDialogActivity_MembersInjector.injectLoginManager(paramDirectDebitMethodActivity, (LoginManager)DaggerAppComponent.this.loginManagerProvider.get());
+      B2PDialogActivity_MembersInjector.injectHigherLoginManager(paramDirectDebitMethodActivity, (IHigherLoginManager)DaggerAppComponent.this.provideHigherLoginManagerProvider.get());
+      B2PDialogActivity_MembersInjector.injectBox7Cache(paramDirectDebitMethodActivity, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      B2PDialogActivity_MembersInjector.injectMainThreadBus(paramDirectDebitMethodActivity, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+      B2PDialogActivity_MembersInjector.injectPerformanceTimingManager(paramDirectDebitMethodActivity, (IPerformanceTimingManager)DaggerAppComponent.this.provideIPerformanceTimingManagerProvider.get());
+      B2PActivity_MembersInjector.injectApplication(paramDirectDebitMethodActivity, DaggerAppComponent.this.application);
+      B2PActivity_MembersInjector.injectBus(paramDirectDebitMethodActivity, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+      B2PActivity_MembersInjector.injectViewSetterFactory(paramDirectDebitMethodActivity, getViewSetterFactory());
+      B2PActivity_MembersInjector.injectLocalizationManagerFactory(paramDirectDebitMethodActivity, (LocalizationManagerFactory)DaggerAppComponent.this.provideLocalizationManagerFactoryProvider.get());
+      B2PActivity_MembersInjector.injectBusEventReceiver(paramDirectDebitMethodActivity, (BusEventReceiver)DaggerAppComponent.this.provideBusEventReceiverProvider.get());
+      B2PActivity_MembersInjector.injectUserPreferences(paramDirectDebitMethodActivity, (UserPreferences)DaggerAppComponent.this.provideUserPreferencesProvider.get());
+      B2PActivity_MembersInjector.injectLoginManager(paramDirectDebitMethodActivity, (LoginManager)DaggerAppComponent.this.loginManagerProvider.get());
+      B2PActivity_MembersInjector.injectBox7Cache(paramDirectDebitMethodActivity, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      B2PActivity_MembersInjector.injectSimUtils(paramDirectDebitMethodActivity, (SimUtils)DaggerAppComponent.this.provideSimUtilsProvider.get());
+      return paramDirectDebitMethodActivity;
+    }
+    
+    public final void inject(DirectDebitMethodActivity paramDirectDebitMethodActivity)
+    {
+      injectDirectDebitMethodActivity(paramDirectDebitMethodActivity);
+    }
+    
+    final class DirectDebitMethodFragmentSubcomponentBuilder
+      extends DirectDebitMethodFragmentModule_DirectDebitMethodFragmentInjector.DirectDebitMethodFragmentSubcomponent.Builder
+    {
+      private DirectDebitMethodFragment seedInstance;
+      
+      private DirectDebitMethodFragmentSubcomponentBuilder() {}
+      
+      public final DirectDebitMethodFragmentModule_DirectDebitMethodFragmentInjector.DirectDebitMethodFragmentSubcomponent build()
+      {
+        if (this.seedInstance != null) {
+          return new DaggerAppComponent.DirectDebitMethodActivitySubcomponentImpl.DirectDebitMethodFragmentSubcomponentImpl(DaggerAppComponent.DirectDebitMethodActivitySubcomponentImpl.this, this, null);
+        }
+        StringBuilder localStringBuilder = new StringBuilder();
+        localStringBuilder.append(DirectDebitMethodFragment.class.getCanonicalName());
+        localStringBuilder.append(" must be set");
+        throw new IllegalStateException(localStringBuilder.toString());
+      }
+      
+      public final void seedInstance(DirectDebitMethodFragment paramDirectDebitMethodFragment)
+      {
+        this.seedInstance = ((DirectDebitMethodFragment)Preconditions.checkNotNull(paramDirectDebitMethodFragment));
+      }
+    }
+    
+    final class DirectDebitMethodFragmentSubcomponentImpl
+      implements DirectDebitMethodFragmentModule_DirectDebitMethodFragmentInjector.DirectDebitMethodFragmentSubcomponent
+    {
+      private DirectDebitMethodFragmentSubcomponentImpl(DaggerAppComponent.DirectDebitMethodActivitySubcomponentImpl.DirectDebitMethodFragmentSubcomponentBuilder paramDirectDebitMethodFragmentSubcomponentBuilder) {}
+      
+      private DirectDebitMethodFragment injectDirectDebitMethodFragment(DirectDebitMethodFragment paramDirectDebitMethodFragment)
+      {
+        DaggerFragment_MembersInjector.injectChildFragmentInjector(paramDirectDebitMethodFragment, DaggerAppComponent.DirectDebitMethodActivitySubcomponentImpl.this.getDispatchingAndroidInjectorOfFragment());
+        B2PFragment_MembersInjector.injectApplication(paramDirectDebitMethodFragment, DaggerAppComponent.this.application);
+        B2PFragment_MembersInjector.injectLocalizer(paramDirectDebitMethodFragment, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+        B2PFragment_MembersInjector.injectViewSetterFactory(paramDirectDebitMethodFragment, DaggerAppComponent.DirectDebitMethodActivitySubcomponentImpl.this.getViewSetterFactory());
+        B2PFragment_MembersInjector.injectBus(paramDirectDebitMethodFragment, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+        DirectDebitMethodFragment_MembersInjector.injectSetPresenter(paramDirectDebitMethodFragment, DaggerAppComponent.DirectDebitMethodActivitySubcomponentImpl.this.getDirectDebitMethodFragmentPresenter());
+        return paramDirectDebitMethodFragment;
+      }
+      
+      public final void inject(DirectDebitMethodFragment paramDirectDebitMethodFragment)
+      {
+        injectDirectDebitMethodFragment(paramDirectDebitMethodFragment);
+      }
+    }
+  }
+  
+  final class DirectDebitPaymentChoiceActivitySubcomponentBuilder
+    extends ActivityBindingModule_DirectDebitPaymentChoiceInjector.DirectDebitPaymentChoiceActivitySubcomponent.Builder
+  {
+    private DirectDebitPaymentChoiceActivity seedInstance;
+    
+    private DirectDebitPaymentChoiceActivitySubcomponentBuilder() {}
+    
+    public final ActivityBindingModule_DirectDebitPaymentChoiceInjector.DirectDebitPaymentChoiceActivitySubcomponent build()
+    {
+      if (this.seedInstance != null) {
+        return new DaggerAppComponent.DirectDebitPaymentChoiceActivitySubcomponentImpl(DaggerAppComponent.this, this, null);
+      }
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append(DirectDebitPaymentChoiceActivity.class.getCanonicalName());
+      localStringBuilder.append(" must be set");
+      throw new IllegalStateException(localStringBuilder.toString());
+    }
+    
+    public final void seedInstance(DirectDebitPaymentChoiceActivity paramDirectDebitPaymentChoiceActivity)
+    {
+      this.seedInstance = ((DirectDebitPaymentChoiceActivity)Preconditions.checkNotNull(paramDirectDebitPaymentChoiceActivity));
+    }
+  }
+  
+  final class DirectDebitPaymentChoiceActivitySubcomponentImpl
+    implements ActivityBindingModule_DirectDebitPaymentChoiceInjector.DirectDebitPaymentChoiceActivitySubcomponent
+  {
+    private Provider<DirectDebitPaymentChoiceConfirmFragmentModule_DirectDebitPaymentChoiceConfirmFragmentInjector.DirectDebitPaymentChoiceConfirmFragmentSubcomponent.Builder> directDebitPaymentChoiceConfirmFragmentSubcomponentBuilderProvider;
+    private Provider<DirectDebitPaymentChoiceFragmentModule_DirectDebitPaymentChoiceFragmentInjector.DirectDebitPaymentChoiceFragmentSubcomponent.Builder> directDebitPaymentChoiceFragmentSubcomponentBuilderProvider;
+    private Provider<DirectDebitPaymentChoiceActivityModule_NotRegisteredFragmentInjector.NotRegisteredFragmentSubcomponent.Builder> notRegisteredFragmentSubcomponentBuilderProvider;
+    private Provider<DirectDebitPaymentChoiceActivityModule_ReAuthFragmentInjector.ReAuthFragmentSubcomponent.Builder> reAuthFragmentSubcomponentBuilderProvider;
+    private DirectDebitPaymentChoiceActivity seedInstance;
+    
+    private DirectDebitPaymentChoiceActivitySubcomponentImpl(DaggerAppComponent.DirectDebitPaymentChoiceActivitySubcomponentBuilder paramDirectDebitPaymentChoiceActivitySubcomponentBuilder)
+    {
+      initialize(paramDirectDebitPaymentChoiceActivitySubcomponentBuilder);
+    }
+    
+    private DirectDebitPaymentChoiceConfirmFragmentPresenter getDirectDebitPaymentChoiceConfirmFragmentPresenter()
+    {
+      return DirectDebitPaymentChoiceConfirmFragmentModule_ProvideDirectDebitConfirmationFragmentPresenterFactory.proxyProvideDirectDebitConfirmationFragmentPresenter((Localizer)DaggerAppComponent.this.provideLocalizerProvider.get(), (TrackingHelper)DaggerAppComponent.this.provideTrackingHelperProvider.get(), DaggerAppComponent.this.getBox7SubscriptionManager(), (IPerformanceTimingManager)DaggerAppComponent.this.provideIPerformanceTimingManagerProvider.get(), (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get(), this.seedInstance, (ErrorUtils)DaggerAppComponent.this.provideErrorUtilsProvider.get());
+    }
+    
+    private DirectDebitPaymentChoiceFragmentPresenter getDirectDebitPaymentChoiceFragmentPresenter()
+    {
+      return DirectDebitPaymentChoiceFragmentModule_ProvideDirectDebitPaymentChoiceFragmentPresenterFactory.proxyProvideDirectDebitPaymentChoiceFragmentPresenter((Localizer)DaggerAppComponent.this.provideLocalizerProvider.get(), (ICustomerModelRepository)DaggerAppComponent.this.provideICustomerModelRepositoryProvider.get(), (IBalanceModelRepository)DaggerAppComponent.this.provideIBalanceModelRepositoryProvider.get(), (IPacksRepository)DaggerAppComponent.this.provideIPacksRepositoryProvider.get(), (ILoginAccountModelRepository)DaggerAppComponent.this.provideILoginAccountModelRepositoryProvider.get());
+    }
+    
+    private DispatchingAndroidInjector<android.support.v4.app.Fragment> getDispatchingAndroidInjectorOfFragment()
+    {
+      return DispatchingAndroidInjector_Factory.newDispatchingAndroidInjector(getMapOfClassOfAndProviderOfFactoryOf(), m.a());
+    }
+    
+    private Map<Class<? extends android.support.v4.app.Fragment>, Provider<AndroidInjector.Factory<? extends android.support.v4.app.Fragment>>> getMapOfClassOfAndProviderOfFactoryOf()
+    {
+      return m.a(ReAuthFragment.class, this.reAuthFragmentSubcomponentBuilderProvider, NotRegisteredFragment.class, this.notRegisteredFragmentSubcomponentBuilderProvider, DirectDebitPaymentChoiceFragment.class, this.directDebitPaymentChoiceFragmentSubcomponentBuilderProvider, DirectDebitPaymentChoiceConfirmFragment.class, this.directDebitPaymentChoiceConfirmFragmentSubcomponentBuilderProvider);
+    }
+    
+    private ViewSetterFactory getViewSetterFactory()
+    {
+      return new ViewSetterFactory((Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+    }
+    
+    private void initialize(DaggerAppComponent.DirectDebitPaymentChoiceActivitySubcomponentBuilder paramDirectDebitPaymentChoiceActivitySubcomponentBuilder)
+    {
+      this.reAuthFragmentSubcomponentBuilderProvider = new Provider()
+      {
+        public DirectDebitPaymentChoiceActivityModule_ReAuthFragmentInjector.ReAuthFragmentSubcomponent.Builder get()
+        {
+          return new DaggerAppComponent.DirectDebitPaymentChoiceActivitySubcomponentImpl.DDPCAM_RAFI_ReAuthFragmentSubcomponentBuilder(DaggerAppComponent.DirectDebitPaymentChoiceActivitySubcomponentImpl.this, null);
+        }
+      };
+      this.notRegisteredFragmentSubcomponentBuilderProvider = new Provider()
+      {
+        public DirectDebitPaymentChoiceActivityModule_NotRegisteredFragmentInjector.NotRegisteredFragmentSubcomponent.Builder get()
+        {
+          return new DaggerAppComponent.DirectDebitPaymentChoiceActivitySubcomponentImpl.DDPCAM_NRFI_NotRegisteredFragmentSubcomponentBuilder(DaggerAppComponent.DirectDebitPaymentChoiceActivitySubcomponentImpl.this, null);
+        }
+      };
+      this.directDebitPaymentChoiceFragmentSubcomponentBuilderProvider = new Provider()
+      {
+        public DirectDebitPaymentChoiceFragmentModule_DirectDebitPaymentChoiceFragmentInjector.DirectDebitPaymentChoiceFragmentSubcomponent.Builder get()
+        {
+          return new DaggerAppComponent.DirectDebitPaymentChoiceActivitySubcomponentImpl.DirectDebitPaymentChoiceFragmentSubcomponentBuilder(DaggerAppComponent.DirectDebitPaymentChoiceActivitySubcomponentImpl.this, null);
+        }
+      };
+      this.directDebitPaymentChoiceConfirmFragmentSubcomponentBuilderProvider = new Provider()
+      {
+        public DirectDebitPaymentChoiceConfirmFragmentModule_DirectDebitPaymentChoiceConfirmFragmentInjector.DirectDebitPaymentChoiceConfirmFragmentSubcomponent.Builder get()
+        {
+          return new DaggerAppComponent.DirectDebitPaymentChoiceActivitySubcomponentImpl.DirectDebitPaymentChoiceConfirmFragmentSubcomponentBuilder(DaggerAppComponent.DirectDebitPaymentChoiceActivitySubcomponentImpl.this, null);
+        }
+      };
+      this.seedInstance = paramDirectDebitPaymentChoiceActivitySubcomponentBuilder.seedInstance;
+    }
+    
+    private DirectDebitPaymentChoiceActivity injectDirectDebitPaymentChoiceActivity(DirectDebitPaymentChoiceActivity paramDirectDebitPaymentChoiceActivity)
+    {
+      DaggerAppCompatActivity_MembersInjector.injectSupportFragmentInjector(paramDirectDebitPaymentChoiceActivity, getDispatchingAndroidInjectorOfFragment());
+      DaggerAppCompatActivity_MembersInjector.injectFrameworkFragmentInjector(paramDirectDebitPaymentChoiceActivity, DaggerAppComponent.this.getDispatchingAndroidInjectorOfFragment());
+      B2PDialogActivity_MembersInjector.injectLocalizer(paramDirectDebitPaymentChoiceActivity, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+      B2PDialogActivity_MembersInjector.injectTrackingHelper(paramDirectDebitPaymentChoiceActivity, (TrackingHelper)DaggerAppComponent.this.provideTrackingHelperProvider.get());
+      B2PDialogActivity_MembersInjector.injectLoginManager(paramDirectDebitPaymentChoiceActivity, (LoginManager)DaggerAppComponent.this.loginManagerProvider.get());
+      B2PDialogActivity_MembersInjector.injectHigherLoginManager(paramDirectDebitPaymentChoiceActivity, (IHigherLoginManager)DaggerAppComponent.this.provideHigherLoginManagerProvider.get());
+      B2PDialogActivity_MembersInjector.injectBox7Cache(paramDirectDebitPaymentChoiceActivity, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      B2PDialogActivity_MembersInjector.injectMainThreadBus(paramDirectDebitPaymentChoiceActivity, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+      B2PDialogActivity_MembersInjector.injectPerformanceTimingManager(paramDirectDebitPaymentChoiceActivity, (IPerformanceTimingManager)DaggerAppComponent.this.provideIPerformanceTimingManagerProvider.get());
+      B2PActivity_MembersInjector.injectApplication(paramDirectDebitPaymentChoiceActivity, DaggerAppComponent.this.application);
+      B2PActivity_MembersInjector.injectBus(paramDirectDebitPaymentChoiceActivity, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+      B2PActivity_MembersInjector.injectViewSetterFactory(paramDirectDebitPaymentChoiceActivity, getViewSetterFactory());
+      B2PActivity_MembersInjector.injectLocalizationManagerFactory(paramDirectDebitPaymentChoiceActivity, (LocalizationManagerFactory)DaggerAppComponent.this.provideLocalizationManagerFactoryProvider.get());
+      B2PActivity_MembersInjector.injectBusEventReceiver(paramDirectDebitPaymentChoiceActivity, (BusEventReceiver)DaggerAppComponent.this.provideBusEventReceiverProvider.get());
+      B2PActivity_MembersInjector.injectUserPreferences(paramDirectDebitPaymentChoiceActivity, (UserPreferences)DaggerAppComponent.this.provideUserPreferencesProvider.get());
+      B2PActivity_MembersInjector.injectLoginManager(paramDirectDebitPaymentChoiceActivity, (LoginManager)DaggerAppComponent.this.loginManagerProvider.get());
+      B2PActivity_MembersInjector.injectBox7Cache(paramDirectDebitPaymentChoiceActivity, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      B2PActivity_MembersInjector.injectSimUtils(paramDirectDebitPaymentChoiceActivity, (SimUtils)DaggerAppComponent.this.provideSimUtilsProvider.get());
+      return paramDirectDebitPaymentChoiceActivity;
+    }
+    
+    public final void inject(DirectDebitPaymentChoiceActivity paramDirectDebitPaymentChoiceActivity)
+    {
+      injectDirectDebitPaymentChoiceActivity(paramDirectDebitPaymentChoiceActivity);
+    }
+    
+    final class DDPCAM_NRFI_NotRegisteredFragmentSubcomponentBuilder
+      extends DirectDebitPaymentChoiceActivityModule_NotRegisteredFragmentInjector.NotRegisteredFragmentSubcomponent.Builder
+    {
+      private NotRegisteredFragment seedInstance;
+      
+      private DDPCAM_NRFI_NotRegisteredFragmentSubcomponentBuilder() {}
+      
+      public final DirectDebitPaymentChoiceActivityModule_NotRegisteredFragmentInjector.NotRegisteredFragmentSubcomponent build()
+      {
+        if (this.seedInstance != null) {
+          return new DaggerAppComponent.DirectDebitPaymentChoiceActivitySubcomponentImpl.DDPCAM_NRFI_NotRegisteredFragmentSubcomponentImpl(DaggerAppComponent.DirectDebitPaymentChoiceActivitySubcomponentImpl.this, this, null);
+        }
+        StringBuilder localStringBuilder = new StringBuilder();
+        localStringBuilder.append(NotRegisteredFragment.class.getCanonicalName());
+        localStringBuilder.append(" must be set");
+        throw new IllegalStateException(localStringBuilder.toString());
+      }
+      
+      public final void seedInstance(NotRegisteredFragment paramNotRegisteredFragment)
+      {
+        this.seedInstance = ((NotRegisteredFragment)Preconditions.checkNotNull(paramNotRegisteredFragment));
+      }
+    }
+    
+    final class DDPCAM_NRFI_NotRegisteredFragmentSubcomponentImpl
+      implements DirectDebitPaymentChoiceActivityModule_NotRegisteredFragmentInjector.NotRegisteredFragmentSubcomponent
+    {
+      private DDPCAM_NRFI_NotRegisteredFragmentSubcomponentImpl(DaggerAppComponent.DirectDebitPaymentChoiceActivitySubcomponentImpl.DDPCAM_NRFI_NotRegisteredFragmentSubcomponentBuilder paramDDPCAM_NRFI_NotRegisteredFragmentSubcomponentBuilder) {}
+      
+      private NotRegisteredFragmentPresenter getNotRegisteredFragmentPresenter()
+      {
+        return new NotRegisteredFragmentPresenter((Localizer)DaggerAppComponent.this.provideLocalizerProvider.get(), DaggerAppComponent.DirectDebitPaymentChoiceActivitySubcomponentImpl.this.seedInstance, (TrackingHelper)DaggerAppComponent.this.provideTrackingHelperProvider.get());
+      }
+      
+      private NotRegisteredFragment injectNotRegisteredFragment(NotRegisteredFragment paramNotRegisteredFragment)
+      {
+        DaggerFragment_MembersInjector.injectChildFragmentInjector(paramNotRegisteredFragment, DaggerAppComponent.DirectDebitPaymentChoiceActivitySubcomponentImpl.this.getDispatchingAndroidInjectorOfFragment());
+        B2PFragment_MembersInjector.injectApplication(paramNotRegisteredFragment, DaggerAppComponent.this.application);
+        B2PFragment_MembersInjector.injectLocalizer(paramNotRegisteredFragment, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+        B2PFragment_MembersInjector.injectViewSetterFactory(paramNotRegisteredFragment, DaggerAppComponent.DirectDebitPaymentChoiceActivitySubcomponentImpl.this.getViewSetterFactory());
+        B2PFragment_MembersInjector.injectBus(paramNotRegisteredFragment, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+        NotRegisteredFragment_MembersInjector.injectSetPresenter(paramNotRegisteredFragment, getNotRegisteredFragmentPresenter());
+        return paramNotRegisteredFragment;
+      }
+      
+      public final void inject(NotRegisteredFragment paramNotRegisteredFragment)
+      {
+        injectNotRegisteredFragment(paramNotRegisteredFragment);
+      }
+    }
+    
+    final class DDPCAM_RAFI_ReAuthFragmentSubcomponentBuilder
+      extends DirectDebitPaymentChoiceActivityModule_ReAuthFragmentInjector.ReAuthFragmentSubcomponent.Builder
+    {
+      private ReAuthFragment seedInstance;
+      
+      private DDPCAM_RAFI_ReAuthFragmentSubcomponentBuilder() {}
+      
+      public final DirectDebitPaymentChoiceActivityModule_ReAuthFragmentInjector.ReAuthFragmentSubcomponent build()
+      {
+        if (this.seedInstance != null) {
+          return new DaggerAppComponent.DirectDebitPaymentChoiceActivitySubcomponentImpl.DDPCAM_RAFI_ReAuthFragmentSubcomponentImpl(DaggerAppComponent.DirectDebitPaymentChoiceActivitySubcomponentImpl.this, this, null);
+        }
+        StringBuilder localStringBuilder = new StringBuilder();
+        localStringBuilder.append(ReAuthFragment.class.getCanonicalName());
+        localStringBuilder.append(" must be set");
+        throw new IllegalStateException(localStringBuilder.toString());
+      }
+      
+      public final void seedInstance(ReAuthFragment paramReAuthFragment)
+      {
+        this.seedInstance = ((ReAuthFragment)Preconditions.checkNotNull(paramReAuthFragment));
+      }
+    }
+    
+    final class DDPCAM_RAFI_ReAuthFragmentSubcomponentImpl
+      implements DirectDebitPaymentChoiceActivityModule_ReAuthFragmentInjector.ReAuthFragmentSubcomponent
+    {
+      private DDPCAM_RAFI_ReAuthFragmentSubcomponentImpl(DaggerAppComponent.DirectDebitPaymentChoiceActivitySubcomponentImpl.DDPCAM_RAFI_ReAuthFragmentSubcomponentBuilder paramDDPCAM_RAFI_ReAuthFragmentSubcomponentBuilder) {}
+      
+      private Box7CustomerManager getBox7CustomerManager()
+      {
+        return new Box7CustomerManager(DaggerAppComponent.this.getAddressesApi(), DaggerAppComponent.this.getCustomersApi(), DaggerAppComponent.this.getThirdPartyApi(), DaggerAppComponent.this.getSimCardsApi(), (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get(), (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+      }
+      
+      private ReAuthFragmentPresenter getReAuthFragmentPresenter()
+      {
+        return new ReAuthFragmentPresenter(DaggerAppComponent.DirectDebitPaymentChoiceActivitySubcomponentImpl.this.seedInstance, (IHigherLoginManager)DaggerAppComponent.this.provideHigherLoginManagerProvider.get(), (ErrorUtils)DaggerAppComponent.this.provideErrorUtilsProvider.get(), (LoginPreferences)DaggerAppComponent.this.provideLoginPreferencesProvider.get(), getBox7CustomerManager(), DaggerAppComponent.this.getNetworkUtils(), (ISubscriptionsAuthorizedRepository)DaggerAppComponent.this.provideISubscriptionsAuthorizedRepositoryProvider.get(), (IBrandTariffTypePropertyModelRepository)DaggerAppComponent.this.provideIBrandTariffTypePropertyModelRepositoryProvider.get(), (ILoginAccountModelRepository)DaggerAppComponent.this.provideILoginAccountModelRepositoryProvider.get());
+      }
+      
+      private ReAuthFragment injectReAuthFragment(ReAuthFragment paramReAuthFragment)
+      {
+        DaggerFragment_MembersInjector.injectChildFragmentInjector(paramReAuthFragment, DaggerAppComponent.DirectDebitPaymentChoiceActivitySubcomponentImpl.this.getDispatchingAndroidInjectorOfFragment());
+        B2PFragment_MembersInjector.injectApplication(paramReAuthFragment, DaggerAppComponent.this.application);
+        B2PFragment_MembersInjector.injectLocalizer(paramReAuthFragment, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+        B2PFragment_MembersInjector.injectViewSetterFactory(paramReAuthFragment, DaggerAppComponent.DirectDebitPaymentChoiceActivitySubcomponentImpl.this.getViewSetterFactory());
+        B2PFragment_MembersInjector.injectBus(paramReAuthFragment, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+        ReAuthFragment_MembersInjector.injectSetPresenter(paramReAuthFragment, getReAuthFragmentPresenter());
+        return paramReAuthFragment;
+      }
+      
+      public final void inject(ReAuthFragment paramReAuthFragment)
+      {
+        injectReAuthFragment(paramReAuthFragment);
+      }
+    }
+    
+    final class DirectDebitPaymentChoiceConfirmFragmentSubcomponentBuilder
+      extends DirectDebitPaymentChoiceConfirmFragmentModule_DirectDebitPaymentChoiceConfirmFragmentInjector.DirectDebitPaymentChoiceConfirmFragmentSubcomponent.Builder
+    {
+      private DirectDebitPaymentChoiceConfirmFragment seedInstance;
+      
+      private DirectDebitPaymentChoiceConfirmFragmentSubcomponentBuilder() {}
+      
+      public final DirectDebitPaymentChoiceConfirmFragmentModule_DirectDebitPaymentChoiceConfirmFragmentInjector.DirectDebitPaymentChoiceConfirmFragmentSubcomponent build()
+      {
+        if (this.seedInstance != null) {
+          return new DaggerAppComponent.DirectDebitPaymentChoiceActivitySubcomponentImpl.DirectDebitPaymentChoiceConfirmFragmentSubcomponentImpl(DaggerAppComponent.DirectDebitPaymentChoiceActivitySubcomponentImpl.this, this, null);
+        }
+        StringBuilder localStringBuilder = new StringBuilder();
+        localStringBuilder.append(DirectDebitPaymentChoiceConfirmFragment.class.getCanonicalName());
+        localStringBuilder.append(" must be set");
+        throw new IllegalStateException(localStringBuilder.toString());
+      }
+      
+      public final void seedInstance(DirectDebitPaymentChoiceConfirmFragment paramDirectDebitPaymentChoiceConfirmFragment)
+      {
+        this.seedInstance = ((DirectDebitPaymentChoiceConfirmFragment)Preconditions.checkNotNull(paramDirectDebitPaymentChoiceConfirmFragment));
+      }
+    }
+    
+    final class DirectDebitPaymentChoiceConfirmFragmentSubcomponentImpl
+      implements DirectDebitPaymentChoiceConfirmFragmentModule_DirectDebitPaymentChoiceConfirmFragmentInjector.DirectDebitPaymentChoiceConfirmFragmentSubcomponent
+    {
+      private DirectDebitPaymentChoiceConfirmFragmentSubcomponentImpl(DaggerAppComponent.DirectDebitPaymentChoiceActivitySubcomponentImpl.DirectDebitPaymentChoiceConfirmFragmentSubcomponentBuilder paramDirectDebitPaymentChoiceConfirmFragmentSubcomponentBuilder) {}
+      
+      private DirectDebitPaymentChoiceConfirmFragment injectDirectDebitPaymentChoiceConfirmFragment(DirectDebitPaymentChoiceConfirmFragment paramDirectDebitPaymentChoiceConfirmFragment)
+      {
+        DaggerFragment_MembersInjector.injectChildFragmentInjector(paramDirectDebitPaymentChoiceConfirmFragment, DaggerAppComponent.DirectDebitPaymentChoiceActivitySubcomponentImpl.this.getDispatchingAndroidInjectorOfFragment());
+        B2PFragment_MembersInjector.injectApplication(paramDirectDebitPaymentChoiceConfirmFragment, DaggerAppComponent.this.application);
+        B2PFragment_MembersInjector.injectLocalizer(paramDirectDebitPaymentChoiceConfirmFragment, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+        B2PFragment_MembersInjector.injectViewSetterFactory(paramDirectDebitPaymentChoiceConfirmFragment, DaggerAppComponent.DirectDebitPaymentChoiceActivitySubcomponentImpl.this.getViewSetterFactory());
+        B2PFragment_MembersInjector.injectBus(paramDirectDebitPaymentChoiceConfirmFragment, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+        DirectDebitPaymentChoiceConfirmFragment_MembersInjector.injectUiUtils(paramDirectDebitPaymentChoiceConfirmFragment, (UiUtils)DaggerAppComponent.this.provideUiUtilsProvider.get());
+        DirectDebitPaymentChoiceConfirmFragment_MembersInjector.injectSetPresenter(paramDirectDebitPaymentChoiceConfirmFragment, DaggerAppComponent.DirectDebitPaymentChoiceActivitySubcomponentImpl.this.getDirectDebitPaymentChoiceConfirmFragmentPresenter());
+        return paramDirectDebitPaymentChoiceConfirmFragment;
+      }
+      
+      public final void inject(DirectDebitPaymentChoiceConfirmFragment paramDirectDebitPaymentChoiceConfirmFragment)
+      {
+        injectDirectDebitPaymentChoiceConfirmFragment(paramDirectDebitPaymentChoiceConfirmFragment);
+      }
+    }
+    
+    final class DirectDebitPaymentChoiceFragmentSubcomponentBuilder
+      extends DirectDebitPaymentChoiceFragmentModule_DirectDebitPaymentChoiceFragmentInjector.DirectDebitPaymentChoiceFragmentSubcomponent.Builder
+    {
+      private DirectDebitPaymentChoiceFragment seedInstance;
+      
+      private DirectDebitPaymentChoiceFragmentSubcomponentBuilder() {}
+      
+      public final DirectDebitPaymentChoiceFragmentModule_DirectDebitPaymentChoiceFragmentInjector.DirectDebitPaymentChoiceFragmentSubcomponent build()
+      {
+        if (this.seedInstance != null) {
+          return new DaggerAppComponent.DirectDebitPaymentChoiceActivitySubcomponentImpl.DirectDebitPaymentChoiceFragmentSubcomponentImpl(DaggerAppComponent.DirectDebitPaymentChoiceActivitySubcomponentImpl.this, this, null);
+        }
+        StringBuilder localStringBuilder = new StringBuilder();
+        localStringBuilder.append(DirectDebitPaymentChoiceFragment.class.getCanonicalName());
+        localStringBuilder.append(" must be set");
+        throw new IllegalStateException(localStringBuilder.toString());
+      }
+      
+      public final void seedInstance(DirectDebitPaymentChoiceFragment paramDirectDebitPaymentChoiceFragment)
+      {
+        this.seedInstance = ((DirectDebitPaymentChoiceFragment)Preconditions.checkNotNull(paramDirectDebitPaymentChoiceFragment));
+      }
+    }
+    
+    final class DirectDebitPaymentChoiceFragmentSubcomponentImpl
+      implements DirectDebitPaymentChoiceFragmentModule_DirectDebitPaymentChoiceFragmentInjector.DirectDebitPaymentChoiceFragmentSubcomponent
+    {
+      private DirectDebitPaymentChoiceFragmentSubcomponentImpl(DaggerAppComponent.DirectDebitPaymentChoiceActivitySubcomponentImpl.DirectDebitPaymentChoiceFragmentSubcomponentBuilder paramDirectDebitPaymentChoiceFragmentSubcomponentBuilder) {}
+      
+      private DirectDebitPaymentChoiceFragment injectDirectDebitPaymentChoiceFragment(DirectDebitPaymentChoiceFragment paramDirectDebitPaymentChoiceFragment)
+      {
+        DaggerFragment_MembersInjector.injectChildFragmentInjector(paramDirectDebitPaymentChoiceFragment, DaggerAppComponent.DirectDebitPaymentChoiceActivitySubcomponentImpl.this.getDispatchingAndroidInjectorOfFragment());
+        B2PFragment_MembersInjector.injectApplication(paramDirectDebitPaymentChoiceFragment, DaggerAppComponent.this.application);
+        B2PFragment_MembersInjector.injectLocalizer(paramDirectDebitPaymentChoiceFragment, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+        B2PFragment_MembersInjector.injectViewSetterFactory(paramDirectDebitPaymentChoiceFragment, DaggerAppComponent.DirectDebitPaymentChoiceActivitySubcomponentImpl.this.getViewSetterFactory());
+        B2PFragment_MembersInjector.injectBus(paramDirectDebitPaymentChoiceFragment, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+        DirectDebitPaymentChoiceFragment_MembersInjector.injectSetPresenter(paramDirectDebitPaymentChoiceFragment, DaggerAppComponent.DirectDebitPaymentChoiceActivitySubcomponentImpl.this.getDirectDebitPaymentChoiceFragmentPresenter());
+        return paramDirectDebitPaymentChoiceFragment;
+      }
+      
+      public final void inject(DirectDebitPaymentChoiceFragment paramDirectDebitPaymentChoiceFragment)
+      {
+        injectDirectDebitPaymentChoiceFragment(paramDirectDebitPaymentChoiceFragment);
+      }
+    }
+  }
+  
+  final class DirectDebitSettingsActivitySubcomponentBuilder
+    extends ActivityBindingModule_DirectDebitSettingsInjector.DirectDebitSettingsActivitySubcomponent.Builder
+  {
+    private DirectDebitSettingsActivity seedInstance;
+    
+    private DirectDebitSettingsActivitySubcomponentBuilder() {}
+    
+    public final ActivityBindingModule_DirectDebitSettingsInjector.DirectDebitSettingsActivitySubcomponent build()
+    {
+      if (this.seedInstance != null) {
+        return new DaggerAppComponent.DirectDebitSettingsActivitySubcomponentImpl(DaggerAppComponent.this, this, null);
+      }
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append(DirectDebitSettingsActivity.class.getCanonicalName());
+      localStringBuilder.append(" must be set");
+      throw new IllegalStateException(localStringBuilder.toString());
+    }
+    
+    public final void seedInstance(DirectDebitSettingsActivity paramDirectDebitSettingsActivity)
+    {
+      this.seedInstance = ((DirectDebitSettingsActivity)Preconditions.checkNotNull(paramDirectDebitSettingsActivity));
+    }
+  }
+  
+  final class DirectDebitSettingsActivitySubcomponentImpl
+    implements ActivityBindingModule_DirectDebitSettingsInjector.DirectDebitSettingsActivitySubcomponent
+  {
+    private Provider<DirectDebitSettingsFragmentModule_DirectDebitSettingsFragmentInjector.DirectDebitSettingsFragmentSubcomponent.Builder> directDebitSettingsFragmentSubcomponentBuilderProvider;
+    
+    private DirectDebitSettingsActivitySubcomponentImpl(DaggerAppComponent.DirectDebitSettingsActivitySubcomponentBuilder paramDirectDebitSettingsActivitySubcomponentBuilder)
+    {
+      initialize(paramDirectDebitSettingsActivitySubcomponentBuilder);
+    }
+    
+    private DirectDebitSettingsFragmentPresenter getDirectDebitSettingsFragmentPresenter()
+    {
+      return DirectDebitSettingsFragmentModule_ProvideDirectDebitSettingsFragmentPresenterFactory.proxyProvideDirectDebitSettingsFragmentPresenter((Localizer)DaggerAppComponent.this.provideLocalizerProvider.get(), (RechargeSettingsModel)DaggerAppComponent.this.provideRechargeSettingsModelProvider.get(), (RechargeSettingsViewHelper)DaggerAppComponent.this.provideRechargeSettingsViewHelperProvider.get(), (HotlineUtils)DaggerAppComponent.this.provideHotlineUtilsProvider.get(), (RechargeSettingsSendManager)DaggerAppComponent.this.provideRechargeSettingsSendManagerProvider.get(), (ICustomerModelRepository)DaggerAppComponent.this.provideICustomerModelRepositoryProvider.get(), (ISubscriptionModelRepository)DaggerAppComponent.this.provideISubscriptionModelRepositoryProvider.get(), (IPrepaidTopupConfigurationModelRepository)DaggerAppComponent.this.provideIPrepaidTopupConfigurationModelRepositoryProvider.get());
+    }
+    
+    private DispatchingAndroidInjector<android.support.v4.app.Fragment> getDispatchingAndroidInjectorOfFragment()
+    {
+      return DispatchingAndroidInjector_Factory.newDispatchingAndroidInjector(getMapOfClassOfAndProviderOfFactoryOf(), m.a());
+    }
+    
+    private Map<Class<? extends android.support.v4.app.Fragment>, Provider<AndroidInjector.Factory<? extends android.support.v4.app.Fragment>>> getMapOfClassOfAndProviderOfFactoryOf()
+    {
+      return m.a(DirectDebitSettingsFragment.class, this.directDebitSettingsFragmentSubcomponentBuilderProvider);
+    }
+    
+    private ViewSetterFactory getViewSetterFactory()
+    {
+      return new ViewSetterFactory((Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+    }
+    
+    private void initialize(DaggerAppComponent.DirectDebitSettingsActivitySubcomponentBuilder paramDirectDebitSettingsActivitySubcomponentBuilder)
+    {
+      this.directDebitSettingsFragmentSubcomponentBuilderProvider = new Provider()
+      {
+        public DirectDebitSettingsFragmentModule_DirectDebitSettingsFragmentInjector.DirectDebitSettingsFragmentSubcomponent.Builder get()
+        {
+          return new DaggerAppComponent.DirectDebitSettingsActivitySubcomponentImpl.DirectDebitSettingsFragmentSubcomponentBuilder(DaggerAppComponent.DirectDebitSettingsActivitySubcomponentImpl.this, null);
+        }
+      };
+    }
+    
+    private DirectDebitSettingsActivity injectDirectDebitSettingsActivity(DirectDebitSettingsActivity paramDirectDebitSettingsActivity)
+    {
+      DaggerAppCompatActivity_MembersInjector.injectSupportFragmentInjector(paramDirectDebitSettingsActivity, getDispatchingAndroidInjectorOfFragment());
+      DaggerAppCompatActivity_MembersInjector.injectFrameworkFragmentInjector(paramDirectDebitSettingsActivity, DaggerAppComponent.this.getDispatchingAndroidInjectorOfFragment());
+      B2PDialogActivity_MembersInjector.injectLocalizer(paramDirectDebitSettingsActivity, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+      B2PDialogActivity_MembersInjector.injectTrackingHelper(paramDirectDebitSettingsActivity, (TrackingHelper)DaggerAppComponent.this.provideTrackingHelperProvider.get());
+      B2PDialogActivity_MembersInjector.injectLoginManager(paramDirectDebitSettingsActivity, (LoginManager)DaggerAppComponent.this.loginManagerProvider.get());
+      B2PDialogActivity_MembersInjector.injectHigherLoginManager(paramDirectDebitSettingsActivity, (IHigherLoginManager)DaggerAppComponent.this.provideHigherLoginManagerProvider.get());
+      B2PDialogActivity_MembersInjector.injectBox7Cache(paramDirectDebitSettingsActivity, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      B2PDialogActivity_MembersInjector.injectMainThreadBus(paramDirectDebitSettingsActivity, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+      B2PDialogActivity_MembersInjector.injectPerformanceTimingManager(paramDirectDebitSettingsActivity, (IPerformanceTimingManager)DaggerAppComponent.this.provideIPerformanceTimingManagerProvider.get());
+      B2PActivity_MembersInjector.injectApplication(paramDirectDebitSettingsActivity, DaggerAppComponent.this.application);
+      B2PActivity_MembersInjector.injectBus(paramDirectDebitSettingsActivity, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+      B2PActivity_MembersInjector.injectViewSetterFactory(paramDirectDebitSettingsActivity, getViewSetterFactory());
+      B2PActivity_MembersInjector.injectLocalizationManagerFactory(paramDirectDebitSettingsActivity, (LocalizationManagerFactory)DaggerAppComponent.this.provideLocalizationManagerFactoryProvider.get());
+      B2PActivity_MembersInjector.injectBusEventReceiver(paramDirectDebitSettingsActivity, (BusEventReceiver)DaggerAppComponent.this.provideBusEventReceiverProvider.get());
+      B2PActivity_MembersInjector.injectUserPreferences(paramDirectDebitSettingsActivity, (UserPreferences)DaggerAppComponent.this.provideUserPreferencesProvider.get());
+      B2PActivity_MembersInjector.injectLoginManager(paramDirectDebitSettingsActivity, (LoginManager)DaggerAppComponent.this.loginManagerProvider.get());
+      B2PActivity_MembersInjector.injectBox7Cache(paramDirectDebitSettingsActivity, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      B2PActivity_MembersInjector.injectSimUtils(paramDirectDebitSettingsActivity, (SimUtils)DaggerAppComponent.this.provideSimUtilsProvider.get());
+      DirectDebitSettingsActivity_MembersInjector.injectSetPresenter(paramDirectDebitSettingsActivity, DirectDebitSettingsActivityModule_ProvideDirectDebitSettingsPresenterFactory.proxyProvideDirectDebitSettingsPresenter());
+      return paramDirectDebitSettingsActivity;
+    }
+    
+    public final void inject(DirectDebitSettingsActivity paramDirectDebitSettingsActivity)
+    {
+      injectDirectDebitSettingsActivity(paramDirectDebitSettingsActivity);
+    }
+    
+    final class DirectDebitSettingsFragmentSubcomponentBuilder
+      extends DirectDebitSettingsFragmentModule_DirectDebitSettingsFragmentInjector.DirectDebitSettingsFragmentSubcomponent.Builder
+    {
+      private DirectDebitSettingsFragment seedInstance;
+      
+      private DirectDebitSettingsFragmentSubcomponentBuilder() {}
+      
+      public final DirectDebitSettingsFragmentModule_DirectDebitSettingsFragmentInjector.DirectDebitSettingsFragmentSubcomponent build()
+      {
+        if (this.seedInstance != null) {
+          return new DaggerAppComponent.DirectDebitSettingsActivitySubcomponentImpl.DirectDebitSettingsFragmentSubcomponentImpl(DaggerAppComponent.DirectDebitSettingsActivitySubcomponentImpl.this, this, null);
+        }
+        StringBuilder localStringBuilder = new StringBuilder();
+        localStringBuilder.append(DirectDebitSettingsFragment.class.getCanonicalName());
+        localStringBuilder.append(" must be set");
+        throw new IllegalStateException(localStringBuilder.toString());
+      }
+      
+      public final void seedInstance(DirectDebitSettingsFragment paramDirectDebitSettingsFragment)
+      {
+        this.seedInstance = ((DirectDebitSettingsFragment)Preconditions.checkNotNull(paramDirectDebitSettingsFragment));
+      }
+    }
+    
+    final class DirectDebitSettingsFragmentSubcomponentImpl
+      implements DirectDebitSettingsFragmentModule_DirectDebitSettingsFragmentInjector.DirectDebitSettingsFragmentSubcomponent
+    {
+      private DirectDebitSettingsFragmentSubcomponentImpl(DaggerAppComponent.DirectDebitSettingsActivitySubcomponentImpl.DirectDebitSettingsFragmentSubcomponentBuilder paramDirectDebitSettingsFragmentSubcomponentBuilder) {}
+      
+      private DirectDebitSettingsFragment injectDirectDebitSettingsFragment(DirectDebitSettingsFragment paramDirectDebitSettingsFragment)
+      {
+        DaggerFragment_MembersInjector.injectChildFragmentInjector(paramDirectDebitSettingsFragment, DaggerAppComponent.DirectDebitSettingsActivitySubcomponentImpl.this.getDispatchingAndroidInjectorOfFragment());
+        B2PFragment_MembersInjector.injectApplication(paramDirectDebitSettingsFragment, DaggerAppComponent.this.application);
+        B2PFragment_MembersInjector.injectLocalizer(paramDirectDebitSettingsFragment, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+        B2PFragment_MembersInjector.injectViewSetterFactory(paramDirectDebitSettingsFragment, DaggerAppComponent.DirectDebitSettingsActivitySubcomponentImpl.this.getViewSetterFactory());
+        B2PFragment_MembersInjector.injectBus(paramDirectDebitSettingsFragment, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+        DirectDebitSettingsFragment_MembersInjector.injectSetPresenter(paramDirectDebitSettingsFragment, DaggerAppComponent.DirectDebitSettingsActivitySubcomponentImpl.this.getDirectDebitSettingsFragmentPresenter());
+        return paramDirectDebitSettingsFragment;
+      }
+      
+      public final void inject(DirectDebitSettingsFragment paramDirectDebitSettingsFragment)
+      {
+        injectDirectDebitSettingsFragment(paramDirectDebitSettingsFragment);
+      }
+    }
+  }
+  
+  final class HelpActivitySubcomponentBuilder
+    extends ActivityBindingModule_HelpActivityInjector.HelpActivitySubcomponent.Builder
+  {
+    private HelpActivity seedInstance;
+    
+    private HelpActivitySubcomponentBuilder() {}
+    
+    public final ActivityBindingModule_HelpActivityInjector.HelpActivitySubcomponent build()
+    {
+      if (this.seedInstance != null) {
+        return new DaggerAppComponent.HelpActivitySubcomponentImpl(DaggerAppComponent.this, this, null);
+      }
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append(HelpActivity.class.getCanonicalName());
+      localStringBuilder.append(" must be set");
+      throw new IllegalStateException(localStringBuilder.toString());
+    }
+    
+    public final void seedInstance(HelpActivity paramHelpActivity)
+    {
+      this.seedInstance = ((HelpActivity)Preconditions.checkNotNull(paramHelpActivity));
+    }
+  }
+  
+  final class HelpActivitySubcomponentImpl
+    implements ActivityBindingModule_HelpActivityInjector.HelpActivitySubcomponent
+  {
+    private HelpActivity seedInstance;
+    
+    private HelpActivitySubcomponentImpl(DaggerAppComponent.HelpActivitySubcomponentBuilder paramHelpActivitySubcomponentBuilder)
+    {
+      initialize(paramHelpActivitySubcomponentBuilder);
+    }
+    
+    private DispatchingAndroidInjector<android.support.v4.app.Fragment> getDispatchingAndroidInjectorOfFragment()
+    {
+      return DispatchingAndroidInjector_Factory.newDispatchingAndroidInjector(m.a(), m.a());
+    }
+    
+    private HelpActivityPresenter getHelpActivityPresenter()
+    {
+      return HelpActivityModule_ProvideHelpActivityPresenterFactory.proxyProvideHelpActivityPresenter(this.seedInstance, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+    }
+    
+    private ViewSetterFactory getViewSetterFactory()
+    {
+      return new ViewSetterFactory((Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+    }
+    
+    private void initialize(DaggerAppComponent.HelpActivitySubcomponentBuilder paramHelpActivitySubcomponentBuilder)
+    {
+      this.seedInstance = paramHelpActivitySubcomponentBuilder.seedInstance;
+    }
+    
+    private HelpActivity injectHelpActivity(HelpActivity paramHelpActivity)
+    {
+      DaggerAppCompatActivity_MembersInjector.injectSupportFragmentInjector(paramHelpActivity, getDispatchingAndroidInjectorOfFragment());
+      DaggerAppCompatActivity_MembersInjector.injectFrameworkFragmentInjector(paramHelpActivity, DaggerAppComponent.this.getDispatchingAndroidInjectorOfFragment());
+      B2PDialogActivity_MembersInjector.injectLocalizer(paramHelpActivity, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+      B2PDialogActivity_MembersInjector.injectTrackingHelper(paramHelpActivity, (TrackingHelper)DaggerAppComponent.this.provideTrackingHelperProvider.get());
+      B2PDialogActivity_MembersInjector.injectLoginManager(paramHelpActivity, (LoginManager)DaggerAppComponent.this.loginManagerProvider.get());
+      B2PDialogActivity_MembersInjector.injectHigherLoginManager(paramHelpActivity, (IHigherLoginManager)DaggerAppComponent.this.provideHigherLoginManagerProvider.get());
+      B2PDialogActivity_MembersInjector.injectBox7Cache(paramHelpActivity, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      B2PDialogActivity_MembersInjector.injectMainThreadBus(paramHelpActivity, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+      B2PDialogActivity_MembersInjector.injectPerformanceTimingManager(paramHelpActivity, (IPerformanceTimingManager)DaggerAppComponent.this.provideIPerformanceTimingManagerProvider.get());
+      B2PActivity_MembersInjector.injectApplication(paramHelpActivity, DaggerAppComponent.this.application);
+      B2PActivity_MembersInjector.injectBus(paramHelpActivity, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+      B2PActivity_MembersInjector.injectViewSetterFactory(paramHelpActivity, getViewSetterFactory());
+      B2PActivity_MembersInjector.injectLocalizationManagerFactory(paramHelpActivity, (LocalizationManagerFactory)DaggerAppComponent.this.provideLocalizationManagerFactoryProvider.get());
+      B2PActivity_MembersInjector.injectBusEventReceiver(paramHelpActivity, (BusEventReceiver)DaggerAppComponent.this.provideBusEventReceiverProvider.get());
+      B2PActivity_MembersInjector.injectUserPreferences(paramHelpActivity, (UserPreferences)DaggerAppComponent.this.provideUserPreferencesProvider.get());
+      B2PActivity_MembersInjector.injectLoginManager(paramHelpActivity, (LoginManager)DaggerAppComponent.this.loginManagerProvider.get());
+      B2PActivity_MembersInjector.injectBox7Cache(paramHelpActivity, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      B2PActivity_MembersInjector.injectSimUtils(paramHelpActivity, (SimUtils)DaggerAppComponent.this.provideSimUtilsProvider.get());
+      HelpActivity_MembersInjector.injectCallExternalAppsUtils(paramHelpActivity, (CallExternalAppsUtils)DaggerAppComponent.this.provideCallExternalAppsUtilsProvider.get());
+      HelpActivity_MembersInjector.injectSetPresenter(paramHelpActivity, getHelpActivityPresenter());
+      return paramHelpActivity;
+    }
+    
+    public final void inject(HelpActivity paramHelpActivity)
+    {
+      injectHelpActivity(paramHelpActivity);
+    }
+  }
+  
+  final class HomeScreenActivitySubcomponentBuilder
+    extends ActivityBindingModule_HomeScreenInjector.HomeScreenActivitySubcomponent.Builder
+  {
+    private HomeScreenActivity seedInstance;
+    
+    private HomeScreenActivitySubcomponentBuilder() {}
+    
+    public final ActivityBindingModule_HomeScreenInjector.HomeScreenActivitySubcomponent build()
+    {
+      if (this.seedInstance != null) {
+        return new DaggerAppComponent.HomeScreenActivitySubcomponentImpl(DaggerAppComponent.this, this, null);
+      }
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append(HomeScreenActivity.class.getCanonicalName());
+      localStringBuilder.append(" must be set");
+      throw new IllegalStateException(localStringBuilder.toString());
+    }
+    
+    public final void seedInstance(HomeScreenActivity paramHomeScreenActivity)
+    {
+      this.seedInstance = ((HomeScreenActivity)Preconditions.checkNotNull(paramHomeScreenActivity));
+    }
+  }
+  
+  final class HomeScreenActivitySubcomponentImpl
+    implements ActivityBindingModule_HomeScreenInjector.HomeScreenActivitySubcomponent
+  {
+    private HomeScreenActivity seedInstance;
+    
+    private HomeScreenActivitySubcomponentImpl(DaggerAppComponent.HomeScreenActivitySubcomponentBuilder paramHomeScreenActivitySubcomponentBuilder)
+    {
+      initialize(paramHomeScreenActivitySubcomponentBuilder);
+    }
+    
+    private Box7SubscriptionManager getBox7SubscriptionManager()
+    {
+      return injectBox7SubscriptionManager(Box7SubscriptionManager_Factory.newBox7SubscriptionManager(DaggerAppComponent.this.getPacksApi(), DaggerAppComponent.this.getTopupsApi(), DaggerAppComponent.this.getSubscriptionsApi(), DaggerAppComponent.this.getUsagesApi()));
+    }
+    
+    private DispatchingAndroidInjector<android.support.v4.app.Fragment> getDispatchingAndroidInjectorOfFragment()
+    {
+      return DispatchingAndroidInjector_Factory.newDispatchingAndroidInjector(m.a(), m.a());
+    }
+    
+    private HomeScreenPresenter getHomeScreenPresenter()
+    {
+      return HomeScreenActivityModule_ProvideHomeScreenPresenterFactory.proxyProvideHomeScreenPresenter(this.seedInstance, this.seedInstance, getBox7SubscriptionManager(), (IPerformanceTimingManager)DaggerAppComponent.this.provideIPerformanceTimingManagerProvider.get(), (MoeUpdateManager)DaggerAppComponent.this.provideMoeUpdateManagerProvider.get(), (TimeoutPreferences)DaggerAppComponent.this.provideTimeOutPreferencesProvider.get(), (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get(), (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get(), (BrandUtils)DaggerAppComponent.this.provideBrandUtilsProvider.get(), (IBrandTariffTypePropertyModelRepository)DaggerAppComponent.this.provideIBrandTariffTypePropertyModelRepositoryProvider.get(), (ISubscriptionsAuthorizedRepository)DaggerAppComponent.this.provideISubscriptionsAuthorizedRepositoryProvider.get(), (IPrepaidMyTariffPageModelRepository)DaggerAppComponent.this.provideIPrepaidMyTariffPageModelRepositoryProvider.get());
+    }
+    
+    private ViewSetterFactory getViewSetterFactory()
+    {
+      return new ViewSetterFactory((Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+    }
+    
+    private void initialize(DaggerAppComponent.HomeScreenActivitySubcomponentBuilder paramHomeScreenActivitySubcomponentBuilder)
+    {
+      this.seedInstance = paramHomeScreenActivitySubcomponentBuilder.seedInstance;
+    }
+    
+    private Box7SubscriptionManager injectBox7SubscriptionManager(Box7SubscriptionManager paramBox7SubscriptionManager)
+    {
+      Box7SubscriptionManager_MembersInjector.injectBox7Cache(paramBox7SubscriptionManager, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      return paramBox7SubscriptionManager;
+    }
+    
+    private HomeScreenActivity injectHomeScreenActivity(HomeScreenActivity paramHomeScreenActivity)
+    {
+      DaggerAppCompatActivity_MembersInjector.injectSupportFragmentInjector(paramHomeScreenActivity, getDispatchingAndroidInjectorOfFragment());
+      DaggerAppCompatActivity_MembersInjector.injectFrameworkFragmentInjector(paramHomeScreenActivity, DaggerAppComponent.this.getDispatchingAndroidInjectorOfFragment());
+      B2PDialogActivity_MembersInjector.injectLocalizer(paramHomeScreenActivity, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+      B2PDialogActivity_MembersInjector.injectTrackingHelper(paramHomeScreenActivity, (TrackingHelper)DaggerAppComponent.this.provideTrackingHelperProvider.get());
+      B2PDialogActivity_MembersInjector.injectLoginManager(paramHomeScreenActivity, (LoginManager)DaggerAppComponent.this.loginManagerProvider.get());
+      B2PDialogActivity_MembersInjector.injectHigherLoginManager(paramHomeScreenActivity, (IHigherLoginManager)DaggerAppComponent.this.provideHigherLoginManagerProvider.get());
+      B2PDialogActivity_MembersInjector.injectBox7Cache(paramHomeScreenActivity, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      B2PDialogActivity_MembersInjector.injectMainThreadBus(paramHomeScreenActivity, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+      B2PDialogActivity_MembersInjector.injectPerformanceTimingManager(paramHomeScreenActivity, (IPerformanceTimingManager)DaggerAppComponent.this.provideIPerformanceTimingManagerProvider.get());
+      B2PActivity_MembersInjector.injectApplication(paramHomeScreenActivity, DaggerAppComponent.this.application);
+      B2PActivity_MembersInjector.injectBus(paramHomeScreenActivity, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+      B2PActivity_MembersInjector.injectViewSetterFactory(paramHomeScreenActivity, getViewSetterFactory());
+      B2PActivity_MembersInjector.injectLocalizationManagerFactory(paramHomeScreenActivity, (LocalizationManagerFactory)DaggerAppComponent.this.provideLocalizationManagerFactoryProvider.get());
+      B2PActivity_MembersInjector.injectBusEventReceiver(paramHomeScreenActivity, (BusEventReceiver)DaggerAppComponent.this.provideBusEventReceiverProvider.get());
+      B2PActivity_MembersInjector.injectUserPreferences(paramHomeScreenActivity, (UserPreferences)DaggerAppComponent.this.provideUserPreferencesProvider.get());
+      B2PActivity_MembersInjector.injectLoginManager(paramHomeScreenActivity, (LoginManager)DaggerAppComponent.this.loginManagerProvider.get());
+      B2PActivity_MembersInjector.injectBox7Cache(paramHomeScreenActivity, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      B2PActivity_MembersInjector.injectSimUtils(paramHomeScreenActivity, (SimUtils)DaggerAppComponent.this.provideSimUtilsProvider.get());
+      HomeScreenActivity_MembersInjector.injectTrackingHelper(paramHomeScreenActivity, (TrackingHelper)DaggerAppComponent.this.provideTrackingHelperProvider.get());
+      HomeScreenActivity_MembersInjector.injectB2pView(paramHomeScreenActivity, this.seedInstance);
+      HomeScreenActivity_MembersInjector.injectSetPresenter(paramHomeScreenActivity, getHomeScreenPresenter());
+      return paramHomeScreenActivity;
+    }
+    
+    public final void inject(HomeScreenActivity paramHomeScreenActivity)
+    {
+      injectHomeScreenActivity(paramHomeScreenActivity);
+    }
+  }
+  
+  final class ImprintActivitySubcomponentBuilder
+    extends ActivityBindingModule_ImprintInjector.ImprintActivitySubcomponent.Builder
+  {
+    private ImprintActivity seedInstance;
+    
+    private ImprintActivitySubcomponentBuilder() {}
+    
+    public final ActivityBindingModule_ImprintInjector.ImprintActivitySubcomponent build()
+    {
+      if (this.seedInstance != null) {
+        return new DaggerAppComponent.ImprintActivitySubcomponentImpl(DaggerAppComponent.this, this, null);
+      }
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append(ImprintActivity.class.getCanonicalName());
+      localStringBuilder.append(" must be set");
+      throw new IllegalStateException(localStringBuilder.toString());
+    }
+    
+    public final void seedInstance(ImprintActivity paramImprintActivity)
+    {
+      this.seedInstance = ((ImprintActivity)Preconditions.checkNotNull(paramImprintActivity));
+    }
+  }
+  
+  final class ImprintActivitySubcomponentImpl
+    implements ActivityBindingModule_ImprintInjector.ImprintActivitySubcomponent
+  {
+    private ImprintActivity seedInstance;
+    
+    private ImprintActivitySubcomponentImpl(DaggerAppComponent.ImprintActivitySubcomponentBuilder paramImprintActivitySubcomponentBuilder)
+    {
+      initialize(paramImprintActivitySubcomponentBuilder);
+    }
+    
+    private DispatchingAndroidInjector<android.support.v4.app.Fragment> getDispatchingAndroidInjectorOfFragment()
+    {
+      return DispatchingAndroidInjector_Factory.newDispatchingAndroidInjector(m.a(), m.a());
+    }
+    
+    private ImprintActivityPresenter getImprintActivityPresenter()
+    {
+      return ImprintActivityModule_ProvideImprintActivityPresenterFactory.proxyProvideImprintActivityPresenter(this.seedInstance, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+    }
+    
+    private ViewSetterFactory getViewSetterFactory()
+    {
+      return new ViewSetterFactory((Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+    }
+    
+    private void initialize(DaggerAppComponent.ImprintActivitySubcomponentBuilder paramImprintActivitySubcomponentBuilder)
+    {
+      this.seedInstance = paramImprintActivitySubcomponentBuilder.seedInstance;
+    }
+    
+    private ImprintActivity injectImprintActivity(ImprintActivity paramImprintActivity)
+    {
+      DaggerAppCompatActivity_MembersInjector.injectSupportFragmentInjector(paramImprintActivity, getDispatchingAndroidInjectorOfFragment());
+      DaggerAppCompatActivity_MembersInjector.injectFrameworkFragmentInjector(paramImprintActivity, DaggerAppComponent.this.getDispatchingAndroidInjectorOfFragment());
+      B2PDialogActivity_MembersInjector.injectLocalizer(paramImprintActivity, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+      B2PDialogActivity_MembersInjector.injectTrackingHelper(paramImprintActivity, (TrackingHelper)DaggerAppComponent.this.provideTrackingHelperProvider.get());
+      B2PDialogActivity_MembersInjector.injectLoginManager(paramImprintActivity, (LoginManager)DaggerAppComponent.this.loginManagerProvider.get());
+      B2PDialogActivity_MembersInjector.injectHigherLoginManager(paramImprintActivity, (IHigherLoginManager)DaggerAppComponent.this.provideHigherLoginManagerProvider.get());
+      B2PDialogActivity_MembersInjector.injectBox7Cache(paramImprintActivity, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      B2PDialogActivity_MembersInjector.injectMainThreadBus(paramImprintActivity, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+      B2PDialogActivity_MembersInjector.injectPerformanceTimingManager(paramImprintActivity, (IPerformanceTimingManager)DaggerAppComponent.this.provideIPerformanceTimingManagerProvider.get());
+      B2PActivity_MembersInjector.injectApplication(paramImprintActivity, DaggerAppComponent.this.application);
+      B2PActivity_MembersInjector.injectBus(paramImprintActivity, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+      B2PActivity_MembersInjector.injectViewSetterFactory(paramImprintActivity, getViewSetterFactory());
+      B2PActivity_MembersInjector.injectLocalizationManagerFactory(paramImprintActivity, (LocalizationManagerFactory)DaggerAppComponent.this.provideLocalizationManagerFactoryProvider.get());
+      B2PActivity_MembersInjector.injectBusEventReceiver(paramImprintActivity, (BusEventReceiver)DaggerAppComponent.this.provideBusEventReceiverProvider.get());
+      B2PActivity_MembersInjector.injectUserPreferences(paramImprintActivity, (UserPreferences)DaggerAppComponent.this.provideUserPreferencesProvider.get());
+      B2PActivity_MembersInjector.injectLoginManager(paramImprintActivity, (LoginManager)DaggerAppComponent.this.loginManagerProvider.get());
+      B2PActivity_MembersInjector.injectBox7Cache(paramImprintActivity, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      B2PActivity_MembersInjector.injectSimUtils(paramImprintActivity, (SimUtils)DaggerAppComponent.this.provideSimUtilsProvider.get());
+      ImprintActivity_MembersInjector.injectSetPresenter(paramImprintActivity, getImprintActivityPresenter());
+      return paramImprintActivity;
+    }
+    
+    public final void inject(ImprintActivity paramImprintActivity)
+    {
+      injectImprintActivity(paramImprintActivity);
+    }
+  }
+  
+  final class InvoiceOverviewActivitySubcomponentBuilder
+    extends ActivityBindingModule_InvoiceOverviewInjector.InvoiceOverviewActivitySubcomponent.Builder
+  {
+    private InvoiceOverviewActivity seedInstance;
+    
+    private InvoiceOverviewActivitySubcomponentBuilder() {}
+    
+    public final ActivityBindingModule_InvoiceOverviewInjector.InvoiceOverviewActivitySubcomponent build()
+    {
+      if (this.seedInstance != null) {
+        return new DaggerAppComponent.InvoiceOverviewActivitySubcomponentImpl(DaggerAppComponent.this, this, null);
+      }
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append(InvoiceOverviewActivity.class.getCanonicalName());
+      localStringBuilder.append(" must be set");
+      throw new IllegalStateException(localStringBuilder.toString());
+    }
+    
+    public final void seedInstance(InvoiceOverviewActivity paramInvoiceOverviewActivity)
+    {
+      this.seedInstance = ((InvoiceOverviewActivity)Preconditions.checkNotNull(paramInvoiceOverviewActivity));
+    }
+  }
+  
+  final class InvoiceOverviewActivitySubcomponentImpl
+    implements ActivityBindingModule_InvoiceOverviewInjector.InvoiceOverviewActivitySubcomponent
+  {
+    private InvoiceOverviewActivity seedInstance;
+    
+    private InvoiceOverviewActivitySubcomponentImpl(DaggerAppComponent.InvoiceOverviewActivitySubcomponentBuilder paramInvoiceOverviewActivitySubcomponentBuilder)
+    {
+      initialize(paramInvoiceOverviewActivitySubcomponentBuilder);
+    }
+    
+    private DispatchingAndroidInjector<android.support.v4.app.Fragment> getDispatchingAndroidInjectorOfFragment()
+    {
+      return DispatchingAndroidInjector_Factory.newDispatchingAndroidInjector(m.a(), m.a());
+    }
+    
+    private InvoiceOverviewPresenter getInvoiceOverviewPresenter()
+    {
+      return InvoiceOverviewActivityModule_ProvideInvoiceOverviewPresenterFactory.proxyProvideInvoiceOverviewPresenter(this.seedInstance, (IInvoiceOverviewModelRepository)DaggerAppComponent.this.provideIInvoiceOverviewModelRepositoryProvider.get());
+    }
+    
+    private ViewSetterFactory getViewSetterFactory()
+    {
+      return new ViewSetterFactory((Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+    }
+    
+    private void initialize(DaggerAppComponent.InvoiceOverviewActivitySubcomponentBuilder paramInvoiceOverviewActivitySubcomponentBuilder)
+    {
+      this.seedInstance = paramInvoiceOverviewActivitySubcomponentBuilder.seedInstance;
+    }
+    
+    private InvoiceOverviewActivity injectInvoiceOverviewActivity(InvoiceOverviewActivity paramInvoiceOverviewActivity)
+    {
+      DaggerAppCompatActivity_MembersInjector.injectSupportFragmentInjector(paramInvoiceOverviewActivity, getDispatchingAndroidInjectorOfFragment());
+      DaggerAppCompatActivity_MembersInjector.injectFrameworkFragmentInjector(paramInvoiceOverviewActivity, DaggerAppComponent.this.getDispatchingAndroidInjectorOfFragment());
+      B2PDialogActivity_MembersInjector.injectLocalizer(paramInvoiceOverviewActivity, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+      B2PDialogActivity_MembersInjector.injectTrackingHelper(paramInvoiceOverviewActivity, (TrackingHelper)DaggerAppComponent.this.provideTrackingHelperProvider.get());
+      B2PDialogActivity_MembersInjector.injectLoginManager(paramInvoiceOverviewActivity, (LoginManager)DaggerAppComponent.this.loginManagerProvider.get());
+      B2PDialogActivity_MembersInjector.injectHigherLoginManager(paramInvoiceOverviewActivity, (IHigherLoginManager)DaggerAppComponent.this.provideHigherLoginManagerProvider.get());
+      B2PDialogActivity_MembersInjector.injectBox7Cache(paramInvoiceOverviewActivity, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      B2PDialogActivity_MembersInjector.injectMainThreadBus(paramInvoiceOverviewActivity, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+      B2PDialogActivity_MembersInjector.injectPerformanceTimingManager(paramInvoiceOverviewActivity, (IPerformanceTimingManager)DaggerAppComponent.this.provideIPerformanceTimingManagerProvider.get());
+      B2PActivity_MembersInjector.injectApplication(paramInvoiceOverviewActivity, DaggerAppComponent.this.application);
+      B2PActivity_MembersInjector.injectBus(paramInvoiceOverviewActivity, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+      B2PActivity_MembersInjector.injectViewSetterFactory(paramInvoiceOverviewActivity, getViewSetterFactory());
+      B2PActivity_MembersInjector.injectLocalizationManagerFactory(paramInvoiceOverviewActivity, (LocalizationManagerFactory)DaggerAppComponent.this.provideLocalizationManagerFactoryProvider.get());
+      B2PActivity_MembersInjector.injectBusEventReceiver(paramInvoiceOverviewActivity, (BusEventReceiver)DaggerAppComponent.this.provideBusEventReceiverProvider.get());
+      B2PActivity_MembersInjector.injectUserPreferences(paramInvoiceOverviewActivity, (UserPreferences)DaggerAppComponent.this.provideUserPreferencesProvider.get());
+      B2PActivity_MembersInjector.injectLoginManager(paramInvoiceOverviewActivity, (LoginManager)DaggerAppComponent.this.loginManagerProvider.get());
+      B2PActivity_MembersInjector.injectBox7Cache(paramInvoiceOverviewActivity, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      B2PActivity_MembersInjector.injectSimUtils(paramInvoiceOverviewActivity, (SimUtils)DaggerAppComponent.this.provideSimUtilsProvider.get());
+      InvoiceOverviewActivity_MembersInjector.injectCallExternalAppsUtils(paramInvoiceOverviewActivity, (CallExternalAppsUtils)DaggerAppComponent.this.provideCallExternalAppsUtilsProvider.get());
+      InvoiceOverviewActivity_MembersInjector.injectSetPresenterImpl(paramInvoiceOverviewActivity, getInvoiceOverviewPresenter());
+      return paramInvoiceOverviewActivity;
+    }
+    
+    public final void inject(InvoiceOverviewActivity paramInvoiceOverviewActivity)
+    {
+      injectInvoiceOverviewActivity(paramInvoiceOverviewActivity);
+    }
+  }
+  
+  final class LicenseActivitySubcomponentBuilder
+    extends ActivityBindingModule_LicenseInjector.LicenseActivitySubcomponent.Builder
+  {
+    private LicenseActivity seedInstance;
+    
+    private LicenseActivitySubcomponentBuilder() {}
+    
+    public final ActivityBindingModule_LicenseInjector.LicenseActivitySubcomponent build()
+    {
+      if (this.seedInstance != null) {
+        return new DaggerAppComponent.LicenseActivitySubcomponentImpl(DaggerAppComponent.this, this, null);
+      }
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append(LicenseActivity.class.getCanonicalName());
+      localStringBuilder.append(" must be set");
+      throw new IllegalStateException(localStringBuilder.toString());
+    }
+    
+    public final void seedInstance(LicenseActivity paramLicenseActivity)
+    {
+      this.seedInstance = ((LicenseActivity)Preconditions.checkNotNull(paramLicenseActivity));
+    }
+  }
+  
+  final class LicenseActivitySubcomponentImpl
+    implements ActivityBindingModule_LicenseInjector.LicenseActivitySubcomponent
+  {
+    private LicenseActivity seedInstance;
+    
+    private LicenseActivitySubcomponentImpl(DaggerAppComponent.LicenseActivitySubcomponentBuilder paramLicenseActivitySubcomponentBuilder)
+    {
+      initialize(paramLicenseActivitySubcomponentBuilder);
+    }
+    
+    private DispatchingAndroidInjector<android.support.v4.app.Fragment> getDispatchingAndroidInjectorOfFragment()
+    {
+      return DispatchingAndroidInjector_Factory.newDispatchingAndroidInjector(m.a(), m.a());
+    }
+    
+    private LicenseActivityPresenter getLicenseActivityPresenter()
+    {
+      return LicenseActivityModule_ProvideLicenseActivityPresenterFactory.proxyProvideLicenseActivityPresenter(this.seedInstance, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+    }
+    
+    private ViewSetterFactory getViewSetterFactory()
+    {
+      return new ViewSetterFactory((Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+    }
+    
+    private void initialize(DaggerAppComponent.LicenseActivitySubcomponentBuilder paramLicenseActivitySubcomponentBuilder)
+    {
+      this.seedInstance = paramLicenseActivitySubcomponentBuilder.seedInstance;
+    }
+    
+    private LicenseActivity injectLicenseActivity(LicenseActivity paramLicenseActivity)
+    {
+      DaggerAppCompatActivity_MembersInjector.injectSupportFragmentInjector(paramLicenseActivity, getDispatchingAndroidInjectorOfFragment());
+      DaggerAppCompatActivity_MembersInjector.injectFrameworkFragmentInjector(paramLicenseActivity, DaggerAppComponent.this.getDispatchingAndroidInjectorOfFragment());
+      B2PDialogActivity_MembersInjector.injectLocalizer(paramLicenseActivity, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+      B2PDialogActivity_MembersInjector.injectTrackingHelper(paramLicenseActivity, (TrackingHelper)DaggerAppComponent.this.provideTrackingHelperProvider.get());
+      B2PDialogActivity_MembersInjector.injectLoginManager(paramLicenseActivity, (LoginManager)DaggerAppComponent.this.loginManagerProvider.get());
+      B2PDialogActivity_MembersInjector.injectHigherLoginManager(paramLicenseActivity, (IHigherLoginManager)DaggerAppComponent.this.provideHigherLoginManagerProvider.get());
+      B2PDialogActivity_MembersInjector.injectBox7Cache(paramLicenseActivity, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      B2PDialogActivity_MembersInjector.injectMainThreadBus(paramLicenseActivity, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+      B2PDialogActivity_MembersInjector.injectPerformanceTimingManager(paramLicenseActivity, (IPerformanceTimingManager)DaggerAppComponent.this.provideIPerformanceTimingManagerProvider.get());
+      B2PActivity_MembersInjector.injectApplication(paramLicenseActivity, DaggerAppComponent.this.application);
+      B2PActivity_MembersInjector.injectBus(paramLicenseActivity, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+      B2PActivity_MembersInjector.injectViewSetterFactory(paramLicenseActivity, getViewSetterFactory());
+      B2PActivity_MembersInjector.injectLocalizationManagerFactory(paramLicenseActivity, (LocalizationManagerFactory)DaggerAppComponent.this.provideLocalizationManagerFactoryProvider.get());
+      B2PActivity_MembersInjector.injectBusEventReceiver(paramLicenseActivity, (BusEventReceiver)DaggerAppComponent.this.provideBusEventReceiverProvider.get());
+      B2PActivity_MembersInjector.injectUserPreferences(paramLicenseActivity, (UserPreferences)DaggerAppComponent.this.provideUserPreferencesProvider.get());
+      B2PActivity_MembersInjector.injectLoginManager(paramLicenseActivity, (LoginManager)DaggerAppComponent.this.loginManagerProvider.get());
+      B2PActivity_MembersInjector.injectBox7Cache(paramLicenseActivity, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      B2PActivity_MembersInjector.injectSimUtils(paramLicenseActivity, (SimUtils)DaggerAppComponent.this.provideSimUtilsProvider.get());
+      LicenseActivity_MembersInjector.injectSetPresenter(paramLicenseActivity, getLicenseActivityPresenter());
+      return paramLicenseActivity;
+    }
+    
+    public final void inject(LicenseActivity paramLicenseActivity)
+    {
+      injectLicenseActivity(paramLicenseActivity);
+    }
+  }
+  
+  final class LoginActivitySubcomponentBuilder
+    extends ActivityBindingModule_LoginInjector.LoginActivitySubcomponent.Builder
+  {
+    private LoginActivity seedInstance;
+    
+    private LoginActivitySubcomponentBuilder() {}
+    
+    public final ActivityBindingModule_LoginInjector.LoginActivitySubcomponent build()
+    {
+      if (this.seedInstance != null) {
+        return new DaggerAppComponent.LoginActivitySubcomponentImpl(DaggerAppComponent.this, this, null);
+      }
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append(LoginActivity.class.getCanonicalName());
+      localStringBuilder.append(" must be set");
+      throw new IllegalStateException(localStringBuilder.toString());
+    }
+    
+    public final void seedInstance(LoginActivity paramLoginActivity)
+    {
+      this.seedInstance = ((LoginActivity)Preconditions.checkNotNull(paramLoginActivity));
+    }
+  }
+  
+  final class LoginActivitySubcomponentImpl
+    implements ActivityBindingModule_LoginInjector.LoginActivitySubcomponent
+  {
+    private LoginActivity seedInstance;
+    
+    private LoginActivitySubcomponentImpl(DaggerAppComponent.LoginActivitySubcomponentBuilder paramLoginActivitySubcomponentBuilder)
+    {
+      initialize(paramLoginActivitySubcomponentBuilder);
+    }
+    
+    private DispatchingAndroidInjector<android.support.v4.app.Fragment> getDispatchingAndroidInjectorOfFragment()
+    {
+      return DispatchingAndroidInjector_Factory.newDispatchingAndroidInjector(m.a(), m.a());
+    }
+    
+    private LoginPresenter getLoginPresenter()
+    {
+      return LoginActivityModule_ProvideLoginPresenterFactory.proxyProvideLoginPresenter(this.seedInstance, this.seedInstance, (LoginManager)DaggerAppComponent.this.loginManagerProvider.get(), (LoginPreferences)DaggerAppComponent.this.provideLoginPreferencesProvider.get(), (TimeoutPreferences)DaggerAppComponent.this.provideTimeOutPreferencesProvider.get(), (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get(), (Timer)DaggerAppComponent.this.provideTimerProvider.get(), (TrackingHelper)DaggerAppComponent.this.provideTrackingHelperProvider.get(), (ErrorUtils)DaggerAppComponent.this.provideErrorUtilsProvider.get(), (SimUtils)DaggerAppComponent.this.provideSimUtilsProvider.get(), (UserPreferences)DaggerAppComponent.this.provideUserPreferencesProvider.get(), (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+    }
+    
+    private ViewSetterFactory getViewSetterFactory()
+    {
+      return new ViewSetterFactory((Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+    }
+    
+    private void initialize(DaggerAppComponent.LoginActivitySubcomponentBuilder paramLoginActivitySubcomponentBuilder)
+    {
+      this.seedInstance = paramLoginActivitySubcomponentBuilder.seedInstance;
+    }
+    
+    private LoginActivity injectLoginActivity(LoginActivity paramLoginActivity)
+    {
+      DaggerAppCompatActivity_MembersInjector.injectSupportFragmentInjector(paramLoginActivity, getDispatchingAndroidInjectorOfFragment());
+      DaggerAppCompatActivity_MembersInjector.injectFrameworkFragmentInjector(paramLoginActivity, DaggerAppComponent.this.getDispatchingAndroidInjectorOfFragment());
+      B2PDialogActivity_MembersInjector.injectLocalizer(paramLoginActivity, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+      B2PDialogActivity_MembersInjector.injectTrackingHelper(paramLoginActivity, (TrackingHelper)DaggerAppComponent.this.provideTrackingHelperProvider.get());
+      B2PDialogActivity_MembersInjector.injectLoginManager(paramLoginActivity, (LoginManager)DaggerAppComponent.this.loginManagerProvider.get());
+      B2PDialogActivity_MembersInjector.injectHigherLoginManager(paramLoginActivity, (IHigherLoginManager)DaggerAppComponent.this.provideHigherLoginManagerProvider.get());
+      B2PDialogActivity_MembersInjector.injectBox7Cache(paramLoginActivity, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      B2PDialogActivity_MembersInjector.injectMainThreadBus(paramLoginActivity, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+      B2PDialogActivity_MembersInjector.injectPerformanceTimingManager(paramLoginActivity, (IPerformanceTimingManager)DaggerAppComponent.this.provideIPerformanceTimingManagerProvider.get());
+      B2PActivity_MembersInjector.injectApplication(paramLoginActivity, DaggerAppComponent.this.application);
+      B2PActivity_MembersInjector.injectBus(paramLoginActivity, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+      B2PActivity_MembersInjector.injectViewSetterFactory(paramLoginActivity, getViewSetterFactory());
+      B2PActivity_MembersInjector.injectLocalizationManagerFactory(paramLoginActivity, (LocalizationManagerFactory)DaggerAppComponent.this.provideLocalizationManagerFactoryProvider.get());
+      B2PActivity_MembersInjector.injectBusEventReceiver(paramLoginActivity, (BusEventReceiver)DaggerAppComponent.this.provideBusEventReceiverProvider.get());
+      B2PActivity_MembersInjector.injectUserPreferences(paramLoginActivity, (UserPreferences)DaggerAppComponent.this.provideUserPreferencesProvider.get());
+      B2PActivity_MembersInjector.injectLoginManager(paramLoginActivity, (LoginManager)DaggerAppComponent.this.loginManagerProvider.get());
+      B2PActivity_MembersInjector.injectBox7Cache(paramLoginActivity, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      B2PActivity_MembersInjector.injectSimUtils(paramLoginActivity, (SimUtils)DaggerAppComponent.this.provideSimUtilsProvider.get());
+      LoginActivity_MembersInjector.injectBrandUtils(paramLoginActivity, (BrandUtils)DaggerAppComponent.this.provideBrandUtilsProvider.get());
+      LoginActivity_MembersInjector.injectSetPresenter(paramLoginActivity, getLoginPresenter());
+      return paramLoginActivity;
+    }
+    
+    public final void inject(LoginActivity paramLoginActivity)
+    {
+      injectLoginActivity(paramLoginActivity);
+    }
+  }
+  
+  final class MyAccountActivitySubcomponentBuilder
+    extends ActivityBindingModule_MyAccountActivityInjector.MyAccountActivitySubcomponent.Builder
+  {
+    private MyAccountActivity seedInstance;
+    
+    private MyAccountActivitySubcomponentBuilder() {}
+    
+    public final ActivityBindingModule_MyAccountActivityInjector.MyAccountActivitySubcomponent build()
+    {
+      if (this.seedInstance != null) {
+        return new DaggerAppComponent.MyAccountActivitySubcomponentImpl(DaggerAppComponent.this, this, null);
+      }
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append(MyAccountActivity.class.getCanonicalName());
+      localStringBuilder.append(" must be set");
+      throw new IllegalStateException(localStringBuilder.toString());
+    }
+    
+    public final void seedInstance(MyAccountActivity paramMyAccountActivity)
+    {
+      this.seedInstance = ((MyAccountActivity)Preconditions.checkNotNull(paramMyAccountActivity));
+    }
+  }
+  
+  final class MyAccountActivitySubcomponentImpl
+    implements ActivityBindingModule_MyAccountActivityInjector.MyAccountActivitySubcomponent
+  {
+    private Provider<ConsumeFragmentModule_ConsumeFragmentInjector.ConsumeFragmentSubcomponent.Builder> consumeFragmentSubcomponentBuilderProvider;
+    private Provider<ConsumeOverviewFragmentModule_ConsumeOverviewFragmentInjector.ConsumeOverviewFragmentSubcomponent.Builder> consumeOverviewFragmentSubcomponentBuilderProvider;
+    private Provider<MyAccountFragmentModule_MyAccountFragmentInjector.MyAccountFragmentSubcomponent.Builder> myAccountFragmentSubcomponentBuilderProvider;
+    private Provider<MyAccountActivityModule_NotRegisteredFragmentInjector.NotRegisteredFragmentSubcomponent.Builder> notRegisteredFragmentSubcomponentBuilderProvider;
+    private Provider<MyAccountActivityModule_ReAuthFragmentInjector.ReAuthFragmentSubcomponent.Builder> reAuthFragmentSubcomponentBuilderProvider;
+    private MyAccountActivity seedInstance;
+    
+    private MyAccountActivitySubcomponentImpl(DaggerAppComponent.MyAccountActivitySubcomponentBuilder paramMyAccountActivitySubcomponentBuilder)
+    {
+      initialize(paramMyAccountActivitySubcomponentBuilder);
+    }
+    
+    private Box7CustomerManager getBox7CustomerManager()
+    {
+      return new Box7CustomerManager(DaggerAppComponent.this.getAddressesApi(), DaggerAppComponent.this.getCustomersApi(), DaggerAppComponent.this.getThirdPartyApi(), DaggerAppComponent.this.getSimCardsApi(), (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get(), (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+    }
+    
+    private Box7SubscriptionManager getBox7SubscriptionManager()
+    {
+      return injectBox7SubscriptionManager(Box7SubscriptionManager_Factory.newBox7SubscriptionManager(DaggerAppComponent.this.getPacksApi(), DaggerAppComponent.this.getTopupsApi(), DaggerAppComponent.this.getSubscriptionsApi(), DaggerAppComponent.this.getUsagesApi()));
+    }
+    
+    private ConsumeFragmentPresenter getConsumeFragmentPresenter()
+    {
+      return ConsumeFragmentModule_ProvideConsumeFragmentPresenterFactory.proxyProvideConsumeFragmentPresenter((Localizer)DaggerAppComponent.this.provideLocalizerProvider.get(), getBox7SubscriptionManager(), this.seedInstance, (EvnDataModelFactory)DaggerAppComponent.this.provideEvnDataModelFactoryProvider.get(), (ISubscriptionModelRepository)DaggerAppComponent.this.provideISubscriptionModelRepositoryProvider.get());
+    }
+    
+    private DispatchingAndroidInjector<android.support.v4.app.Fragment> getDispatchingAndroidInjectorOfFragment()
+    {
+      return DispatchingAndroidInjector_Factory.newDispatchingAndroidInjector(getMapOfClassOfAndProviderOfFactoryOf(), m.a());
+    }
+    
+    private Map<Class<? extends android.support.v4.app.Fragment>, Provider<AndroidInjector.Factory<? extends android.support.v4.app.Fragment>>> getMapOfClassOfAndProviderOfFactoryOf()
+    {
+      return m.a(ReAuthFragment.class, this.reAuthFragmentSubcomponentBuilderProvider, NotRegisteredFragment.class, this.notRegisteredFragmentSubcomponentBuilderProvider, MyAccountFragment.class, this.myAccountFragmentSubcomponentBuilderProvider, ConsumeFragment.class, this.consumeFragmentSubcomponentBuilderProvider, ConsumeOverviewFragment.class, this.consumeOverviewFragmentSubcomponentBuilderProvider);
+    }
+    
+    private MyAccountActivityPresenter getMyAccountActivityPresenter()
+    {
+      return MyAccountActivityModule_ProvideMyAccountPresenterFactory.proxyProvideMyAccountPresenter(this.seedInstance, (TimeoutPreferences)DaggerAppComponent.this.provideTimeOutPreferencesProvider.get());
+    }
+    
+    private ReAuthFragmentPresenter getReAuthFragmentPresenter()
+    {
+      return MyAccountActivityModule_ProvideReAuthFragmentPresenterFactory.proxyProvideReAuthFragmentPresenter(this.seedInstance, (IHigherLoginManager)DaggerAppComponent.this.provideHigherLoginManagerProvider.get(), (ErrorUtils)DaggerAppComponent.this.provideErrorUtilsProvider.get(), (HotlineUtils)DaggerAppComponent.this.provideHotlineUtilsProvider.get(), (LoginPreferences)DaggerAppComponent.this.provideLoginPreferencesProvider.get(), getBox7CustomerManager(), getBox7SubscriptionManager(), (ISubscriptionsAuthorizedRepository)DaggerAppComponent.this.provideISubscriptionsAuthorizedRepositoryProvider.get(), (IBrandTariffTypePropertyModelRepository)DaggerAppComponent.this.provideIBrandTariffTypePropertyModelRepositoryProvider.get(), DaggerAppComponent.this.getNetworkUtils(), (ILoginAccountModelRepository)DaggerAppComponent.this.provideILoginAccountModelRepositoryProvider.get());
+    }
+    
+    private ViewSetterFactory getViewSetterFactory()
+    {
+      return new ViewSetterFactory((Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+    }
+    
+    private void initialize(DaggerAppComponent.MyAccountActivitySubcomponentBuilder paramMyAccountActivitySubcomponentBuilder)
+    {
+      this.reAuthFragmentSubcomponentBuilderProvider = new Provider()
+      {
+        public MyAccountActivityModule_ReAuthFragmentInjector.ReAuthFragmentSubcomponent.Builder get()
+        {
+          return new DaggerAppComponent.MyAccountActivitySubcomponentImpl.MAAM_RAFI_ReAuthFragmentSubcomponentBuilder(DaggerAppComponent.MyAccountActivitySubcomponentImpl.this, null);
+        }
+      };
+      this.notRegisteredFragmentSubcomponentBuilderProvider = new Provider()
+      {
+        public MyAccountActivityModule_NotRegisteredFragmentInjector.NotRegisteredFragmentSubcomponent.Builder get()
+        {
+          return new DaggerAppComponent.MyAccountActivitySubcomponentImpl.MAAM_NRFI_NotRegisteredFragmentSubcomponentBuilder(DaggerAppComponent.MyAccountActivitySubcomponentImpl.this, null);
+        }
+      };
+      this.myAccountFragmentSubcomponentBuilderProvider = new Provider()
+      {
+        public MyAccountFragmentModule_MyAccountFragmentInjector.MyAccountFragmentSubcomponent.Builder get()
+        {
+          return new DaggerAppComponent.MyAccountActivitySubcomponentImpl.MyAccountFragmentSubcomponentBuilder(DaggerAppComponent.MyAccountActivitySubcomponentImpl.this, null);
+        }
+      };
+      this.consumeFragmentSubcomponentBuilderProvider = new Provider()
+      {
+        public ConsumeFragmentModule_ConsumeFragmentInjector.ConsumeFragmentSubcomponent.Builder get()
+        {
+          return new DaggerAppComponent.MyAccountActivitySubcomponentImpl.ConsumeFragmentSubcomponentBuilder(DaggerAppComponent.MyAccountActivitySubcomponentImpl.this, null);
+        }
+      };
+      this.consumeOverviewFragmentSubcomponentBuilderProvider = new Provider()
+      {
+        public ConsumeOverviewFragmentModule_ConsumeOverviewFragmentInjector.ConsumeOverviewFragmentSubcomponent.Builder get()
+        {
+          return new DaggerAppComponent.MyAccountActivitySubcomponentImpl.ConsumeOverviewFragmentSubcomponentBuilder(DaggerAppComponent.MyAccountActivitySubcomponentImpl.this, null);
+        }
+      };
+      this.seedInstance = paramMyAccountActivitySubcomponentBuilder.seedInstance;
+    }
+    
+    private Box7SubscriptionManager injectBox7SubscriptionManager(Box7SubscriptionManager paramBox7SubscriptionManager)
+    {
+      Box7SubscriptionManager_MembersInjector.injectBox7Cache(paramBox7SubscriptionManager, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      return paramBox7SubscriptionManager;
+    }
+    
+    private MyAccountActivity injectMyAccountActivity(MyAccountActivity paramMyAccountActivity)
+    {
+      DaggerAppCompatActivity_MembersInjector.injectSupportFragmentInjector(paramMyAccountActivity, getDispatchingAndroidInjectorOfFragment());
+      DaggerAppCompatActivity_MembersInjector.injectFrameworkFragmentInjector(paramMyAccountActivity, DaggerAppComponent.this.getDispatchingAndroidInjectorOfFragment());
+      B2PDialogActivity_MembersInjector.injectLocalizer(paramMyAccountActivity, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+      B2PDialogActivity_MembersInjector.injectTrackingHelper(paramMyAccountActivity, (TrackingHelper)DaggerAppComponent.this.provideTrackingHelperProvider.get());
+      B2PDialogActivity_MembersInjector.injectLoginManager(paramMyAccountActivity, (LoginManager)DaggerAppComponent.this.loginManagerProvider.get());
+      B2PDialogActivity_MembersInjector.injectHigherLoginManager(paramMyAccountActivity, (IHigherLoginManager)DaggerAppComponent.this.provideHigherLoginManagerProvider.get());
+      B2PDialogActivity_MembersInjector.injectBox7Cache(paramMyAccountActivity, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      B2PDialogActivity_MembersInjector.injectMainThreadBus(paramMyAccountActivity, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+      B2PDialogActivity_MembersInjector.injectPerformanceTimingManager(paramMyAccountActivity, (IPerformanceTimingManager)DaggerAppComponent.this.provideIPerformanceTimingManagerProvider.get());
+      B2PActivity_MembersInjector.injectApplication(paramMyAccountActivity, DaggerAppComponent.this.application);
+      B2PActivity_MembersInjector.injectBus(paramMyAccountActivity, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+      B2PActivity_MembersInjector.injectViewSetterFactory(paramMyAccountActivity, getViewSetterFactory());
+      B2PActivity_MembersInjector.injectLocalizationManagerFactory(paramMyAccountActivity, (LocalizationManagerFactory)DaggerAppComponent.this.provideLocalizationManagerFactoryProvider.get());
+      B2PActivity_MembersInjector.injectBusEventReceiver(paramMyAccountActivity, (BusEventReceiver)DaggerAppComponent.this.provideBusEventReceiverProvider.get());
+      B2PActivity_MembersInjector.injectUserPreferences(paramMyAccountActivity, (UserPreferences)DaggerAppComponent.this.provideUserPreferencesProvider.get());
+      B2PActivity_MembersInjector.injectLoginManager(paramMyAccountActivity, (LoginManager)DaggerAppComponent.this.loginManagerProvider.get());
+      B2PActivity_MembersInjector.injectBox7Cache(paramMyAccountActivity, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      B2PActivity_MembersInjector.injectSimUtils(paramMyAccountActivity, (SimUtils)DaggerAppComponent.this.provideSimUtilsProvider.get());
+      MyAccountActivity_MembersInjector.injectSetPresenter(paramMyAccountActivity, getMyAccountActivityPresenter());
+      return paramMyAccountActivity;
+    }
+    
+    public final void inject(MyAccountActivity paramMyAccountActivity)
+    {
+      injectMyAccountActivity(paramMyAccountActivity);
+    }
+    
+    final class ConsumeFragmentSubcomponentBuilder
+      extends ConsumeFragmentModule_ConsumeFragmentInjector.ConsumeFragmentSubcomponent.Builder
+    {
+      private ConsumeFragment seedInstance;
+      
+      private ConsumeFragmentSubcomponentBuilder() {}
+      
+      public final ConsumeFragmentModule_ConsumeFragmentInjector.ConsumeFragmentSubcomponent build()
+      {
+        if (this.seedInstance != null) {
+          return new DaggerAppComponent.MyAccountActivitySubcomponentImpl.ConsumeFragmentSubcomponentImpl(DaggerAppComponent.MyAccountActivitySubcomponentImpl.this, this, null);
+        }
+        StringBuilder localStringBuilder = new StringBuilder();
+        localStringBuilder.append(ConsumeFragment.class.getCanonicalName());
+        localStringBuilder.append(" must be set");
+        throw new IllegalStateException(localStringBuilder.toString());
+      }
+      
+      public final void seedInstance(ConsumeFragment paramConsumeFragment)
+      {
+        this.seedInstance = ((ConsumeFragment)Preconditions.checkNotNull(paramConsumeFragment));
+      }
+    }
+    
+    final class ConsumeFragmentSubcomponentImpl
+      implements ConsumeFragmentModule_ConsumeFragmentInjector.ConsumeFragmentSubcomponent
+    {
+      private ConsumeFragmentSubcomponentImpl(DaggerAppComponent.MyAccountActivitySubcomponentImpl.ConsumeFragmentSubcomponentBuilder paramConsumeFragmentSubcomponentBuilder) {}
+      
+      private ConsumeFragment injectConsumeFragment(ConsumeFragment paramConsumeFragment)
+      {
+        DaggerFragment_MembersInjector.injectChildFragmentInjector(paramConsumeFragment, DaggerAppComponent.MyAccountActivitySubcomponentImpl.this.getDispatchingAndroidInjectorOfFragment());
+        B2PFragment_MembersInjector.injectApplication(paramConsumeFragment, DaggerAppComponent.this.application);
+        B2PFragment_MembersInjector.injectLocalizer(paramConsumeFragment, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+        B2PFragment_MembersInjector.injectViewSetterFactory(paramConsumeFragment, DaggerAppComponent.MyAccountActivitySubcomponentImpl.this.getViewSetterFactory());
+        B2PFragment_MembersInjector.injectBus(paramConsumeFragment, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+        ConsumeFragment_MembersInjector.injectSetPresenter(paramConsumeFragment, DaggerAppComponent.MyAccountActivitySubcomponentImpl.this.getConsumeFragmentPresenter());
+        return paramConsumeFragment;
+      }
+      
+      public final void inject(ConsumeFragment paramConsumeFragment)
+      {
+        injectConsumeFragment(paramConsumeFragment);
+      }
+    }
+    
+    final class ConsumeOverviewFragmentSubcomponentBuilder
+      extends ConsumeOverviewFragmentModule_ConsumeOverviewFragmentInjector.ConsumeOverviewFragmentSubcomponent.Builder
+    {
+      private ConsumeOverviewFragment seedInstance;
+      
+      private ConsumeOverviewFragmentSubcomponentBuilder() {}
+      
+      public final ConsumeOverviewFragmentModule_ConsumeOverviewFragmentInjector.ConsumeOverviewFragmentSubcomponent build()
+      {
+        if (this.seedInstance != null) {
+          return new DaggerAppComponent.MyAccountActivitySubcomponentImpl.ConsumeOverviewFragmentSubcomponentImpl(DaggerAppComponent.MyAccountActivitySubcomponentImpl.this, this, null);
+        }
+        StringBuilder localStringBuilder = new StringBuilder();
+        localStringBuilder.append(ConsumeOverviewFragment.class.getCanonicalName());
+        localStringBuilder.append(" must be set");
+        throw new IllegalStateException(localStringBuilder.toString());
+      }
+      
+      public final void seedInstance(ConsumeOverviewFragment paramConsumeOverviewFragment)
+      {
+        this.seedInstance = ((ConsumeOverviewFragment)Preconditions.checkNotNull(paramConsumeOverviewFragment));
+      }
+    }
+    
+    final class ConsumeOverviewFragmentSubcomponentImpl
+      implements ConsumeOverviewFragmentModule_ConsumeOverviewFragmentInjector.ConsumeOverviewFragmentSubcomponent
+    {
+      private ConsumeOverviewFragmentSubcomponentImpl(DaggerAppComponent.MyAccountActivitySubcomponentImpl.ConsumeOverviewFragmentSubcomponentBuilder paramConsumeOverviewFragmentSubcomponentBuilder) {}
+      
+      private ConsumeOverviewFragment injectConsumeOverviewFragment(ConsumeOverviewFragment paramConsumeOverviewFragment)
+      {
+        DaggerFragment_MembersInjector.injectChildFragmentInjector(paramConsumeOverviewFragment, DaggerAppComponent.MyAccountActivitySubcomponentImpl.this.getDispatchingAndroidInjectorOfFragment());
+        B2PFragment_MembersInjector.injectApplication(paramConsumeOverviewFragment, DaggerAppComponent.this.application);
+        B2PFragment_MembersInjector.injectLocalizer(paramConsumeOverviewFragment, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+        B2PFragment_MembersInjector.injectViewSetterFactory(paramConsumeOverviewFragment, DaggerAppComponent.MyAccountActivitySubcomponentImpl.this.getViewSetterFactory());
+        B2PFragment_MembersInjector.injectBus(paramConsumeOverviewFragment, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+        ConsumeOverviewFragment_MembersInjector.injectSetPresenter(paramConsumeOverviewFragment, ConsumeOverviewFragmentModule_ProvideConsumeOverviewFragmentPresenterFactory.proxyProvideConsumeOverviewFragmentPresenter());
+        return paramConsumeOverviewFragment;
+      }
+      
+      public final void inject(ConsumeOverviewFragment paramConsumeOverviewFragment)
+      {
+        injectConsumeOverviewFragment(paramConsumeOverviewFragment);
+      }
+    }
+    
+    final class MAAM_NRFI_NotRegisteredFragmentSubcomponentBuilder
+      extends MyAccountActivityModule_NotRegisteredFragmentInjector.NotRegisteredFragmentSubcomponent.Builder
+    {
+      private NotRegisteredFragment seedInstance;
+      
+      private MAAM_NRFI_NotRegisteredFragmentSubcomponentBuilder() {}
+      
+      public final MyAccountActivityModule_NotRegisteredFragmentInjector.NotRegisteredFragmentSubcomponent build()
+      {
+        if (this.seedInstance != null) {
+          return new DaggerAppComponent.MyAccountActivitySubcomponentImpl.MAAM_NRFI_NotRegisteredFragmentSubcomponentImpl(DaggerAppComponent.MyAccountActivitySubcomponentImpl.this, this, null);
+        }
+        StringBuilder localStringBuilder = new StringBuilder();
+        localStringBuilder.append(NotRegisteredFragment.class.getCanonicalName());
+        localStringBuilder.append(" must be set");
+        throw new IllegalStateException(localStringBuilder.toString());
+      }
+      
+      public final void seedInstance(NotRegisteredFragment paramNotRegisteredFragment)
+      {
+        this.seedInstance = ((NotRegisteredFragment)Preconditions.checkNotNull(paramNotRegisteredFragment));
+      }
+    }
+    
+    final class MAAM_NRFI_NotRegisteredFragmentSubcomponentImpl
+      implements MyAccountActivityModule_NotRegisteredFragmentInjector.NotRegisteredFragmentSubcomponent
+    {
+      private MAAM_NRFI_NotRegisteredFragmentSubcomponentImpl(DaggerAppComponent.MyAccountActivitySubcomponentImpl.MAAM_NRFI_NotRegisteredFragmentSubcomponentBuilder paramMAAM_NRFI_NotRegisteredFragmentSubcomponentBuilder) {}
+      
+      private NotRegisteredFragmentPresenter getNotRegisteredFragmentPresenter()
+      {
+        return new NotRegisteredFragmentPresenter((Localizer)DaggerAppComponent.this.provideLocalizerProvider.get(), DaggerAppComponent.MyAccountActivitySubcomponentImpl.this.seedInstance, (TrackingHelper)DaggerAppComponent.this.provideTrackingHelperProvider.get());
+      }
+      
+      private NotRegisteredFragment injectNotRegisteredFragment(NotRegisteredFragment paramNotRegisteredFragment)
+      {
+        DaggerFragment_MembersInjector.injectChildFragmentInjector(paramNotRegisteredFragment, DaggerAppComponent.MyAccountActivitySubcomponentImpl.this.getDispatchingAndroidInjectorOfFragment());
+        B2PFragment_MembersInjector.injectApplication(paramNotRegisteredFragment, DaggerAppComponent.this.application);
+        B2PFragment_MembersInjector.injectLocalizer(paramNotRegisteredFragment, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+        B2PFragment_MembersInjector.injectViewSetterFactory(paramNotRegisteredFragment, DaggerAppComponent.MyAccountActivitySubcomponentImpl.this.getViewSetterFactory());
+        B2PFragment_MembersInjector.injectBus(paramNotRegisteredFragment, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+        NotRegisteredFragment_MembersInjector.injectSetPresenter(paramNotRegisteredFragment, getNotRegisteredFragmentPresenter());
+        return paramNotRegisteredFragment;
+      }
+      
+      public final void inject(NotRegisteredFragment paramNotRegisteredFragment)
+      {
+        injectNotRegisteredFragment(paramNotRegisteredFragment);
+      }
+    }
+    
+    final class MAAM_RAFI_ReAuthFragmentSubcomponentBuilder
+      extends MyAccountActivityModule_ReAuthFragmentInjector.ReAuthFragmentSubcomponent.Builder
+    {
+      private ReAuthFragment seedInstance;
+      
+      private MAAM_RAFI_ReAuthFragmentSubcomponentBuilder() {}
+      
+      public final MyAccountActivityModule_ReAuthFragmentInjector.ReAuthFragmentSubcomponent build()
+      {
+        if (this.seedInstance != null) {
+          return new DaggerAppComponent.MyAccountActivitySubcomponentImpl.MAAM_RAFI_ReAuthFragmentSubcomponentImpl(DaggerAppComponent.MyAccountActivitySubcomponentImpl.this, this, null);
+        }
+        StringBuilder localStringBuilder = new StringBuilder();
+        localStringBuilder.append(ReAuthFragment.class.getCanonicalName());
+        localStringBuilder.append(" must be set");
+        throw new IllegalStateException(localStringBuilder.toString());
+      }
+      
+      public final void seedInstance(ReAuthFragment paramReAuthFragment)
+      {
+        this.seedInstance = ((ReAuthFragment)Preconditions.checkNotNull(paramReAuthFragment));
+      }
+    }
+    
+    final class MAAM_RAFI_ReAuthFragmentSubcomponentImpl
+      implements MyAccountActivityModule_ReAuthFragmentInjector.ReAuthFragmentSubcomponent
+    {
+      private MAAM_RAFI_ReAuthFragmentSubcomponentImpl(DaggerAppComponent.MyAccountActivitySubcomponentImpl.MAAM_RAFI_ReAuthFragmentSubcomponentBuilder paramMAAM_RAFI_ReAuthFragmentSubcomponentBuilder) {}
+      
+      private ReAuthFragment injectReAuthFragment(ReAuthFragment paramReAuthFragment)
+      {
+        DaggerFragment_MembersInjector.injectChildFragmentInjector(paramReAuthFragment, DaggerAppComponent.MyAccountActivitySubcomponentImpl.this.getDispatchingAndroidInjectorOfFragment());
+        B2PFragment_MembersInjector.injectApplication(paramReAuthFragment, DaggerAppComponent.this.application);
+        B2PFragment_MembersInjector.injectLocalizer(paramReAuthFragment, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+        B2PFragment_MembersInjector.injectViewSetterFactory(paramReAuthFragment, DaggerAppComponent.MyAccountActivitySubcomponentImpl.this.getViewSetterFactory());
+        B2PFragment_MembersInjector.injectBus(paramReAuthFragment, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+        ReAuthFragment_MembersInjector.injectSetPresenter(paramReAuthFragment, DaggerAppComponent.MyAccountActivitySubcomponentImpl.this.getReAuthFragmentPresenter());
+        return paramReAuthFragment;
+      }
+      
+      public final void inject(ReAuthFragment paramReAuthFragment)
+      {
+        injectReAuthFragment(paramReAuthFragment);
+      }
+    }
+    
+    final class MyAccountFragmentSubcomponentBuilder
+      extends MyAccountFragmentModule_MyAccountFragmentInjector.MyAccountFragmentSubcomponent.Builder
+    {
+      private MyAccountFragment seedInstance;
+      
+      private MyAccountFragmentSubcomponentBuilder() {}
+      
+      public final MyAccountFragmentModule_MyAccountFragmentInjector.MyAccountFragmentSubcomponent build()
+      {
+        if (this.seedInstance != null) {
+          return new DaggerAppComponent.MyAccountActivitySubcomponentImpl.MyAccountFragmentSubcomponentImpl(DaggerAppComponent.MyAccountActivitySubcomponentImpl.this, this, null);
+        }
+        StringBuilder localStringBuilder = new StringBuilder();
+        localStringBuilder.append(MyAccountFragment.class.getCanonicalName());
+        localStringBuilder.append(" must be set");
+        throw new IllegalStateException(localStringBuilder.toString());
+      }
+      
+      public final void seedInstance(MyAccountFragment paramMyAccountFragment)
+      {
+        this.seedInstance = ((MyAccountFragment)Preconditions.checkNotNull(paramMyAccountFragment));
+      }
+    }
+    
+    final class MyAccountFragmentSubcomponentImpl
+      implements MyAccountFragmentModule_MyAccountFragmentInjector.MyAccountFragmentSubcomponent
+    {
+      private MyAccountFragmentSubcomponentImpl(DaggerAppComponent.MyAccountActivitySubcomponentImpl.MyAccountFragmentSubcomponentBuilder paramMyAccountFragmentSubcomponentBuilder) {}
+      
+      private MyAccountFragment injectMyAccountFragment(MyAccountFragment paramMyAccountFragment)
+      {
+        DaggerFragment_MembersInjector.injectChildFragmentInjector(paramMyAccountFragment, DaggerAppComponent.MyAccountActivitySubcomponentImpl.this.getDispatchingAndroidInjectorOfFragment());
+        B2PFragment_MembersInjector.injectApplication(paramMyAccountFragment, DaggerAppComponent.this.application);
+        B2PFragment_MembersInjector.injectLocalizer(paramMyAccountFragment, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+        B2PFragment_MembersInjector.injectViewSetterFactory(paramMyAccountFragment, DaggerAppComponent.MyAccountActivitySubcomponentImpl.this.getViewSetterFactory());
+        B2PFragment_MembersInjector.injectBus(paramMyAccountFragment, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+        B2PFragment_MembersInjector.injectSetPresenter(paramMyAccountFragment, MyAccountFragmentModule_ProvideMyAccountFragmentPresenterFactory.proxyProvideMyAccountFragmentPresenter());
+        MyAccountFragment_MembersInjector.injectBox7Cache(paramMyAccountFragment, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+        MyAccountFragment_MembersInjector.injectSetPresenterImpl(paramMyAccountFragment, MyAccountFragmentModule_ProvideMyAccountFragmentPresenterFactory.proxyProvideMyAccountFragmentPresenter());
+        return paramMyAccountFragment;
+      }
+      
+      public final void inject(MyAccountFragment paramMyAccountFragment)
+      {
+        injectMyAccountFragment(paramMyAccountFragment);
+      }
+    }
+  }
+  
+  final class OnBoardingActivitySubcomponentBuilder
+    extends ActivityBindingModule_TutorialInjector.OnBoardingActivitySubcomponent.Builder
+  {
+    private OnBoardingActivity seedInstance;
+    
+    private OnBoardingActivitySubcomponentBuilder() {}
+    
+    public final ActivityBindingModule_TutorialInjector.OnBoardingActivitySubcomponent build()
+    {
+      if (this.seedInstance != null) {
+        return new DaggerAppComponent.OnBoardingActivitySubcomponentImpl(DaggerAppComponent.this, this, null);
+      }
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append(OnBoardingActivity.class.getCanonicalName());
+      localStringBuilder.append(" must be set");
+      throw new IllegalStateException(localStringBuilder.toString());
+    }
+    
+    public final void seedInstance(OnBoardingActivity paramOnBoardingActivity)
+    {
+      this.seedInstance = ((OnBoardingActivity)Preconditions.checkNotNull(paramOnBoardingActivity));
+    }
+  }
+  
+  final class OnBoardingActivitySubcomponentImpl
+    implements ActivityBindingModule_TutorialInjector.OnBoardingActivitySubcomponent
+  {
+    private OnBoardingActivity seedInstance;
+    
+    private OnBoardingActivitySubcomponentImpl(DaggerAppComponent.OnBoardingActivitySubcomponentBuilder paramOnBoardingActivitySubcomponentBuilder)
+    {
+      initialize(paramOnBoardingActivitySubcomponentBuilder);
+    }
+    
+    private DispatchingAndroidInjector<android.support.v4.app.Fragment> getDispatchingAndroidInjectorOfFragment()
+    {
+      return DispatchingAndroidInjector_Factory.newDispatchingAndroidInjector(m.a(), m.a());
+    }
+    
+    private OnBoardingPresenter getOnBoardingPresenter()
+    {
+      return OnBoardingActivityModule_ProvideOnBoardingActivityPresenterFactory.proxyProvideOnBoardingActivityPresenter(this.seedInstance, (TrackingHelper)DaggerAppComponent.this.provideTrackingHelperProvider.get());
+    }
+    
+    private ViewSetterFactory getViewSetterFactory()
+    {
+      return new ViewSetterFactory((Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+    }
+    
+    private void initialize(DaggerAppComponent.OnBoardingActivitySubcomponentBuilder paramOnBoardingActivitySubcomponentBuilder)
+    {
+      this.seedInstance = paramOnBoardingActivitySubcomponentBuilder.seedInstance;
+    }
+    
+    private OnBoardingActivity injectOnBoardingActivity(OnBoardingActivity paramOnBoardingActivity)
+    {
+      DaggerAppCompatActivity_MembersInjector.injectSupportFragmentInjector(paramOnBoardingActivity, getDispatchingAndroidInjectorOfFragment());
+      DaggerAppCompatActivity_MembersInjector.injectFrameworkFragmentInjector(paramOnBoardingActivity, DaggerAppComponent.this.getDispatchingAndroidInjectorOfFragment());
+      B2PDialogActivity_MembersInjector.injectLocalizer(paramOnBoardingActivity, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+      B2PDialogActivity_MembersInjector.injectTrackingHelper(paramOnBoardingActivity, (TrackingHelper)DaggerAppComponent.this.provideTrackingHelperProvider.get());
+      B2PDialogActivity_MembersInjector.injectLoginManager(paramOnBoardingActivity, (LoginManager)DaggerAppComponent.this.loginManagerProvider.get());
+      B2PDialogActivity_MembersInjector.injectHigherLoginManager(paramOnBoardingActivity, (IHigherLoginManager)DaggerAppComponent.this.provideHigherLoginManagerProvider.get());
+      B2PDialogActivity_MembersInjector.injectBox7Cache(paramOnBoardingActivity, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      B2PDialogActivity_MembersInjector.injectMainThreadBus(paramOnBoardingActivity, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+      B2PDialogActivity_MembersInjector.injectPerformanceTimingManager(paramOnBoardingActivity, (IPerformanceTimingManager)DaggerAppComponent.this.provideIPerformanceTimingManagerProvider.get());
+      B2PActivity_MembersInjector.injectApplication(paramOnBoardingActivity, DaggerAppComponent.this.application);
+      B2PActivity_MembersInjector.injectBus(paramOnBoardingActivity, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+      B2PActivity_MembersInjector.injectViewSetterFactory(paramOnBoardingActivity, getViewSetterFactory());
+      B2PActivity_MembersInjector.injectLocalizationManagerFactory(paramOnBoardingActivity, (LocalizationManagerFactory)DaggerAppComponent.this.provideLocalizationManagerFactoryProvider.get());
+      B2PActivity_MembersInjector.injectBusEventReceiver(paramOnBoardingActivity, (BusEventReceiver)DaggerAppComponent.this.provideBusEventReceiverProvider.get());
+      B2PActivity_MembersInjector.injectUserPreferences(paramOnBoardingActivity, (UserPreferences)DaggerAppComponent.this.provideUserPreferencesProvider.get());
+      B2PActivity_MembersInjector.injectLoginManager(paramOnBoardingActivity, (LoginManager)DaggerAppComponent.this.loginManagerProvider.get());
+      B2PActivity_MembersInjector.injectBox7Cache(paramOnBoardingActivity, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      B2PActivity_MembersInjector.injectSimUtils(paramOnBoardingActivity, (SimUtils)DaggerAppComponent.this.provideSimUtilsProvider.get());
+      OnBoardingActivity_MembersInjector.injectLocalizer(paramOnBoardingActivity, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+      OnBoardingActivity_MembersInjector.injectSetPresenter(paramOnBoardingActivity, getOnBoardingPresenter());
+      return paramOnBoardingActivity;
+    }
+    
+    public final void inject(OnBoardingActivity paramOnBoardingActivity)
+    {
+      injectOnBoardingActivity(paramOnBoardingActivity);
+    }
+  }
+  
+  final class PackActivitySubcomponentBuilder
+    extends ActivityBindingModule_PackActivityInjector.PackActivitySubcomponent.Builder
+  {
+    private PackActivity seedInstance;
+    
+    private PackActivitySubcomponentBuilder() {}
+    
+    public final ActivityBindingModule_PackActivityInjector.PackActivitySubcomponent build()
+    {
+      if (this.seedInstance != null) {
+        return new DaggerAppComponent.PackActivitySubcomponentImpl(DaggerAppComponent.this, this, null);
+      }
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append(PackActivity.class.getCanonicalName());
+      localStringBuilder.append(" must be set");
+      throw new IllegalStateException(localStringBuilder.toString());
+    }
+    
+    public final void seedInstance(PackActivity paramPackActivity)
+    {
+      this.seedInstance = ((PackActivity)Preconditions.checkNotNull(paramPackActivity));
+    }
+  }
+  
+  final class PackActivitySubcomponentImpl
+    implements ActivityBindingModule_PackActivityInjector.PackActivitySubcomponent
+  {
+    private Provider<PackBookConfirmFragmentModule_PackBookConfirmFragmentInjector.PackBookConfirmFragmentSubcomponent.Builder> packBookConfirmFragmentSubcomponentBuilderProvider;
+    private Provider<PackBookFragmentModule_PackBookFragmentInjector.PackBookFragmentSubcomponent.Builder> packBookFragmentSubcomponentBuilderProvider;
+    private Provider<PackCancelConfirmFragmentModule_PackCancelConfirmFragmentInjector.PackCancelConfirmFragmentSubcomponent.Builder> packCancelConfirmFragmentSubcomponentBuilderProvider;
+    private Provider<PackCancelFragmentModule_PackCancelFragmentInjector.PackCancelFragmentSubcomponent.Builder> packCancelFragmentSubcomponentBuilderProvider;
+    private Provider<PackOverviewFragmentModule_PackOverviewFragmentInjector.PackOverviewFragmentSubcomponent.Builder> packOverviewFragmentSubcomponentBuilderProvider;
+    private PackActivity seedInstance;
+    private Provider<VasInfoFragmentModule_VasInfoFragmentInjector.VasInfoFragmentSubcomponent.Builder> vasInfoFragmentSubcomponentBuilderProvider;
+    
+    private PackActivitySubcomponentImpl(DaggerAppComponent.PackActivitySubcomponentBuilder paramPackActivitySubcomponentBuilder)
+    {
+      initialize(paramPackActivitySubcomponentBuilder);
+    }
+    
+    private Box7SubscriptionManager getBox7SubscriptionManager()
+    {
+      return injectBox7SubscriptionManager(Box7SubscriptionManager_Factory.newBox7SubscriptionManager(DaggerAppComponent.this.getPacksApi(), DaggerAppComponent.this.getTopupsApi(), DaggerAppComponent.this.getSubscriptionsApi(), DaggerAppComponent.this.getUsagesApi()));
+    }
+    
+    private DispatchingAndroidInjector<android.support.v4.app.Fragment> getDispatchingAndroidInjectorOfFragment()
+    {
+      return DispatchingAndroidInjector_Factory.newDispatchingAndroidInjector(getMapOfClassOfAndProviderOfFactoryOf(), m.a());
+    }
+    
+    private Map<Class<? extends android.support.v4.app.Fragment>, Provider<AndroidInjector.Factory<? extends android.support.v4.app.Fragment>>> getMapOfClassOfAndProviderOfFactoryOf()
+    {
+      return m.b().a(PackOverviewFragment.class, this.packOverviewFragmentSubcomponentBuilderProvider).a(PackBookFragment.class, this.packBookFragmentSubcomponentBuilderProvider).a(PackBookConfirmFragment.class, this.packBookConfirmFragmentSubcomponentBuilderProvider).a(PackCancelFragment.class, this.packCancelFragmentSubcomponentBuilderProvider).a(PackCancelConfirmFragment.class, this.packCancelConfirmFragmentSubcomponentBuilderProvider).a(VasInfoFragment.class, this.vasInfoFragmentSubcomponentBuilderProvider).a();
+    }
+    
+    private PackBookConfirmFragmentPresenter getPackBookConfirmFragmentPresenter()
+    {
+      return PackBookConfirmFragmentModule_ProvidePackBookConfirmFragmentPresenterFactory.proxyProvidePackBookConfirmFragmentPresenter((Localizer)DaggerAppComponent.this.provideLocalizerProvider.get(), (TrackingHelper)DaggerAppComponent.this.provideTrackingHelperProvider.get(), getBox7SubscriptionManager(), (IPerformanceTimingManager)DaggerAppComponent.this.provideIPerformanceTimingManagerProvider.get(), (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get(), this.seedInstance, (ErrorUtils)DaggerAppComponent.this.provideErrorUtilsProvider.get());
+    }
+    
+    private PackBookFragmentPresenter getPackBookFragmentPresenter()
+    {
+      return PackBookFragmentModule_ProvidePackBookFragmentPresenterFactory.proxyProvidePackBookFragmentPresenter((Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+    }
+    
+    private PackCancelConfirmFragmentPresenter getPackCancelConfirmFragmentPresenter()
+    {
+      return PackCancelConfirmFragmentModule_ProvidePackCancelConfirmFragmentPresenterFactory.proxyProvidePackCancelConfirmFragmentPresenter(getBox7SubscriptionManager(), (TrackingHelper)DaggerAppComponent.this.provideTrackingHelperProvider.get(), (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get(), (ErrorUtils)DaggerAppComponent.this.provideErrorUtilsProvider.get());
+    }
+    
+    private PackCancelFragmentPresenter getPackCancelFragmentPresenter()
+    {
+      return PackCancelFragmentModule_ProvidePackCancelFragmentPresenterFactory.proxyProvidePackCancelFragmentPresenter((Localizer)DaggerAppComponent.this.provideLocalizerProvider.get(), (ISubscriptionModelRepository)DaggerAppComponent.this.provideISubscriptionModelRepositoryProvider.get());
+    }
+    
+    private PackOverviewFragmentPresenter getPackOverviewFragmentPresenter()
+    {
+      return PackOverviewFragmentModule_ProvidePackOverviewFragmentPresenterFactory.proxyProvidePackOverviewFragmentPresenter((MoeUpdateManager)DaggerAppComponent.this.provideMoeUpdateManagerProvider.get(), (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get(), (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get(), (IPerformanceTimingManager)DaggerAppComponent.this.provideIPerformanceTimingManagerProvider.get(), (TrackingHelper)DaggerAppComponent.this.provideTrackingHelperProvider.get(), this.seedInstance, (BrandUtils)DaggerAppComponent.this.provideBrandUtilsProvider.get(), (PackDataModelFactory)DaggerAppComponent.this.providePackDataModelFactoryProvider.get(), DaggerAppComponent.this.getNetworkUtils(), (ISubscriptionModelRepository)DaggerAppComponent.this.provideISubscriptionModelRepositoryProvider.get());
+    }
+    
+    private VasInfoPresenter getVasInfoPresenter()
+    {
+      return VasInfoFragmentModule_ProvideVasInfoPresenterFactory.proxyProvideVasInfoPresenter((Localizer)DaggerAppComponent.this.provideLocalizerProvider.get(), getBox7SubscriptionManager(), (TrackingHelper)DaggerAppComponent.this.provideTrackingHelperProvider.get());
+    }
+    
+    private ViewSetterFactory getViewSetterFactory()
+    {
+      return new ViewSetterFactory((Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+    }
+    
+    private void initialize(DaggerAppComponent.PackActivitySubcomponentBuilder paramPackActivitySubcomponentBuilder)
+    {
+      this.packOverviewFragmentSubcomponentBuilderProvider = new Provider()
+      {
+        public PackOverviewFragmentModule_PackOverviewFragmentInjector.PackOverviewFragmentSubcomponent.Builder get()
+        {
+          return new DaggerAppComponent.PackActivitySubcomponentImpl.PackOverviewFragmentSubcomponentBuilder(DaggerAppComponent.PackActivitySubcomponentImpl.this, null);
+        }
+      };
+      this.packBookFragmentSubcomponentBuilderProvider = new Provider()
+      {
+        public PackBookFragmentModule_PackBookFragmentInjector.PackBookFragmentSubcomponent.Builder get()
+        {
+          return new DaggerAppComponent.PackActivitySubcomponentImpl.PackBookFragmentSubcomponentBuilder(DaggerAppComponent.PackActivitySubcomponentImpl.this, null);
+        }
+      };
+      this.packBookConfirmFragmentSubcomponentBuilderProvider = new Provider()
+      {
+        public PackBookConfirmFragmentModule_PackBookConfirmFragmentInjector.PackBookConfirmFragmentSubcomponent.Builder get()
+        {
+          return new DaggerAppComponent.PackActivitySubcomponentImpl.PackBookConfirmFragmentSubcomponentBuilder(DaggerAppComponent.PackActivitySubcomponentImpl.this, null);
+        }
+      };
+      this.packCancelFragmentSubcomponentBuilderProvider = new Provider()
+      {
+        public PackCancelFragmentModule_PackCancelFragmentInjector.PackCancelFragmentSubcomponent.Builder get()
+        {
+          return new DaggerAppComponent.PackActivitySubcomponentImpl.PackCancelFragmentSubcomponentBuilder(DaggerAppComponent.PackActivitySubcomponentImpl.this, null);
+        }
+      };
+      this.packCancelConfirmFragmentSubcomponentBuilderProvider = new Provider()
+      {
+        public PackCancelConfirmFragmentModule_PackCancelConfirmFragmentInjector.PackCancelConfirmFragmentSubcomponent.Builder get()
+        {
+          return new DaggerAppComponent.PackActivitySubcomponentImpl.PackCancelConfirmFragmentSubcomponentBuilder(DaggerAppComponent.PackActivitySubcomponentImpl.this, null);
+        }
+      };
+      this.vasInfoFragmentSubcomponentBuilderProvider = new Provider()
+      {
+        public VasInfoFragmentModule_VasInfoFragmentInjector.VasInfoFragmentSubcomponent.Builder get()
+        {
+          return new DaggerAppComponent.PackActivitySubcomponentImpl.VasInfoFragmentSubcomponentBuilder(DaggerAppComponent.PackActivitySubcomponentImpl.this, null);
+        }
+      };
+      this.seedInstance = paramPackActivitySubcomponentBuilder.seedInstance;
+    }
+    
+    private Box7SubscriptionManager injectBox7SubscriptionManager(Box7SubscriptionManager paramBox7SubscriptionManager)
+    {
+      Box7SubscriptionManager_MembersInjector.injectBox7Cache(paramBox7SubscriptionManager, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      return paramBox7SubscriptionManager;
+    }
+    
+    private PackActivity injectPackActivity(PackActivity paramPackActivity)
+    {
+      DaggerAppCompatActivity_MembersInjector.injectSupportFragmentInjector(paramPackActivity, getDispatchingAndroidInjectorOfFragment());
+      DaggerAppCompatActivity_MembersInjector.injectFrameworkFragmentInjector(paramPackActivity, DaggerAppComponent.this.getDispatchingAndroidInjectorOfFragment());
+      B2PDialogActivity_MembersInjector.injectLocalizer(paramPackActivity, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+      B2PDialogActivity_MembersInjector.injectTrackingHelper(paramPackActivity, (TrackingHelper)DaggerAppComponent.this.provideTrackingHelperProvider.get());
+      B2PDialogActivity_MembersInjector.injectLoginManager(paramPackActivity, (LoginManager)DaggerAppComponent.this.loginManagerProvider.get());
+      B2PDialogActivity_MembersInjector.injectHigherLoginManager(paramPackActivity, (IHigherLoginManager)DaggerAppComponent.this.provideHigherLoginManagerProvider.get());
+      B2PDialogActivity_MembersInjector.injectBox7Cache(paramPackActivity, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      B2PDialogActivity_MembersInjector.injectMainThreadBus(paramPackActivity, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+      B2PDialogActivity_MembersInjector.injectPerformanceTimingManager(paramPackActivity, (IPerformanceTimingManager)DaggerAppComponent.this.provideIPerformanceTimingManagerProvider.get());
+      B2PActivity_MembersInjector.injectApplication(paramPackActivity, DaggerAppComponent.this.application);
+      B2PActivity_MembersInjector.injectBus(paramPackActivity, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+      B2PActivity_MembersInjector.injectViewSetterFactory(paramPackActivity, getViewSetterFactory());
+      B2PActivity_MembersInjector.injectLocalizationManagerFactory(paramPackActivity, (LocalizationManagerFactory)DaggerAppComponent.this.provideLocalizationManagerFactoryProvider.get());
+      B2PActivity_MembersInjector.injectBusEventReceiver(paramPackActivity, (BusEventReceiver)DaggerAppComponent.this.provideBusEventReceiverProvider.get());
+      B2PActivity_MembersInjector.injectUserPreferences(paramPackActivity, (UserPreferences)DaggerAppComponent.this.provideUserPreferencesProvider.get());
+      B2PActivity_MembersInjector.injectLoginManager(paramPackActivity, (LoginManager)DaggerAppComponent.this.loginManagerProvider.get());
+      B2PActivity_MembersInjector.injectBox7Cache(paramPackActivity, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      B2PActivity_MembersInjector.injectSimUtils(paramPackActivity, (SimUtils)DaggerAppComponent.this.provideSimUtilsProvider.get());
+      PackActivity_MembersInjector.injectB2pView(paramPackActivity, this.seedInstance);
+      return paramPackActivity;
+    }
+    
+    public final void inject(PackActivity paramPackActivity)
+    {
+      injectPackActivity(paramPackActivity);
+    }
+    
+    final class PackBookConfirmFragmentSubcomponentBuilder
+      extends PackBookConfirmFragmentModule_PackBookConfirmFragmentInjector.PackBookConfirmFragmentSubcomponent.Builder
+    {
+      private PackBookConfirmFragment seedInstance;
+      
+      private PackBookConfirmFragmentSubcomponentBuilder() {}
+      
+      public final PackBookConfirmFragmentModule_PackBookConfirmFragmentInjector.PackBookConfirmFragmentSubcomponent build()
+      {
+        if (this.seedInstance != null) {
+          return new DaggerAppComponent.PackActivitySubcomponentImpl.PackBookConfirmFragmentSubcomponentImpl(DaggerAppComponent.PackActivitySubcomponentImpl.this, this, null);
+        }
+        StringBuilder localStringBuilder = new StringBuilder();
+        localStringBuilder.append(PackBookConfirmFragment.class.getCanonicalName());
+        localStringBuilder.append(" must be set");
+        throw new IllegalStateException(localStringBuilder.toString());
+      }
+      
+      public final void seedInstance(PackBookConfirmFragment paramPackBookConfirmFragment)
+      {
+        this.seedInstance = ((PackBookConfirmFragment)Preconditions.checkNotNull(paramPackBookConfirmFragment));
+      }
+    }
+    
+    final class PackBookConfirmFragmentSubcomponentImpl
+      implements PackBookConfirmFragmentModule_PackBookConfirmFragmentInjector.PackBookConfirmFragmentSubcomponent
+    {
+      private PackBookConfirmFragmentSubcomponentImpl(DaggerAppComponent.PackActivitySubcomponentImpl.PackBookConfirmFragmentSubcomponentBuilder paramPackBookConfirmFragmentSubcomponentBuilder) {}
+      
+      private PackBookConfirmFragment injectPackBookConfirmFragment(PackBookConfirmFragment paramPackBookConfirmFragment)
+      {
+        DaggerFragment_MembersInjector.injectChildFragmentInjector(paramPackBookConfirmFragment, DaggerAppComponent.PackActivitySubcomponentImpl.this.getDispatchingAndroidInjectorOfFragment());
+        B2PFragment_MembersInjector.injectApplication(paramPackBookConfirmFragment, DaggerAppComponent.this.application);
+        B2PFragment_MembersInjector.injectLocalizer(paramPackBookConfirmFragment, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+        B2PFragment_MembersInjector.injectViewSetterFactory(paramPackBookConfirmFragment, DaggerAppComponent.PackActivitySubcomponentImpl.this.getViewSetterFactory());
+        B2PFragment_MembersInjector.injectBus(paramPackBookConfirmFragment, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+        PackBookConfirmFragment_MembersInjector.injectSetPresenter(paramPackBookConfirmFragment, DaggerAppComponent.PackActivitySubcomponentImpl.this.getPackBookConfirmFragmentPresenter());
+        return paramPackBookConfirmFragment;
+      }
+      
+      public final void inject(PackBookConfirmFragment paramPackBookConfirmFragment)
+      {
+        injectPackBookConfirmFragment(paramPackBookConfirmFragment);
+      }
+    }
+    
+    final class PackBookFragmentSubcomponentBuilder
+      extends PackBookFragmentModule_PackBookFragmentInjector.PackBookFragmentSubcomponent.Builder
+    {
+      private PackBookFragment seedInstance;
+      
+      private PackBookFragmentSubcomponentBuilder() {}
+      
+      public final PackBookFragmentModule_PackBookFragmentInjector.PackBookFragmentSubcomponent build()
+      {
+        if (this.seedInstance != null) {
+          return new DaggerAppComponent.PackActivitySubcomponentImpl.PackBookFragmentSubcomponentImpl(DaggerAppComponent.PackActivitySubcomponentImpl.this, this, null);
+        }
+        StringBuilder localStringBuilder = new StringBuilder();
+        localStringBuilder.append(PackBookFragment.class.getCanonicalName());
+        localStringBuilder.append(" must be set");
+        throw new IllegalStateException(localStringBuilder.toString());
+      }
+      
+      public final void seedInstance(PackBookFragment paramPackBookFragment)
+      {
+        this.seedInstance = ((PackBookFragment)Preconditions.checkNotNull(paramPackBookFragment));
+      }
+    }
+    
+    final class PackBookFragmentSubcomponentImpl
+      implements PackBookFragmentModule_PackBookFragmentInjector.PackBookFragmentSubcomponent
+    {
+      private PackBookFragmentSubcomponentImpl(DaggerAppComponent.PackActivitySubcomponentImpl.PackBookFragmentSubcomponentBuilder paramPackBookFragmentSubcomponentBuilder) {}
+      
+      private PackBookFragment injectPackBookFragment(PackBookFragment paramPackBookFragment)
+      {
+        DaggerFragment_MembersInjector.injectChildFragmentInjector(paramPackBookFragment, DaggerAppComponent.PackActivitySubcomponentImpl.this.getDispatchingAndroidInjectorOfFragment());
+        B2PFragment_MembersInjector.injectApplication(paramPackBookFragment, DaggerAppComponent.this.application);
+        B2PFragment_MembersInjector.injectLocalizer(paramPackBookFragment, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+        B2PFragment_MembersInjector.injectViewSetterFactory(paramPackBookFragment, DaggerAppComponent.PackActivitySubcomponentImpl.this.getViewSetterFactory());
+        B2PFragment_MembersInjector.injectBus(paramPackBookFragment, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+        PackBookFragment_MembersInjector.injectSetPresenter(paramPackBookFragment, DaggerAppComponent.PackActivitySubcomponentImpl.this.getPackBookFragmentPresenter());
+        return paramPackBookFragment;
+      }
+      
+      public final void inject(PackBookFragment paramPackBookFragment)
+      {
+        injectPackBookFragment(paramPackBookFragment);
+      }
+    }
+    
+    final class PackCancelConfirmFragmentSubcomponentBuilder
+      extends PackCancelConfirmFragmentModule_PackCancelConfirmFragmentInjector.PackCancelConfirmFragmentSubcomponent.Builder
+    {
+      private PackCancelConfirmFragment seedInstance;
+      
+      private PackCancelConfirmFragmentSubcomponentBuilder() {}
+      
+      public final PackCancelConfirmFragmentModule_PackCancelConfirmFragmentInjector.PackCancelConfirmFragmentSubcomponent build()
+      {
+        if (this.seedInstance != null) {
+          return new DaggerAppComponent.PackActivitySubcomponentImpl.PackCancelConfirmFragmentSubcomponentImpl(DaggerAppComponent.PackActivitySubcomponentImpl.this, this, null);
+        }
+        StringBuilder localStringBuilder = new StringBuilder();
+        localStringBuilder.append(PackCancelConfirmFragment.class.getCanonicalName());
+        localStringBuilder.append(" must be set");
+        throw new IllegalStateException(localStringBuilder.toString());
+      }
+      
+      public final void seedInstance(PackCancelConfirmFragment paramPackCancelConfirmFragment)
+      {
+        this.seedInstance = ((PackCancelConfirmFragment)Preconditions.checkNotNull(paramPackCancelConfirmFragment));
+      }
+    }
+    
+    final class PackCancelConfirmFragmentSubcomponentImpl
+      implements PackCancelConfirmFragmentModule_PackCancelConfirmFragmentInjector.PackCancelConfirmFragmentSubcomponent
+    {
+      private PackCancelConfirmFragmentSubcomponentImpl(DaggerAppComponent.PackActivitySubcomponentImpl.PackCancelConfirmFragmentSubcomponentBuilder paramPackCancelConfirmFragmentSubcomponentBuilder) {}
+      
+      private PackCancelConfirmFragment injectPackCancelConfirmFragment(PackCancelConfirmFragment paramPackCancelConfirmFragment)
+      {
+        DaggerFragment_MembersInjector.injectChildFragmentInjector(paramPackCancelConfirmFragment, DaggerAppComponent.PackActivitySubcomponentImpl.this.getDispatchingAndroidInjectorOfFragment());
+        B2PFragment_MembersInjector.injectApplication(paramPackCancelConfirmFragment, DaggerAppComponent.this.application);
+        B2PFragment_MembersInjector.injectLocalizer(paramPackCancelConfirmFragment, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+        B2PFragment_MembersInjector.injectViewSetterFactory(paramPackCancelConfirmFragment, DaggerAppComponent.PackActivitySubcomponentImpl.this.getViewSetterFactory());
+        B2PFragment_MembersInjector.injectBus(paramPackCancelConfirmFragment, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+        PackCancelConfirmFragment_MembersInjector.injectSetPresenter(paramPackCancelConfirmFragment, DaggerAppComponent.PackActivitySubcomponentImpl.this.getPackCancelConfirmFragmentPresenter());
+        return paramPackCancelConfirmFragment;
+      }
+      
+      public final void inject(PackCancelConfirmFragment paramPackCancelConfirmFragment)
+      {
+        injectPackCancelConfirmFragment(paramPackCancelConfirmFragment);
+      }
+    }
+    
+    final class PackCancelFragmentSubcomponentBuilder
+      extends PackCancelFragmentModule_PackCancelFragmentInjector.PackCancelFragmentSubcomponent.Builder
+    {
+      private PackCancelFragment seedInstance;
+      
+      private PackCancelFragmentSubcomponentBuilder() {}
+      
+      public final PackCancelFragmentModule_PackCancelFragmentInjector.PackCancelFragmentSubcomponent build()
+      {
+        if (this.seedInstance != null) {
+          return new DaggerAppComponent.PackActivitySubcomponentImpl.PackCancelFragmentSubcomponentImpl(DaggerAppComponent.PackActivitySubcomponentImpl.this, this, null);
+        }
+        StringBuilder localStringBuilder = new StringBuilder();
+        localStringBuilder.append(PackCancelFragment.class.getCanonicalName());
+        localStringBuilder.append(" must be set");
+        throw new IllegalStateException(localStringBuilder.toString());
+      }
+      
+      public final void seedInstance(PackCancelFragment paramPackCancelFragment)
+      {
+        this.seedInstance = ((PackCancelFragment)Preconditions.checkNotNull(paramPackCancelFragment));
+      }
+    }
+    
+    final class PackCancelFragmentSubcomponentImpl
+      implements PackCancelFragmentModule_PackCancelFragmentInjector.PackCancelFragmentSubcomponent
+    {
+      private PackCancelFragmentSubcomponentImpl(DaggerAppComponent.PackActivitySubcomponentImpl.PackCancelFragmentSubcomponentBuilder paramPackCancelFragmentSubcomponentBuilder) {}
+      
+      private PackCancelFragment injectPackCancelFragment(PackCancelFragment paramPackCancelFragment)
+      {
+        DaggerFragment_MembersInjector.injectChildFragmentInjector(paramPackCancelFragment, DaggerAppComponent.PackActivitySubcomponentImpl.this.getDispatchingAndroidInjectorOfFragment());
+        B2PFragment_MembersInjector.injectApplication(paramPackCancelFragment, DaggerAppComponent.this.application);
+        B2PFragment_MembersInjector.injectLocalizer(paramPackCancelFragment, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+        B2PFragment_MembersInjector.injectViewSetterFactory(paramPackCancelFragment, DaggerAppComponent.PackActivitySubcomponentImpl.this.getViewSetterFactory());
+        B2PFragment_MembersInjector.injectBus(paramPackCancelFragment, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+        PackCancelFragment_MembersInjector.injectSetPresenter(paramPackCancelFragment, DaggerAppComponent.PackActivitySubcomponentImpl.this.getPackCancelFragmentPresenter());
+        return paramPackCancelFragment;
+      }
+      
+      public final void inject(PackCancelFragment paramPackCancelFragment)
+      {
+        injectPackCancelFragment(paramPackCancelFragment);
+      }
+    }
+    
+    final class PackOverviewFragmentSubcomponentBuilder
+      extends PackOverviewFragmentModule_PackOverviewFragmentInjector.PackOverviewFragmentSubcomponent.Builder
+    {
+      private PackOverviewFragment seedInstance;
+      
+      private PackOverviewFragmentSubcomponentBuilder() {}
+      
+      public final PackOverviewFragmentModule_PackOverviewFragmentInjector.PackOverviewFragmentSubcomponent build()
+      {
+        if (this.seedInstance != null) {
+          return new DaggerAppComponent.PackActivitySubcomponentImpl.PackOverviewFragmentSubcomponentImpl(DaggerAppComponent.PackActivitySubcomponentImpl.this, this, null);
+        }
+        StringBuilder localStringBuilder = new StringBuilder();
+        localStringBuilder.append(PackOverviewFragment.class.getCanonicalName());
+        localStringBuilder.append(" must be set");
+        throw new IllegalStateException(localStringBuilder.toString());
+      }
+      
+      public final void seedInstance(PackOverviewFragment paramPackOverviewFragment)
+      {
+        this.seedInstance = ((PackOverviewFragment)Preconditions.checkNotNull(paramPackOverviewFragment));
+      }
+    }
+    
+    final class PackOverviewFragmentSubcomponentImpl
+      implements PackOverviewFragmentModule_PackOverviewFragmentInjector.PackOverviewFragmentSubcomponent
+    {
+      private PackOverviewFragmentSubcomponentImpl(DaggerAppComponent.PackActivitySubcomponentImpl.PackOverviewFragmentSubcomponentBuilder paramPackOverviewFragmentSubcomponentBuilder) {}
+      
+      private PackOverviewFragment injectPackOverviewFragment(PackOverviewFragment paramPackOverviewFragment)
+      {
+        DaggerFragment_MembersInjector.injectChildFragmentInjector(paramPackOverviewFragment, DaggerAppComponent.PackActivitySubcomponentImpl.this.getDispatchingAndroidInjectorOfFragment());
+        B2PFragment_MembersInjector.injectApplication(paramPackOverviewFragment, DaggerAppComponent.this.application);
+        B2PFragment_MembersInjector.injectLocalizer(paramPackOverviewFragment, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+        B2PFragment_MembersInjector.injectViewSetterFactory(paramPackOverviewFragment, DaggerAppComponent.PackActivitySubcomponentImpl.this.getViewSetterFactory());
+        B2PFragment_MembersInjector.injectBus(paramPackOverviewFragment, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+        PackOverviewFragment_MembersInjector.injectUiUtils(paramPackOverviewFragment, (UiUtils)DaggerAppComponent.this.provideUiUtilsProvider.get());
+        PackOverviewFragment_MembersInjector.injectSetPresenter(paramPackOverviewFragment, DaggerAppComponent.PackActivitySubcomponentImpl.this.getPackOverviewFragmentPresenter());
+        return paramPackOverviewFragment;
+      }
+      
+      public final void inject(PackOverviewFragment paramPackOverviewFragment)
+      {
+        injectPackOverviewFragment(paramPackOverviewFragment);
+      }
+    }
+    
+    final class VasInfoFragmentSubcomponentBuilder
+      extends VasInfoFragmentModule_VasInfoFragmentInjector.VasInfoFragmentSubcomponent.Builder
+    {
+      private VasInfoFragment seedInstance;
+      
+      private VasInfoFragmentSubcomponentBuilder() {}
+      
+      public final VasInfoFragmentModule_VasInfoFragmentInjector.VasInfoFragmentSubcomponent build()
+      {
+        if (this.seedInstance != null) {
+          return new DaggerAppComponent.PackActivitySubcomponentImpl.VasInfoFragmentSubcomponentImpl(DaggerAppComponent.PackActivitySubcomponentImpl.this, this, null);
+        }
+        StringBuilder localStringBuilder = new StringBuilder();
+        localStringBuilder.append(VasInfoFragment.class.getCanonicalName());
+        localStringBuilder.append(" must be set");
+        throw new IllegalStateException(localStringBuilder.toString());
+      }
+      
+      public final void seedInstance(VasInfoFragment paramVasInfoFragment)
+      {
+        this.seedInstance = ((VasInfoFragment)Preconditions.checkNotNull(paramVasInfoFragment));
+      }
+    }
+    
+    final class VasInfoFragmentSubcomponentImpl
+      implements VasInfoFragmentModule_VasInfoFragmentInjector.VasInfoFragmentSubcomponent
+    {
+      private VasInfoFragmentSubcomponentImpl(DaggerAppComponent.PackActivitySubcomponentImpl.VasInfoFragmentSubcomponentBuilder paramVasInfoFragmentSubcomponentBuilder) {}
+      
+      private VasInfoFragment injectVasInfoFragment(VasInfoFragment paramVasInfoFragment)
+      {
+        DaggerFragment_MembersInjector.injectChildFragmentInjector(paramVasInfoFragment, DaggerAppComponent.PackActivitySubcomponentImpl.this.getDispatchingAndroidInjectorOfFragment());
+        B2PFragment_MembersInjector.injectApplication(paramVasInfoFragment, DaggerAppComponent.this.application);
+        B2PFragment_MembersInjector.injectLocalizer(paramVasInfoFragment, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+        B2PFragment_MembersInjector.injectViewSetterFactory(paramVasInfoFragment, DaggerAppComponent.PackActivitySubcomponentImpl.this.getViewSetterFactory());
+        B2PFragment_MembersInjector.injectBus(paramVasInfoFragment, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+        B2PFragment_MembersInjector.injectSetPresenter(paramVasInfoFragment, DaggerAppComponent.PackActivitySubcomponentImpl.this.getVasInfoPresenter());
+        return paramVasInfoFragment;
+      }
+      
+      public final void inject(VasInfoFragment paramVasInfoFragment)
+      {
+        injectVasInfoFragment(paramVasInfoFragment);
+      }
+    }
+  }
+  
+  final class PublicInfoAreaActivitySubcomponentBuilder
+    extends ActivityBindingModule_PublicInfoAreaInjector.PublicInfoAreaActivitySubcomponent.Builder
+  {
+    private PublicInfoAreaActivity seedInstance;
+    
+    private PublicInfoAreaActivitySubcomponentBuilder() {}
+    
+    public final ActivityBindingModule_PublicInfoAreaInjector.PublicInfoAreaActivitySubcomponent build()
+    {
+      if (this.seedInstance != null) {
+        return new DaggerAppComponent.PublicInfoAreaActivitySubcomponentImpl(DaggerAppComponent.this, this, null);
+      }
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append(PublicInfoAreaActivity.class.getCanonicalName());
+      localStringBuilder.append(" must be set");
+      throw new IllegalStateException(localStringBuilder.toString());
+    }
+    
+    public final void seedInstance(PublicInfoAreaActivity paramPublicInfoAreaActivity)
+    {
+      this.seedInstance = ((PublicInfoAreaActivity)Preconditions.checkNotNull(paramPublicInfoAreaActivity));
+    }
+  }
+  
+  final class PublicInfoAreaActivitySubcomponentImpl
+    implements ActivityBindingModule_PublicInfoAreaInjector.PublicInfoAreaActivitySubcomponent
+  {
+    private PublicInfoAreaActivity seedInstance;
+    
+    private PublicInfoAreaActivitySubcomponentImpl(DaggerAppComponent.PublicInfoAreaActivitySubcomponentBuilder paramPublicInfoAreaActivitySubcomponentBuilder)
+    {
+      initialize(paramPublicInfoAreaActivitySubcomponentBuilder);
+    }
+    
+    private DispatchingAndroidInjector<android.support.v4.app.Fragment> getDispatchingAndroidInjectorOfFragment()
+    {
+      return DispatchingAndroidInjector_Factory.newDispatchingAndroidInjector(m.a(), m.a());
+    }
+    
+    private PublicInfoAreaPresenter getPublicInfoAreaPresenter()
+    {
+      return PublicInfoAreaActivityModule_ProvidePublicInfoAreaPresenterFactory.proxyProvidePublicInfoAreaPresenter(this.seedInstance, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get(), (TrackingHelper)DaggerAppComponent.this.provideTrackingHelperProvider.get());
+    }
+    
+    private ViewSetterFactory getViewSetterFactory()
+    {
+      return new ViewSetterFactory((Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+    }
+    
+    private void initialize(DaggerAppComponent.PublicInfoAreaActivitySubcomponentBuilder paramPublicInfoAreaActivitySubcomponentBuilder)
+    {
+      this.seedInstance = paramPublicInfoAreaActivitySubcomponentBuilder.seedInstance;
+    }
+    
+    private PublicInfoAreaActivity injectPublicInfoAreaActivity(PublicInfoAreaActivity paramPublicInfoAreaActivity)
+    {
+      DaggerAppCompatActivity_MembersInjector.injectSupportFragmentInjector(paramPublicInfoAreaActivity, getDispatchingAndroidInjectorOfFragment());
+      DaggerAppCompatActivity_MembersInjector.injectFrameworkFragmentInjector(paramPublicInfoAreaActivity, DaggerAppComponent.this.getDispatchingAndroidInjectorOfFragment());
+      B2PDialogActivity_MembersInjector.injectLocalizer(paramPublicInfoAreaActivity, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+      B2PDialogActivity_MembersInjector.injectTrackingHelper(paramPublicInfoAreaActivity, (TrackingHelper)DaggerAppComponent.this.provideTrackingHelperProvider.get());
+      B2PDialogActivity_MembersInjector.injectLoginManager(paramPublicInfoAreaActivity, (LoginManager)DaggerAppComponent.this.loginManagerProvider.get());
+      B2PDialogActivity_MembersInjector.injectHigherLoginManager(paramPublicInfoAreaActivity, (IHigherLoginManager)DaggerAppComponent.this.provideHigherLoginManagerProvider.get());
+      B2PDialogActivity_MembersInjector.injectBox7Cache(paramPublicInfoAreaActivity, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      B2PDialogActivity_MembersInjector.injectMainThreadBus(paramPublicInfoAreaActivity, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+      B2PDialogActivity_MembersInjector.injectPerformanceTimingManager(paramPublicInfoAreaActivity, (IPerformanceTimingManager)DaggerAppComponent.this.provideIPerformanceTimingManagerProvider.get());
+      B2PActivity_MembersInjector.injectApplication(paramPublicInfoAreaActivity, DaggerAppComponent.this.application);
+      B2PActivity_MembersInjector.injectBus(paramPublicInfoAreaActivity, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+      B2PActivity_MembersInjector.injectViewSetterFactory(paramPublicInfoAreaActivity, getViewSetterFactory());
+      B2PActivity_MembersInjector.injectLocalizationManagerFactory(paramPublicInfoAreaActivity, (LocalizationManagerFactory)DaggerAppComponent.this.provideLocalizationManagerFactoryProvider.get());
+      B2PActivity_MembersInjector.injectBusEventReceiver(paramPublicInfoAreaActivity, (BusEventReceiver)DaggerAppComponent.this.provideBusEventReceiverProvider.get());
+      B2PActivity_MembersInjector.injectUserPreferences(paramPublicInfoAreaActivity, (UserPreferences)DaggerAppComponent.this.provideUserPreferencesProvider.get());
+      B2PActivity_MembersInjector.injectLoginManager(paramPublicInfoAreaActivity, (LoginManager)DaggerAppComponent.this.loginManagerProvider.get());
+      B2PActivity_MembersInjector.injectBox7Cache(paramPublicInfoAreaActivity, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      B2PActivity_MembersInjector.injectSimUtils(paramPublicInfoAreaActivity, (SimUtils)DaggerAppComponent.this.provideSimUtilsProvider.get());
+      PublicInfoAreaActivity_MembersInjector.injectSetPresenter(paramPublicInfoAreaActivity, getPublicInfoAreaPresenter());
+      return paramPublicInfoAreaActivity;
+    }
+    
+    public final void inject(PublicInfoAreaActivity paramPublicInfoAreaActivity)
+    {
+      injectPublicInfoAreaActivity(paramPublicInfoAreaActivity);
+    }
+  }
+  
+  final class RatingActivitySubcomponentBuilder
+    extends ActivityBindingModule_FeedbackActivityInjector.RatingActivitySubcomponent.Builder
+  {
+    private RatingActivity seedInstance;
+    
+    private RatingActivitySubcomponentBuilder() {}
+    
+    public final ActivityBindingModule_FeedbackActivityInjector.RatingActivitySubcomponent build()
+    {
+      if (this.seedInstance != null) {
+        return new DaggerAppComponent.RatingActivitySubcomponentImpl(DaggerAppComponent.this, this, null);
+      }
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append(RatingActivity.class.getCanonicalName());
+      localStringBuilder.append(" must be set");
+      throw new IllegalStateException(localStringBuilder.toString());
+    }
+    
+    public final void seedInstance(RatingActivity paramRatingActivity)
+    {
+      this.seedInstance = ((RatingActivity)Preconditions.checkNotNull(paramRatingActivity));
+    }
+  }
+  
+  final class RatingActivitySubcomponentImpl
+    implements ActivityBindingModule_FeedbackActivityInjector.RatingActivitySubcomponent
+  {
+    private Provider<FeedbackScreenFragmentModule_FeedbackScreenFragmentInjector.FeedbackScreenFragmentSubcomponent.Builder> feedbackScreenFragmentSubcomponentBuilderProvider;
+    private Provider<StarRatingModule_StarRatingFragmentInjector.StarRatingFragmentSubcomponent.Builder> starRatingFragmentSubcomponentBuilderProvider;
+    private Provider<ThankYouModule_ThankYouFragmentInjector.ThankYouFragmentSubcomponent.Builder> thankYouFragmentSubcomponentBuilderProvider;
+    
+    private RatingActivitySubcomponentImpl(DaggerAppComponent.RatingActivitySubcomponentBuilder paramRatingActivitySubcomponentBuilder)
+    {
+      initialize(paramRatingActivitySubcomponentBuilder);
+    }
+    
+    private DispatchingAndroidInjector<android.support.v4.app.Fragment> getDispatchingAndroidInjectorOfFragment()
+    {
+      return DispatchingAndroidInjector_Factory.newDispatchingAndroidInjector(getMapOfClassOfAndProviderOfFactoryOf(), m.a());
+    }
+    
+    private FeedbackScreenFragmentPresenter getFeedbackScreenFragmentPresenter()
+    {
+      return FeedbackScreenFragmentModule_ProvideFeedbackScreenFragmentPresenterFactory.proxyProvideFeedbackScreenFragmentPresenter((Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+    }
+    
+    private Map<Class<? extends android.support.v4.app.Fragment>, Provider<AndroidInjector.Factory<? extends android.support.v4.app.Fragment>>> getMapOfClassOfAndProviderOfFactoryOf()
+    {
+      return m.a(StarRatingFragment.class, this.starRatingFragmentSubcomponentBuilderProvider, ThankYouFragment.class, this.thankYouFragmentSubcomponentBuilderProvider, FeedbackScreenFragment.class, this.feedbackScreenFragmentSubcomponentBuilderProvider);
+    }
+    
+    private StarRatingPresenter getStarRatingPresenter()
+    {
+      return StarRatingModule_ProvideStarRatingFragmentPresenterFactory.proxyProvideStarRatingFragmentPresenter((Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+    }
+    
+    private ViewSetterFactory getViewSetterFactory()
+    {
+      return new ViewSetterFactory((Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+    }
+    
+    private void initialize(DaggerAppComponent.RatingActivitySubcomponentBuilder paramRatingActivitySubcomponentBuilder)
+    {
+      this.starRatingFragmentSubcomponentBuilderProvider = new Provider()
+      {
+        public StarRatingModule_StarRatingFragmentInjector.StarRatingFragmentSubcomponent.Builder get()
+        {
+          return new DaggerAppComponent.RatingActivitySubcomponentImpl.StarRatingFragmentSubcomponentBuilder(DaggerAppComponent.RatingActivitySubcomponentImpl.this, null);
+        }
+      };
+      this.thankYouFragmentSubcomponentBuilderProvider = new Provider()
+      {
+        public ThankYouModule_ThankYouFragmentInjector.ThankYouFragmentSubcomponent.Builder get()
+        {
+          return new DaggerAppComponent.RatingActivitySubcomponentImpl.ThankYouFragmentSubcomponentBuilder(DaggerAppComponent.RatingActivitySubcomponentImpl.this, null);
+        }
+      };
+      this.feedbackScreenFragmentSubcomponentBuilderProvider = new Provider()
+      {
+        public FeedbackScreenFragmentModule_FeedbackScreenFragmentInjector.FeedbackScreenFragmentSubcomponent.Builder get()
+        {
+          return new DaggerAppComponent.RatingActivitySubcomponentImpl.FeedbackScreenFragmentSubcomponentBuilder(DaggerAppComponent.RatingActivitySubcomponentImpl.this, null);
+        }
+      };
+    }
+    
+    private RatingActivity injectRatingActivity(RatingActivity paramRatingActivity)
+    {
+      DaggerAppCompatActivity_MembersInjector.injectSupportFragmentInjector(paramRatingActivity, getDispatchingAndroidInjectorOfFragment());
+      DaggerAppCompatActivity_MembersInjector.injectFrameworkFragmentInjector(paramRatingActivity, DaggerAppComponent.this.getDispatchingAndroidInjectorOfFragment());
+      B2PDialogActivity_MembersInjector.injectLocalizer(paramRatingActivity, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+      B2PDialogActivity_MembersInjector.injectTrackingHelper(paramRatingActivity, (TrackingHelper)DaggerAppComponent.this.provideTrackingHelperProvider.get());
+      B2PDialogActivity_MembersInjector.injectLoginManager(paramRatingActivity, (LoginManager)DaggerAppComponent.this.loginManagerProvider.get());
+      B2PDialogActivity_MembersInjector.injectHigherLoginManager(paramRatingActivity, (IHigherLoginManager)DaggerAppComponent.this.provideHigherLoginManagerProvider.get());
+      B2PDialogActivity_MembersInjector.injectBox7Cache(paramRatingActivity, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      B2PDialogActivity_MembersInjector.injectMainThreadBus(paramRatingActivity, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+      B2PDialogActivity_MembersInjector.injectPerformanceTimingManager(paramRatingActivity, (IPerformanceTimingManager)DaggerAppComponent.this.provideIPerformanceTimingManagerProvider.get());
+      B2PActivity_MembersInjector.injectApplication(paramRatingActivity, DaggerAppComponent.this.application);
+      B2PActivity_MembersInjector.injectBus(paramRatingActivity, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+      B2PActivity_MembersInjector.injectViewSetterFactory(paramRatingActivity, getViewSetterFactory());
+      B2PActivity_MembersInjector.injectLocalizationManagerFactory(paramRatingActivity, (LocalizationManagerFactory)DaggerAppComponent.this.provideLocalizationManagerFactoryProvider.get());
+      B2PActivity_MembersInjector.injectBusEventReceiver(paramRatingActivity, (BusEventReceiver)DaggerAppComponent.this.provideBusEventReceiverProvider.get());
+      B2PActivity_MembersInjector.injectUserPreferences(paramRatingActivity, (UserPreferences)DaggerAppComponent.this.provideUserPreferencesProvider.get());
+      B2PActivity_MembersInjector.injectLoginManager(paramRatingActivity, (LoginManager)DaggerAppComponent.this.loginManagerProvider.get());
+      B2PActivity_MembersInjector.injectBox7Cache(paramRatingActivity, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      B2PActivity_MembersInjector.injectSimUtils(paramRatingActivity, (SimUtils)DaggerAppComponent.this.provideSimUtilsProvider.get());
+      return paramRatingActivity;
+    }
+    
+    public final void inject(RatingActivity paramRatingActivity)
+    {
+      injectRatingActivity(paramRatingActivity);
+    }
+    
+    final class FeedbackScreenFragmentSubcomponentBuilder
+      extends FeedbackScreenFragmentModule_FeedbackScreenFragmentInjector.FeedbackScreenFragmentSubcomponent.Builder
+    {
+      private FeedbackScreenFragment seedInstance;
+      
+      private FeedbackScreenFragmentSubcomponentBuilder() {}
+      
+      public final FeedbackScreenFragmentModule_FeedbackScreenFragmentInjector.FeedbackScreenFragmentSubcomponent build()
+      {
+        if (this.seedInstance != null) {
+          return new DaggerAppComponent.RatingActivitySubcomponentImpl.FeedbackScreenFragmentSubcomponentImpl(DaggerAppComponent.RatingActivitySubcomponentImpl.this, this, null);
+        }
+        StringBuilder localStringBuilder = new StringBuilder();
+        localStringBuilder.append(FeedbackScreenFragment.class.getCanonicalName());
+        localStringBuilder.append(" must be set");
+        throw new IllegalStateException(localStringBuilder.toString());
+      }
+      
+      public final void seedInstance(FeedbackScreenFragment paramFeedbackScreenFragment)
+      {
+        this.seedInstance = ((FeedbackScreenFragment)Preconditions.checkNotNull(paramFeedbackScreenFragment));
+      }
+    }
+    
+    final class FeedbackScreenFragmentSubcomponentImpl
+      implements FeedbackScreenFragmentModule_FeedbackScreenFragmentInjector.FeedbackScreenFragmentSubcomponent
+    {
+      private FeedbackScreenFragmentSubcomponentImpl(DaggerAppComponent.RatingActivitySubcomponentImpl.FeedbackScreenFragmentSubcomponentBuilder paramFeedbackScreenFragmentSubcomponentBuilder) {}
+      
+      private FeedbackScreenFragment injectFeedbackScreenFragment(FeedbackScreenFragment paramFeedbackScreenFragment)
+      {
+        DaggerFragment_MembersInjector.injectChildFragmentInjector(paramFeedbackScreenFragment, DaggerAppComponent.RatingActivitySubcomponentImpl.this.getDispatchingAndroidInjectorOfFragment());
+        B2PFragment_MembersInjector.injectApplication(paramFeedbackScreenFragment, DaggerAppComponent.this.application);
+        B2PFragment_MembersInjector.injectLocalizer(paramFeedbackScreenFragment, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+        B2PFragment_MembersInjector.injectViewSetterFactory(paramFeedbackScreenFragment, DaggerAppComponent.RatingActivitySubcomponentImpl.this.getViewSetterFactory());
+        B2PFragment_MembersInjector.injectBus(paramFeedbackScreenFragment, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+        FeedbackScreenFragment_MembersInjector.injectSetPresenter(paramFeedbackScreenFragment, DaggerAppComponent.RatingActivitySubcomponentImpl.this.getFeedbackScreenFragmentPresenter());
+        return paramFeedbackScreenFragment;
+      }
+      
+      public final void inject(FeedbackScreenFragment paramFeedbackScreenFragment)
+      {
+        injectFeedbackScreenFragment(paramFeedbackScreenFragment);
+      }
+    }
+    
+    final class StarRatingFragmentSubcomponentBuilder
+      extends StarRatingModule_StarRatingFragmentInjector.StarRatingFragmentSubcomponent.Builder
+    {
+      private StarRatingFragment seedInstance;
+      
+      private StarRatingFragmentSubcomponentBuilder() {}
+      
+      public final StarRatingModule_StarRatingFragmentInjector.StarRatingFragmentSubcomponent build()
+      {
+        if (this.seedInstance != null) {
+          return new DaggerAppComponent.RatingActivitySubcomponentImpl.StarRatingFragmentSubcomponentImpl(DaggerAppComponent.RatingActivitySubcomponentImpl.this, this, null);
+        }
+        StringBuilder localStringBuilder = new StringBuilder();
+        localStringBuilder.append(StarRatingFragment.class.getCanonicalName());
+        localStringBuilder.append(" must be set");
+        throw new IllegalStateException(localStringBuilder.toString());
+      }
+      
+      public final void seedInstance(StarRatingFragment paramStarRatingFragment)
+      {
+        this.seedInstance = ((StarRatingFragment)Preconditions.checkNotNull(paramStarRatingFragment));
+      }
+    }
+    
+    final class StarRatingFragmentSubcomponentImpl
+      implements StarRatingModule_StarRatingFragmentInjector.StarRatingFragmentSubcomponent
+    {
+      private StarRatingFragmentSubcomponentImpl(DaggerAppComponent.RatingActivitySubcomponentImpl.StarRatingFragmentSubcomponentBuilder paramStarRatingFragmentSubcomponentBuilder) {}
+      
+      private StarRatingFragment injectStarRatingFragment(StarRatingFragment paramStarRatingFragment)
+      {
+        DaggerFragment_MembersInjector.injectChildFragmentInjector(paramStarRatingFragment, DaggerAppComponent.RatingActivitySubcomponentImpl.this.getDispatchingAndroidInjectorOfFragment());
+        B2PFragment_MembersInjector.injectApplication(paramStarRatingFragment, DaggerAppComponent.this.application);
+        B2PFragment_MembersInjector.injectLocalizer(paramStarRatingFragment, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+        B2PFragment_MembersInjector.injectViewSetterFactory(paramStarRatingFragment, DaggerAppComponent.RatingActivitySubcomponentImpl.this.getViewSetterFactory());
+        B2PFragment_MembersInjector.injectBus(paramStarRatingFragment, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+        StarRatingFragment_MembersInjector.injectSetPresenter(paramStarRatingFragment, DaggerAppComponent.RatingActivitySubcomponentImpl.this.getStarRatingPresenter());
+        return paramStarRatingFragment;
+      }
+      
+      public final void inject(StarRatingFragment paramStarRatingFragment)
+      {
+        injectStarRatingFragment(paramStarRatingFragment);
+      }
+    }
+    
+    final class ThankYouFragmentSubcomponentBuilder
+      extends ThankYouModule_ThankYouFragmentInjector.ThankYouFragmentSubcomponent.Builder
+    {
+      private ThankYouFragment seedInstance;
+      
+      private ThankYouFragmentSubcomponentBuilder() {}
+      
+      public final ThankYouModule_ThankYouFragmentInjector.ThankYouFragmentSubcomponent build()
+      {
+        if (this.seedInstance != null) {
+          return new DaggerAppComponent.RatingActivitySubcomponentImpl.ThankYouFragmentSubcomponentImpl(DaggerAppComponent.RatingActivitySubcomponentImpl.this, this, null);
+        }
+        StringBuilder localStringBuilder = new StringBuilder();
+        localStringBuilder.append(ThankYouFragment.class.getCanonicalName());
+        localStringBuilder.append(" must be set");
+        throw new IllegalStateException(localStringBuilder.toString());
+      }
+      
+      public final void seedInstance(ThankYouFragment paramThankYouFragment)
+      {
+        this.seedInstance = ((ThankYouFragment)Preconditions.checkNotNull(paramThankYouFragment));
+      }
+    }
+    
+    final class ThankYouFragmentSubcomponentImpl
+      implements ThankYouModule_ThankYouFragmentInjector.ThankYouFragmentSubcomponent
+    {
+      private ThankYouFragmentSubcomponentImpl(DaggerAppComponent.RatingActivitySubcomponentImpl.ThankYouFragmentSubcomponentBuilder paramThankYouFragmentSubcomponentBuilder) {}
+      
+      private ThankYouFragment injectThankYouFragment(ThankYouFragment paramThankYouFragment)
+      {
+        DaggerFragment_MembersInjector.injectChildFragmentInjector(paramThankYouFragment, DaggerAppComponent.RatingActivitySubcomponentImpl.this.getDispatchingAndroidInjectorOfFragment());
+        B2PFragment_MembersInjector.injectApplication(paramThankYouFragment, DaggerAppComponent.this.application);
+        B2PFragment_MembersInjector.injectLocalizer(paramThankYouFragment, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+        B2PFragment_MembersInjector.injectViewSetterFactory(paramThankYouFragment, DaggerAppComponent.RatingActivitySubcomponentImpl.this.getViewSetterFactory());
+        B2PFragment_MembersInjector.injectBus(paramThankYouFragment, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+        B2PFragment_MembersInjector.injectSetPresenter(paramThankYouFragment, ThankYouModule_ProvideThankYouPresenterFactory.proxyProvideThankYouPresenter());
+        return paramThankYouFragment;
+      }
+      
+      public final void inject(ThankYouFragment paramThankYouFragment)
+      {
+        injectThankYouFragment(paramThankYouFragment);
+      }
+    }
+  }
+  
+  final class ResetActivitySubcomponentBuilder
+    extends ActivityBindingModule_ResetActivityInjector.ResetActivitySubcomponent.Builder
+  {
+    private ResetActivity seedInstance;
+    
+    private ResetActivitySubcomponentBuilder() {}
+    
+    public final ActivityBindingModule_ResetActivityInjector.ResetActivitySubcomponent build()
+    {
+      if (this.seedInstance != null) {
+        return new DaggerAppComponent.ResetActivitySubcomponentImpl(DaggerAppComponent.this, this, null);
+      }
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append(ResetActivity.class.getCanonicalName());
+      localStringBuilder.append(" must be set");
+      throw new IllegalStateException(localStringBuilder.toString());
+    }
+    
+    public final void seedInstance(ResetActivity paramResetActivity)
+    {
+      this.seedInstance = ((ResetActivity)Preconditions.checkNotNull(paramResetActivity));
+    }
+  }
+  
+  final class ResetActivitySubcomponentImpl
+    implements ActivityBindingModule_ResetActivityInjector.ResetActivitySubcomponent
+  {
+    private Provider<ResetFragmentModule_ResetFragmentInjector.ResetFragmentSubcomponent.Builder> resetFragmentSubcomponentBuilderProvider;
+    private Provider<ResetPasswordFragmentModule_ResetPasswordFragmentInjector.ResetPasswordFragmentSubcomponent.Builder> resetPasswordFragmentSubcomponentBuilderProvider;
+    private ResetActivity seedInstance;
+    
+    private ResetActivitySubcomponentImpl(DaggerAppComponent.ResetActivitySubcomponentBuilder paramResetActivitySubcomponentBuilder)
+    {
+      initialize(paramResetActivitySubcomponentBuilder);
+    }
+    
+    private Box7LoginAccountManager getBox7LoginAccountManager()
+    {
+      return new Box7LoginAccountManager(DaggerAppComponent.this.getLoginAccountsApi());
+    }
+    
+    private DispatchingAndroidInjector<android.support.v4.app.Fragment> getDispatchingAndroidInjectorOfFragment()
+    {
+      return DispatchingAndroidInjector_Factory.newDispatchingAndroidInjector(getMapOfClassOfAndProviderOfFactoryOf(), m.a());
+    }
+    
+    private Map<Class<? extends android.support.v4.app.Fragment>, Provider<AndroidInjector.Factory<? extends android.support.v4.app.Fragment>>> getMapOfClassOfAndProviderOfFactoryOf()
+    {
+      return m.a(ResetFragment.class, this.resetFragmentSubcomponentBuilderProvider, ResetPasswordFragment.class, this.resetPasswordFragmentSubcomponentBuilderProvider);
+    }
+    
+    private ResetFragmentPresenter getResetFragmentPresenter()
+    {
+      return ResetFragmentModule_ProvideResetFragmentPresenterFactory.proxyProvideResetFragmentPresenter((SimUtils)DaggerAppComponent.this.provideSimUtilsProvider.get(), DaggerAppComponent.this.getNetworkUtils(), (MailVerificationUtil)DaggerAppComponent.this.provideMailVerificationUtilProvider.get(), getBox7LoginAccountManager(), (TrackingHelper)DaggerAppComponent.this.provideTrackingHelperProvider.get(), (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get(), this.seedInstance);
+    }
+    
+    private ResetPasswordFragmentPresenter getResetPasswordFragmentPresenter()
+    {
+      return ResetPasswordFragmentModule_ProvideResetPasswordFragmentPresenterFactory.proxyProvideResetPasswordFragmentPresenter(this.seedInstance, getBox7LoginAccountManager(), (ILoginManager)DaggerAppComponent.this.providesLoginManagerProvider.get(), (LoginPreferences)DaggerAppComponent.this.provideLoginPreferencesProvider.get(), (TimeoutPreferences)DaggerAppComponent.this.provideTimeOutPreferencesProvider.get(), (TrackingHelper)DaggerAppComponent.this.provideTrackingHelperProvider.get());
+    }
+    
+    private ResetPresenter getResetPresenter()
+    {
+      return ResetActivityModule_ProvideResetPresenterFactory.proxyProvideResetPresenter(this.seedInstance);
+    }
+    
+    private ViewSetterFactory getViewSetterFactory()
+    {
+      return new ViewSetterFactory((Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+    }
+    
+    private void initialize(DaggerAppComponent.ResetActivitySubcomponentBuilder paramResetActivitySubcomponentBuilder)
+    {
+      this.resetFragmentSubcomponentBuilderProvider = new Provider()
+      {
+        public ResetFragmentModule_ResetFragmentInjector.ResetFragmentSubcomponent.Builder get()
+        {
+          return new DaggerAppComponent.ResetActivitySubcomponentImpl.ResetFragmentSubcomponentBuilder(DaggerAppComponent.ResetActivitySubcomponentImpl.this, null);
+        }
+      };
+      this.resetPasswordFragmentSubcomponentBuilderProvider = new Provider()
+      {
+        public ResetPasswordFragmentModule_ResetPasswordFragmentInjector.ResetPasswordFragmentSubcomponent.Builder get()
+        {
+          return new DaggerAppComponent.ResetActivitySubcomponentImpl.ResetPasswordFragmentSubcomponentBuilder(DaggerAppComponent.ResetActivitySubcomponentImpl.this, null);
+        }
+      };
+      this.seedInstance = paramResetActivitySubcomponentBuilder.seedInstance;
+    }
+    
+    private ResetActivity injectResetActivity(ResetActivity paramResetActivity)
+    {
+      DaggerAppCompatActivity_MembersInjector.injectSupportFragmentInjector(paramResetActivity, getDispatchingAndroidInjectorOfFragment());
+      DaggerAppCompatActivity_MembersInjector.injectFrameworkFragmentInjector(paramResetActivity, DaggerAppComponent.this.getDispatchingAndroidInjectorOfFragment());
+      B2PDialogActivity_MembersInjector.injectLocalizer(paramResetActivity, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+      B2PDialogActivity_MembersInjector.injectTrackingHelper(paramResetActivity, (TrackingHelper)DaggerAppComponent.this.provideTrackingHelperProvider.get());
+      B2PDialogActivity_MembersInjector.injectLoginManager(paramResetActivity, (LoginManager)DaggerAppComponent.this.loginManagerProvider.get());
+      B2PDialogActivity_MembersInjector.injectHigherLoginManager(paramResetActivity, (IHigherLoginManager)DaggerAppComponent.this.provideHigherLoginManagerProvider.get());
+      B2PDialogActivity_MembersInjector.injectBox7Cache(paramResetActivity, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      B2PDialogActivity_MembersInjector.injectMainThreadBus(paramResetActivity, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+      B2PDialogActivity_MembersInjector.injectPerformanceTimingManager(paramResetActivity, (IPerformanceTimingManager)DaggerAppComponent.this.provideIPerformanceTimingManagerProvider.get());
+      B2PActivity_MembersInjector.injectApplication(paramResetActivity, DaggerAppComponent.this.application);
+      B2PActivity_MembersInjector.injectBus(paramResetActivity, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+      B2PActivity_MembersInjector.injectViewSetterFactory(paramResetActivity, getViewSetterFactory());
+      B2PActivity_MembersInjector.injectLocalizationManagerFactory(paramResetActivity, (LocalizationManagerFactory)DaggerAppComponent.this.provideLocalizationManagerFactoryProvider.get());
+      B2PActivity_MembersInjector.injectBusEventReceiver(paramResetActivity, (BusEventReceiver)DaggerAppComponent.this.provideBusEventReceiverProvider.get());
+      B2PActivity_MembersInjector.injectUserPreferences(paramResetActivity, (UserPreferences)DaggerAppComponent.this.provideUserPreferencesProvider.get());
+      B2PActivity_MembersInjector.injectLoginManager(paramResetActivity, (LoginManager)DaggerAppComponent.this.loginManagerProvider.get());
+      B2PActivity_MembersInjector.injectBox7Cache(paramResetActivity, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      B2PActivity_MembersInjector.injectSimUtils(paramResetActivity, (SimUtils)DaggerAppComponent.this.provideSimUtilsProvider.get());
+      ResetActivity_MembersInjector.injectSetPresenter(paramResetActivity, getResetPresenter());
+      return paramResetActivity;
+    }
+    
+    public final void inject(ResetActivity paramResetActivity)
+    {
+      injectResetActivity(paramResetActivity);
+    }
+    
+    final class ResetFragmentSubcomponentBuilder
+      extends ResetFragmentModule_ResetFragmentInjector.ResetFragmentSubcomponent.Builder
+    {
+      private ResetFragment seedInstance;
+      
+      private ResetFragmentSubcomponentBuilder() {}
+      
+      public final ResetFragmentModule_ResetFragmentInjector.ResetFragmentSubcomponent build()
+      {
+        if (this.seedInstance != null) {
+          return new DaggerAppComponent.ResetActivitySubcomponentImpl.ResetFragmentSubcomponentImpl(DaggerAppComponent.ResetActivitySubcomponentImpl.this, this, null);
+        }
+        StringBuilder localStringBuilder = new StringBuilder();
+        localStringBuilder.append(ResetFragment.class.getCanonicalName());
+        localStringBuilder.append(" must be set");
+        throw new IllegalStateException(localStringBuilder.toString());
+      }
+      
+      public final void seedInstance(ResetFragment paramResetFragment)
+      {
+        this.seedInstance = ((ResetFragment)Preconditions.checkNotNull(paramResetFragment));
+      }
+    }
+    
+    final class ResetFragmentSubcomponentImpl
+      implements ResetFragmentModule_ResetFragmentInjector.ResetFragmentSubcomponent
+    {
+      private ResetFragmentSubcomponentImpl(DaggerAppComponent.ResetActivitySubcomponentImpl.ResetFragmentSubcomponentBuilder paramResetFragmentSubcomponentBuilder) {}
+      
+      private ResetFragment injectResetFragment(ResetFragment paramResetFragment)
+      {
+        DaggerFragment_MembersInjector.injectChildFragmentInjector(paramResetFragment, DaggerAppComponent.ResetActivitySubcomponentImpl.this.getDispatchingAndroidInjectorOfFragment());
+        B2PFragment_MembersInjector.injectApplication(paramResetFragment, DaggerAppComponent.this.application);
+        B2PFragment_MembersInjector.injectLocalizer(paramResetFragment, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+        B2PFragment_MembersInjector.injectViewSetterFactory(paramResetFragment, DaggerAppComponent.ResetActivitySubcomponentImpl.this.getViewSetterFactory());
+        B2PFragment_MembersInjector.injectBus(paramResetFragment, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+        ResetFragment_MembersInjector.injectSetPresenter(paramResetFragment, DaggerAppComponent.ResetActivitySubcomponentImpl.this.getResetFragmentPresenter());
+        return paramResetFragment;
+      }
+      
+      public final void inject(ResetFragment paramResetFragment)
+      {
+        injectResetFragment(paramResetFragment);
+      }
+    }
+    
+    final class ResetPasswordFragmentSubcomponentBuilder
+      extends ResetPasswordFragmentModule_ResetPasswordFragmentInjector.ResetPasswordFragmentSubcomponent.Builder
+    {
+      private ResetPasswordFragment seedInstance;
+      
+      private ResetPasswordFragmentSubcomponentBuilder() {}
+      
+      public final ResetPasswordFragmentModule_ResetPasswordFragmentInjector.ResetPasswordFragmentSubcomponent build()
+      {
+        if (this.seedInstance != null) {
+          return new DaggerAppComponent.ResetActivitySubcomponentImpl.ResetPasswordFragmentSubcomponentImpl(DaggerAppComponent.ResetActivitySubcomponentImpl.this, this, null);
+        }
+        StringBuilder localStringBuilder = new StringBuilder();
+        localStringBuilder.append(ResetPasswordFragment.class.getCanonicalName());
+        localStringBuilder.append(" must be set");
+        throw new IllegalStateException(localStringBuilder.toString());
+      }
+      
+      public final void seedInstance(ResetPasswordFragment paramResetPasswordFragment)
+      {
+        this.seedInstance = ((ResetPasswordFragment)Preconditions.checkNotNull(paramResetPasswordFragment));
+      }
+    }
+    
+    final class ResetPasswordFragmentSubcomponentImpl
+      implements ResetPasswordFragmentModule_ResetPasswordFragmentInjector.ResetPasswordFragmentSubcomponent
+    {
+      private ResetPasswordFragmentSubcomponentImpl(DaggerAppComponent.ResetActivitySubcomponentImpl.ResetPasswordFragmentSubcomponentBuilder paramResetPasswordFragmentSubcomponentBuilder) {}
+      
+      private ResetPasswordFragment injectResetPasswordFragment(ResetPasswordFragment paramResetPasswordFragment)
+      {
+        DaggerFragment_MembersInjector.injectChildFragmentInjector(paramResetPasswordFragment, DaggerAppComponent.ResetActivitySubcomponentImpl.this.getDispatchingAndroidInjectorOfFragment());
+        B2PFragment_MembersInjector.injectApplication(paramResetPasswordFragment, DaggerAppComponent.this.application);
+        B2PFragment_MembersInjector.injectLocalizer(paramResetPasswordFragment, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+        B2PFragment_MembersInjector.injectViewSetterFactory(paramResetPasswordFragment, DaggerAppComponent.ResetActivitySubcomponentImpl.this.getViewSetterFactory());
+        B2PFragment_MembersInjector.injectBus(paramResetPasswordFragment, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+        ResetPasswordFragment_MembersInjector.injectSetPresenter(paramResetPasswordFragment, DaggerAppComponent.ResetActivitySubcomponentImpl.this.getResetPasswordFragmentPresenter());
+        return paramResetPasswordFragment;
+      }
+      
+      public final void inject(ResetPasswordFragment paramResetPasswordFragment)
+      {
+        injectResetPasswordFragment(paramResetPasswordFragment);
+      }
+    }
+  }
+  
+  final class SplashActivitySubcomponentBuilder
+    extends ActivityBindingModule_SplashInjector.SplashActivitySubcomponent.Builder
+  {
+    private SplashActivity seedInstance;
+    
+    private SplashActivitySubcomponentBuilder() {}
+    
+    public final ActivityBindingModule_SplashInjector.SplashActivitySubcomponent build()
+    {
+      if (this.seedInstance != null) {
+        return new DaggerAppComponent.SplashActivitySubcomponentImpl(DaggerAppComponent.this, this, null);
+      }
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append(SplashActivity.class.getCanonicalName());
+      localStringBuilder.append(" must be set");
+      throw new IllegalStateException(localStringBuilder.toString());
+    }
+    
+    public final void seedInstance(SplashActivity paramSplashActivity)
+    {
+      this.seedInstance = ((SplashActivity)Preconditions.checkNotNull(paramSplashActivity));
+    }
+  }
+  
+  final class SplashActivitySubcomponentImpl
+    implements ActivityBindingModule_SplashInjector.SplashActivitySubcomponent
+  {
+    private SplashActivity seedInstance;
+    
+    private SplashActivitySubcomponentImpl(DaggerAppComponent.SplashActivitySubcomponentBuilder paramSplashActivitySubcomponentBuilder)
+    {
+      initialize(paramSplashActivitySubcomponentBuilder);
+    }
+    
+    private DispatchingAndroidInjector<android.support.v4.app.Fragment> getDispatchingAndroidInjectorOfFragment()
+    {
+      return DispatchingAndroidInjector_Factory.newDispatchingAndroidInjector(m.a(), m.a());
+    }
+    
+    private SplashPresenter getSplashPresenter()
+    {
+      return SplashActivityModule_ProvideSplashPresenterFactory.proxyProvideSplashPresenter(this.seedInstance, (PermissionUtils)DaggerAppComponent.this.providePermissionsUtilsProvider.get(), (IPerformanceTimingManager)DaggerAppComponent.this.provideIPerformanceTimingManagerProvider.get(), (MoeUpdateManager)DaggerAppComponent.this.provideMoeUpdateManagerProvider.get(), (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get(), (TimeoutPreferences)DaggerAppComponent.this.provideTimeOutPreferencesProvider.get(), (UserPreferences)DaggerAppComponent.this.provideUserPreferencesProvider.get(), (TrackingHelper)DaggerAppComponent.this.provideTrackingHelperProvider.get(), (DeviceUtils)DaggerAppComponent.this.provideDeviceUtilsProvider.get(), (EndpointManager)DaggerAppComponent.this.provideEndpointManagerProvider.get());
+    }
+    
+    private ViewSetterFactory getViewSetterFactory()
+    {
+      return new ViewSetterFactory((Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+    }
+    
+    private void initialize(DaggerAppComponent.SplashActivitySubcomponentBuilder paramSplashActivitySubcomponentBuilder)
+    {
+      this.seedInstance = paramSplashActivitySubcomponentBuilder.seedInstance;
+    }
+    
+    private SplashActivity injectSplashActivity(SplashActivity paramSplashActivity)
+    {
+      DaggerAppCompatActivity_MembersInjector.injectSupportFragmentInjector(paramSplashActivity, getDispatchingAndroidInjectorOfFragment());
+      DaggerAppCompatActivity_MembersInjector.injectFrameworkFragmentInjector(paramSplashActivity, DaggerAppComponent.this.getDispatchingAndroidInjectorOfFragment());
+      B2PDialogActivity_MembersInjector.injectLocalizer(paramSplashActivity, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+      B2PDialogActivity_MembersInjector.injectTrackingHelper(paramSplashActivity, (TrackingHelper)DaggerAppComponent.this.provideTrackingHelperProvider.get());
+      B2PDialogActivity_MembersInjector.injectLoginManager(paramSplashActivity, (LoginManager)DaggerAppComponent.this.loginManagerProvider.get());
+      B2PDialogActivity_MembersInjector.injectHigherLoginManager(paramSplashActivity, (IHigherLoginManager)DaggerAppComponent.this.provideHigherLoginManagerProvider.get());
+      B2PDialogActivity_MembersInjector.injectBox7Cache(paramSplashActivity, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      B2PDialogActivity_MembersInjector.injectMainThreadBus(paramSplashActivity, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+      B2PDialogActivity_MembersInjector.injectPerformanceTimingManager(paramSplashActivity, (IPerformanceTimingManager)DaggerAppComponent.this.provideIPerformanceTimingManagerProvider.get());
+      B2PActivity_MembersInjector.injectApplication(paramSplashActivity, DaggerAppComponent.this.application);
+      B2PActivity_MembersInjector.injectBus(paramSplashActivity, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+      B2PActivity_MembersInjector.injectViewSetterFactory(paramSplashActivity, getViewSetterFactory());
+      B2PActivity_MembersInjector.injectLocalizationManagerFactory(paramSplashActivity, (LocalizationManagerFactory)DaggerAppComponent.this.provideLocalizationManagerFactoryProvider.get());
+      B2PActivity_MembersInjector.injectBusEventReceiver(paramSplashActivity, (BusEventReceiver)DaggerAppComponent.this.provideBusEventReceiverProvider.get());
+      B2PActivity_MembersInjector.injectUserPreferences(paramSplashActivity, (UserPreferences)DaggerAppComponent.this.provideUserPreferencesProvider.get());
+      B2PActivity_MembersInjector.injectLoginManager(paramSplashActivity, (LoginManager)DaggerAppComponent.this.loginManagerProvider.get());
+      B2PActivity_MembersInjector.injectBox7Cache(paramSplashActivity, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      B2PActivity_MembersInjector.injectSimUtils(paramSplashActivity, (SimUtils)DaggerAppComponent.this.provideSimUtilsProvider.get());
+      SplashActivity_MembersInjector.injectTrackingHelper(paramSplashActivity, (TrackingHelper)DaggerAppComponent.this.provideTrackingHelperProvider.get());
+      SplashActivity_MembersInjector.injectSetPresenter(paramSplashActivity, getSplashPresenter());
+      return paramSplashActivity;
+    }
+    
+    public final void inject(SplashActivity paramSplashActivity)
+    {
+      injectSplashActivity(paramSplashActivity);
+    }
+  }
+  
+  final class TermsActivitySubcomponentBuilder
+    extends ActivityBindingModule_TermsInjector.TermsActivitySubcomponent.Builder
+  {
+    private TermsActivity seedInstance;
+    
+    private TermsActivitySubcomponentBuilder() {}
+    
+    public final ActivityBindingModule_TermsInjector.TermsActivitySubcomponent build()
+    {
+      if (this.seedInstance != null) {
+        return new DaggerAppComponent.TermsActivitySubcomponentImpl(DaggerAppComponent.this, this, null);
+      }
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append(TermsActivity.class.getCanonicalName());
+      localStringBuilder.append(" must be set");
+      throw new IllegalStateException(localStringBuilder.toString());
+    }
+    
+    public final void seedInstance(TermsActivity paramTermsActivity)
+    {
+      this.seedInstance = ((TermsActivity)Preconditions.checkNotNull(paramTermsActivity));
+    }
+  }
+  
+  final class TermsActivitySubcomponentImpl
+    implements ActivityBindingModule_TermsInjector.TermsActivitySubcomponent
+  {
+    private TermsActivity seedInstance;
+    
+    private TermsActivitySubcomponentImpl(DaggerAppComponent.TermsActivitySubcomponentBuilder paramTermsActivitySubcomponentBuilder)
+    {
+      initialize(paramTermsActivitySubcomponentBuilder);
+    }
+    
+    private DispatchingAndroidInjector<android.support.v4.app.Fragment> getDispatchingAndroidInjectorOfFragment()
+    {
+      return DispatchingAndroidInjector_Factory.newDispatchingAndroidInjector(m.a(), m.a());
+    }
+    
+    private TermsPresenter getTermsPresenter()
+    {
+      return TermsActivityModule_ProvideTermsPresenterFactory.proxyProvideTermsPresenter(this.seedInstance, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get(), (TrackingHelper)DaggerAppComponent.this.provideTrackingHelperProvider.get());
+    }
+    
+    private ViewSetterFactory getViewSetterFactory()
+    {
+      return new ViewSetterFactory((Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+    }
+    
+    private void initialize(DaggerAppComponent.TermsActivitySubcomponentBuilder paramTermsActivitySubcomponentBuilder)
+    {
+      this.seedInstance = paramTermsActivitySubcomponentBuilder.seedInstance;
+    }
+    
+    private TermsActivity injectTermsActivity(TermsActivity paramTermsActivity)
+    {
+      DaggerAppCompatActivity_MembersInjector.injectSupportFragmentInjector(paramTermsActivity, getDispatchingAndroidInjectorOfFragment());
+      DaggerAppCompatActivity_MembersInjector.injectFrameworkFragmentInjector(paramTermsActivity, DaggerAppComponent.this.getDispatchingAndroidInjectorOfFragment());
+      B2PDialogActivity_MembersInjector.injectLocalizer(paramTermsActivity, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+      B2PDialogActivity_MembersInjector.injectTrackingHelper(paramTermsActivity, (TrackingHelper)DaggerAppComponent.this.provideTrackingHelperProvider.get());
+      B2PDialogActivity_MembersInjector.injectLoginManager(paramTermsActivity, (LoginManager)DaggerAppComponent.this.loginManagerProvider.get());
+      B2PDialogActivity_MembersInjector.injectHigherLoginManager(paramTermsActivity, (IHigherLoginManager)DaggerAppComponent.this.provideHigherLoginManagerProvider.get());
+      B2PDialogActivity_MembersInjector.injectBox7Cache(paramTermsActivity, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      B2PDialogActivity_MembersInjector.injectMainThreadBus(paramTermsActivity, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+      B2PDialogActivity_MembersInjector.injectPerformanceTimingManager(paramTermsActivity, (IPerformanceTimingManager)DaggerAppComponent.this.provideIPerformanceTimingManagerProvider.get());
+      B2PActivity_MembersInjector.injectApplication(paramTermsActivity, DaggerAppComponent.this.application);
+      B2PActivity_MembersInjector.injectBus(paramTermsActivity, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+      B2PActivity_MembersInjector.injectViewSetterFactory(paramTermsActivity, getViewSetterFactory());
+      B2PActivity_MembersInjector.injectLocalizationManagerFactory(paramTermsActivity, (LocalizationManagerFactory)DaggerAppComponent.this.provideLocalizationManagerFactoryProvider.get());
+      B2PActivity_MembersInjector.injectBusEventReceiver(paramTermsActivity, (BusEventReceiver)DaggerAppComponent.this.provideBusEventReceiverProvider.get());
+      B2PActivity_MembersInjector.injectUserPreferences(paramTermsActivity, (UserPreferences)DaggerAppComponent.this.provideUserPreferencesProvider.get());
+      B2PActivity_MembersInjector.injectLoginManager(paramTermsActivity, (LoginManager)DaggerAppComponent.this.loginManagerProvider.get());
+      B2PActivity_MembersInjector.injectBox7Cache(paramTermsActivity, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      B2PActivity_MembersInjector.injectSimUtils(paramTermsActivity, (SimUtils)DaggerAppComponent.this.provideSimUtilsProvider.get());
+      TermsActivity_MembersInjector.injectTrackingHelper(paramTermsActivity, (TrackingHelper)DaggerAppComponent.this.provideTrackingHelperProvider.get());
+      TermsActivity_MembersInjector.injectSetPresenterImpl(paramTermsActivity, getTermsPresenter());
+      return paramTermsActivity;
+    }
+    
+    public final void inject(TermsActivity paramTermsActivity)
+    {
+      injectTermsActivity(paramTermsActivity);
+    }
+  }
+  
+  final class TopUpActivitySubcomponentBuilder
+    extends ActivityBindingModule_TopUpInjector.TopUpActivitySubcomponent.Builder
+  {
+    private TopUpActivity seedInstance;
+    
+    private TopUpActivitySubcomponentBuilder() {}
+    
+    public final ActivityBindingModule_TopUpInjector.TopUpActivitySubcomponent build()
+    {
+      if (this.seedInstance != null) {
+        return new DaggerAppComponent.TopUpActivitySubcomponentImpl(DaggerAppComponent.this, this, null);
+      }
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append(TopUpActivity.class.getCanonicalName());
+      localStringBuilder.append(" must be set");
+      throw new IllegalStateException(localStringBuilder.toString());
+    }
+    
+    public final void seedInstance(TopUpActivity paramTopUpActivity)
+    {
+      this.seedInstance = ((TopUpActivity)Preconditions.checkNotNull(paramTopUpActivity));
+    }
+  }
+  
+  final class TopUpActivitySubcomponentImpl
+    implements ActivityBindingModule_TopUpInjector.TopUpActivitySubcomponent
+  {
+    private Provider<TopUpActivityModule_NotRegisteredFragmentInjector.NotRegisteredFragmentSubcomponent.Builder> notRegisteredFragmentSubcomponentBuilderProvider;
+    private Provider<TopUpActivityModule_ReAuthFragmentInjector.ReAuthFragmentSubcomponent.Builder> reAuthFragmentSubcomponentBuilderProvider;
+    private TopUpActivity seedInstance;
+    private Provider<TopUpBankModule_TopUpFragmentInjector.TopUpBankFragmentSubcomponent.Builder> topUpBankFragmentSubcomponentBuilderProvider;
+    private Provider<TopUpChoiceFragmentModule_TopUpChoiceFragmentInjector.TopUpChoiceFragmentSubcomponent.Builder> topUpChoiceFragmentSubcomponentBuilderProvider;
+    private Provider<TopUpOverviewFragmentModule_TopUpOverviewFragmentInjector.TopUpOverviewFragmentSubcomponent.Builder> topUpOverviewFragmentSubcomponentBuilderProvider;
+    private Provider<TopUpVoucherFragmentModule_TopUpVoucherFragmentInjector.TopUpVoucherFragmentSubcomponent.Builder> topUpVoucherFragmentSubcomponentBuilderProvider;
+    
+    private TopUpActivitySubcomponentImpl(DaggerAppComponent.TopUpActivitySubcomponentBuilder paramTopUpActivitySubcomponentBuilder)
+    {
+      initialize(paramTopUpActivitySubcomponentBuilder);
+    }
+    
+    private Box7CustomerManager getBox7CustomerManager()
+    {
+      return new Box7CustomerManager(DaggerAppComponent.this.getAddressesApi(), DaggerAppComponent.this.getCustomersApi(), DaggerAppComponent.this.getThirdPartyApi(), DaggerAppComponent.this.getSimCardsApi(), (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get(), (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+    }
+    
+    private Box7SubscriptionManager getBox7SubscriptionManager()
+    {
+      return injectBox7SubscriptionManager(Box7SubscriptionManager_Factory.newBox7SubscriptionManager(DaggerAppComponent.this.getPacksApi(), DaggerAppComponent.this.getTopupsApi(), DaggerAppComponent.this.getSubscriptionsApi(), DaggerAppComponent.this.getUsagesApi()));
+    }
+    
+    private DispatchingAndroidInjector<android.support.v4.app.Fragment> getDispatchingAndroidInjectorOfFragment()
+    {
+      return DispatchingAndroidInjector_Factory.newDispatchingAndroidInjector(getMapOfClassOfAndProviderOfFactoryOf(), m.a());
+    }
+    
+    private Map<Class<? extends android.support.v4.app.Fragment>, Provider<AndroidInjector.Factory<? extends android.support.v4.app.Fragment>>> getMapOfClassOfAndProviderOfFactoryOf()
+    {
+      return m.b().a(ReAuthFragment.class, this.reAuthFragmentSubcomponentBuilderProvider).a(NotRegisteredFragment.class, this.notRegisteredFragmentSubcomponentBuilderProvider).a(TopUpBankFragment.class, this.topUpBankFragmentSubcomponentBuilderProvider).a(TopUpVoucherFragment.class, this.topUpVoucherFragmentSubcomponentBuilderProvider).a(TopUpChoiceFragment.class, this.topUpChoiceFragmentSubcomponentBuilderProvider).a(TopUpOverviewFragment.class, this.topUpOverviewFragmentSubcomponentBuilderProvider).a();
+    }
+    
+    private ReAuthFragmentPresenter getReAuthFragmentPresenter()
+    {
+      return TopUpActivityModule_ProvideReAuthFragmentPresenterFactory.proxyProvideReAuthFragmentPresenter(this.seedInstance, (IHigherLoginManager)DaggerAppComponent.this.provideHigherLoginManagerProvider.get(), (ErrorUtils)DaggerAppComponent.this.provideErrorUtilsProvider.get(), (LoginPreferences)DaggerAppComponent.this.provideLoginPreferencesProvider.get(), getBox7CustomerManager(), getBox7SubscriptionManager(), (ISubscriptionsAuthorizedRepository)DaggerAppComponent.this.provideISubscriptionsAuthorizedRepositoryProvider.get(), (IBrandTariffTypePropertyModelRepository)DaggerAppComponent.this.provideIBrandTariffTypePropertyModelRepositoryProvider.get(), DaggerAppComponent.this.getNetworkUtils(), (ILoginAccountModelRepository)DaggerAppComponent.this.provideILoginAccountModelRepositoryProvider.get());
+    }
+    
+    private TopUpBankPresenter getTopUpBankPresenter()
+    {
+      return TopUpBankModule_ProvideTopUpFragmentPresenterFactory.proxyProvideTopUpFragmentPresenter(getBox7SubscriptionManager(), (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get(), (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get(), (ISubscriptionsAuthorizedRepository)DaggerAppComponent.this.provideISubscriptionsAuthorizedRepositoryProvider.get(), (HotlineUtils)DaggerAppComponent.this.provideHotlineUtilsProvider.get(), (IPrepaidTopupConfigurationModelRepository)DaggerAppComponent.this.provideIPrepaidTopupConfigurationModelRepositoryProvider.get());
+    }
+    
+    private TopUpChoiceFragmentPresenter getTopUpChoiceFragmentPresenter()
+    {
+      return TopUpChoiceFragmentModule_ProvideTopUpChoiceFragmentPresenterFactory.proxyProvideTopUpChoiceFragmentPresenter((Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+    }
+    
+    private TopUpOverviewFragmentPresenter getTopUpOverviewFragmentPresenter()
+    {
+      return TopUpOverviewFragmentModule_ProvideTopUpOverviewFragmentPresenterFactory.proxyProvideTopUpOverviewFragmentPresenter((TrackingHelper)DaggerAppComponent.this.provideTrackingHelperProvider.get(), (IPerformanceTimingManager)DaggerAppComponent.this.provideIPerformanceTimingManagerProvider.get(), (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get(), getBox7SubscriptionManager(), this.seedInstance, (LoginPreferences)DaggerAppComponent.this.provideLoginPreferencesProvider.get(), (HotlineUtils)DaggerAppComponent.this.provideHotlineUtilsProvider.get(), (ISubscriptionModelRepository)DaggerAppComponent.this.provideISubscriptionModelRepositoryProvider.get(), (ICustomerModelRepository)DaggerAppComponent.this.provideICustomerModelRepositoryProvider.get());
+    }
+    
+    private TopUpVoucherFragmentPresenter getTopUpVoucherFragmentPresenter()
+    {
+      return TopUpVoucherFragmentModule_ProvideTopUpVoucherFragmentPresenterFactory.proxyProvideTopUpVoucherFragmentPresenter(TopUpVoucherFragmentModule_ProvideTopUpByVoucherHelperFactory.proxyProvideTopUpByVoucherHelper(), getBox7SubscriptionManager(), (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get(), (TrackingHelper)DaggerAppComponent.this.provideTrackingHelperProvider.get(), (IPerformanceTimingManager)DaggerAppComponent.this.provideIPerformanceTimingManagerProvider.get());
+    }
+    
+    private ViewSetterFactory getViewSetterFactory()
+    {
+      return new ViewSetterFactory((Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+    }
+    
+    private void initialize(DaggerAppComponent.TopUpActivitySubcomponentBuilder paramTopUpActivitySubcomponentBuilder)
+    {
+      this.reAuthFragmentSubcomponentBuilderProvider = new Provider()
+      {
+        public TopUpActivityModule_ReAuthFragmentInjector.ReAuthFragmentSubcomponent.Builder get()
+        {
+          return new DaggerAppComponent.TopUpActivitySubcomponentImpl.TUAM_RAFI_ReAuthFragmentSubcomponentBuilder(DaggerAppComponent.TopUpActivitySubcomponentImpl.this, null);
+        }
+      };
+      this.notRegisteredFragmentSubcomponentBuilderProvider = new Provider()
+      {
+        public TopUpActivityModule_NotRegisteredFragmentInjector.NotRegisteredFragmentSubcomponent.Builder get()
+        {
+          return new DaggerAppComponent.TopUpActivitySubcomponentImpl.TUAM_NRFI_NotRegisteredFragmentSubcomponentBuilder(DaggerAppComponent.TopUpActivitySubcomponentImpl.this, null);
+        }
+      };
+      this.topUpBankFragmentSubcomponentBuilderProvider = new Provider()
+      {
+        public TopUpBankModule_TopUpFragmentInjector.TopUpBankFragmentSubcomponent.Builder get()
+        {
+          return new DaggerAppComponent.TopUpActivitySubcomponentImpl.TopUpBankFragmentSubcomponentBuilder(DaggerAppComponent.TopUpActivitySubcomponentImpl.this, null);
+        }
+      };
+      this.topUpVoucherFragmentSubcomponentBuilderProvider = new Provider()
+      {
+        public TopUpVoucherFragmentModule_TopUpVoucherFragmentInjector.TopUpVoucherFragmentSubcomponent.Builder get()
+        {
+          return new DaggerAppComponent.TopUpActivitySubcomponentImpl.TopUpVoucherFragmentSubcomponentBuilder(DaggerAppComponent.TopUpActivitySubcomponentImpl.this, null);
+        }
+      };
+      this.topUpChoiceFragmentSubcomponentBuilderProvider = new Provider()
+      {
+        public TopUpChoiceFragmentModule_TopUpChoiceFragmentInjector.TopUpChoiceFragmentSubcomponent.Builder get()
+        {
+          return new DaggerAppComponent.TopUpActivitySubcomponentImpl.TopUpChoiceFragmentSubcomponentBuilder(DaggerAppComponent.TopUpActivitySubcomponentImpl.this, null);
+        }
+      };
+      this.topUpOverviewFragmentSubcomponentBuilderProvider = new Provider()
+      {
+        public TopUpOverviewFragmentModule_TopUpOverviewFragmentInjector.TopUpOverviewFragmentSubcomponent.Builder get()
+        {
+          return new DaggerAppComponent.TopUpActivitySubcomponentImpl.TopUpOverviewFragmentSubcomponentBuilder(DaggerAppComponent.TopUpActivitySubcomponentImpl.this, null);
+        }
+      };
+      this.seedInstance = paramTopUpActivitySubcomponentBuilder.seedInstance;
+    }
+    
+    private Box7SubscriptionManager injectBox7SubscriptionManager(Box7SubscriptionManager paramBox7SubscriptionManager)
+    {
+      Box7SubscriptionManager_MembersInjector.injectBox7Cache(paramBox7SubscriptionManager, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      return paramBox7SubscriptionManager;
+    }
+    
+    private TopUpActivity injectTopUpActivity(TopUpActivity paramTopUpActivity)
+    {
+      DaggerAppCompatActivity_MembersInjector.injectSupportFragmentInjector(paramTopUpActivity, getDispatchingAndroidInjectorOfFragment());
+      DaggerAppCompatActivity_MembersInjector.injectFrameworkFragmentInjector(paramTopUpActivity, DaggerAppComponent.this.getDispatchingAndroidInjectorOfFragment());
+      B2PDialogActivity_MembersInjector.injectLocalizer(paramTopUpActivity, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+      B2PDialogActivity_MembersInjector.injectTrackingHelper(paramTopUpActivity, (TrackingHelper)DaggerAppComponent.this.provideTrackingHelperProvider.get());
+      B2PDialogActivity_MembersInjector.injectLoginManager(paramTopUpActivity, (LoginManager)DaggerAppComponent.this.loginManagerProvider.get());
+      B2PDialogActivity_MembersInjector.injectHigherLoginManager(paramTopUpActivity, (IHigherLoginManager)DaggerAppComponent.this.provideHigherLoginManagerProvider.get());
+      B2PDialogActivity_MembersInjector.injectBox7Cache(paramTopUpActivity, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      B2PDialogActivity_MembersInjector.injectMainThreadBus(paramTopUpActivity, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+      B2PDialogActivity_MembersInjector.injectPerformanceTimingManager(paramTopUpActivity, (IPerformanceTimingManager)DaggerAppComponent.this.provideIPerformanceTimingManagerProvider.get());
+      B2PActivity_MembersInjector.injectApplication(paramTopUpActivity, DaggerAppComponent.this.application);
+      B2PActivity_MembersInjector.injectBus(paramTopUpActivity, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+      B2PActivity_MembersInjector.injectViewSetterFactory(paramTopUpActivity, getViewSetterFactory());
+      B2PActivity_MembersInjector.injectLocalizationManagerFactory(paramTopUpActivity, (LocalizationManagerFactory)DaggerAppComponent.this.provideLocalizationManagerFactoryProvider.get());
+      B2PActivity_MembersInjector.injectBusEventReceiver(paramTopUpActivity, (BusEventReceiver)DaggerAppComponent.this.provideBusEventReceiverProvider.get());
+      B2PActivity_MembersInjector.injectUserPreferences(paramTopUpActivity, (UserPreferences)DaggerAppComponent.this.provideUserPreferencesProvider.get());
+      B2PActivity_MembersInjector.injectLoginManager(paramTopUpActivity, (LoginManager)DaggerAppComponent.this.loginManagerProvider.get());
+      B2PActivity_MembersInjector.injectBox7Cache(paramTopUpActivity, (Box7Cache)DaggerAppComponent.this.provideBox7CacheProvider.get());
+      B2PActivity_MembersInjector.injectSimUtils(paramTopUpActivity, (SimUtils)DaggerAppComponent.this.provideSimUtilsProvider.get());
+      TopUpActivity_MembersInjector.injectSetPresenter(paramTopUpActivity, TopUpActivityModule_ProvideTopUpActivityPresenterFactory.proxyProvideTopUpActivityPresenter());
+      return paramTopUpActivity;
+    }
+    
+    public final void inject(TopUpActivity paramTopUpActivity)
+    {
+      injectTopUpActivity(paramTopUpActivity);
+    }
+    
+    final class TUAM_NRFI_NotRegisteredFragmentSubcomponentBuilder
+      extends TopUpActivityModule_NotRegisteredFragmentInjector.NotRegisteredFragmentSubcomponent.Builder
+    {
+      private NotRegisteredFragment seedInstance;
+      
+      private TUAM_NRFI_NotRegisteredFragmentSubcomponentBuilder() {}
+      
+      public final TopUpActivityModule_NotRegisteredFragmentInjector.NotRegisteredFragmentSubcomponent build()
+      {
+        if (this.seedInstance != null) {
+          return new DaggerAppComponent.TopUpActivitySubcomponentImpl.TUAM_NRFI_NotRegisteredFragmentSubcomponentImpl(DaggerAppComponent.TopUpActivitySubcomponentImpl.this, this, null);
+        }
+        StringBuilder localStringBuilder = new StringBuilder();
+        localStringBuilder.append(NotRegisteredFragment.class.getCanonicalName());
+        localStringBuilder.append(" must be set");
+        throw new IllegalStateException(localStringBuilder.toString());
+      }
+      
+      public final void seedInstance(NotRegisteredFragment paramNotRegisteredFragment)
+      {
+        this.seedInstance = ((NotRegisteredFragment)Preconditions.checkNotNull(paramNotRegisteredFragment));
+      }
+    }
+    
+    final class TUAM_NRFI_NotRegisteredFragmentSubcomponentImpl
+      implements TopUpActivityModule_NotRegisteredFragmentInjector.NotRegisteredFragmentSubcomponent
+    {
+      private TUAM_NRFI_NotRegisteredFragmentSubcomponentImpl(DaggerAppComponent.TopUpActivitySubcomponentImpl.TUAM_NRFI_NotRegisteredFragmentSubcomponentBuilder paramTUAM_NRFI_NotRegisteredFragmentSubcomponentBuilder) {}
+      
+      private NotRegisteredFragmentPresenter getNotRegisteredFragmentPresenter()
+      {
+        return new NotRegisteredFragmentPresenter((Localizer)DaggerAppComponent.this.provideLocalizerProvider.get(), DaggerAppComponent.TopUpActivitySubcomponentImpl.this.seedInstance, (TrackingHelper)DaggerAppComponent.this.provideTrackingHelperProvider.get());
+      }
+      
+      private NotRegisteredFragment injectNotRegisteredFragment(NotRegisteredFragment paramNotRegisteredFragment)
+      {
+        DaggerFragment_MembersInjector.injectChildFragmentInjector(paramNotRegisteredFragment, DaggerAppComponent.TopUpActivitySubcomponentImpl.this.getDispatchingAndroidInjectorOfFragment());
+        B2PFragment_MembersInjector.injectApplication(paramNotRegisteredFragment, DaggerAppComponent.this.application);
+        B2PFragment_MembersInjector.injectLocalizer(paramNotRegisteredFragment, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+        B2PFragment_MembersInjector.injectViewSetterFactory(paramNotRegisteredFragment, DaggerAppComponent.TopUpActivitySubcomponentImpl.this.getViewSetterFactory());
+        B2PFragment_MembersInjector.injectBus(paramNotRegisteredFragment, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+        NotRegisteredFragment_MembersInjector.injectSetPresenter(paramNotRegisteredFragment, getNotRegisteredFragmentPresenter());
+        return paramNotRegisteredFragment;
+      }
+      
+      public final void inject(NotRegisteredFragment paramNotRegisteredFragment)
+      {
+        injectNotRegisteredFragment(paramNotRegisteredFragment);
+      }
+    }
+    
+    final class TUAM_RAFI_ReAuthFragmentSubcomponentBuilder
+      extends TopUpActivityModule_ReAuthFragmentInjector.ReAuthFragmentSubcomponent.Builder
+    {
+      private ReAuthFragment seedInstance;
+      
+      private TUAM_RAFI_ReAuthFragmentSubcomponentBuilder() {}
+      
+      public final TopUpActivityModule_ReAuthFragmentInjector.ReAuthFragmentSubcomponent build()
+      {
+        if (this.seedInstance != null) {
+          return new DaggerAppComponent.TopUpActivitySubcomponentImpl.TUAM_RAFI_ReAuthFragmentSubcomponentImpl(DaggerAppComponent.TopUpActivitySubcomponentImpl.this, this, null);
+        }
+        StringBuilder localStringBuilder = new StringBuilder();
+        localStringBuilder.append(ReAuthFragment.class.getCanonicalName());
+        localStringBuilder.append(" must be set");
+        throw new IllegalStateException(localStringBuilder.toString());
+      }
+      
+      public final void seedInstance(ReAuthFragment paramReAuthFragment)
+      {
+        this.seedInstance = ((ReAuthFragment)Preconditions.checkNotNull(paramReAuthFragment));
+      }
+    }
+    
+    final class TUAM_RAFI_ReAuthFragmentSubcomponentImpl
+      implements TopUpActivityModule_ReAuthFragmentInjector.ReAuthFragmentSubcomponent
+    {
+      private TUAM_RAFI_ReAuthFragmentSubcomponentImpl(DaggerAppComponent.TopUpActivitySubcomponentImpl.TUAM_RAFI_ReAuthFragmentSubcomponentBuilder paramTUAM_RAFI_ReAuthFragmentSubcomponentBuilder) {}
+      
+      private ReAuthFragment injectReAuthFragment(ReAuthFragment paramReAuthFragment)
+      {
+        DaggerFragment_MembersInjector.injectChildFragmentInjector(paramReAuthFragment, DaggerAppComponent.TopUpActivitySubcomponentImpl.this.getDispatchingAndroidInjectorOfFragment());
+        B2PFragment_MembersInjector.injectApplication(paramReAuthFragment, DaggerAppComponent.this.application);
+        B2PFragment_MembersInjector.injectLocalizer(paramReAuthFragment, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+        B2PFragment_MembersInjector.injectViewSetterFactory(paramReAuthFragment, DaggerAppComponent.TopUpActivitySubcomponentImpl.this.getViewSetterFactory());
+        B2PFragment_MembersInjector.injectBus(paramReAuthFragment, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+        ReAuthFragment_MembersInjector.injectSetPresenter(paramReAuthFragment, DaggerAppComponent.TopUpActivitySubcomponentImpl.this.getReAuthFragmentPresenter());
+        return paramReAuthFragment;
+      }
+      
+      public final void inject(ReAuthFragment paramReAuthFragment)
+      {
+        injectReAuthFragment(paramReAuthFragment);
+      }
+    }
+    
+    final class TopUpBankFragmentSubcomponentBuilder
+      extends TopUpBankModule_TopUpFragmentInjector.TopUpBankFragmentSubcomponent.Builder
+    {
+      private TopUpBankFragment seedInstance;
+      
+      private TopUpBankFragmentSubcomponentBuilder() {}
+      
+      public final TopUpBankModule_TopUpFragmentInjector.TopUpBankFragmentSubcomponent build()
+      {
+        if (this.seedInstance != null) {
+          return new DaggerAppComponent.TopUpActivitySubcomponentImpl.TopUpBankFragmentSubcomponentImpl(DaggerAppComponent.TopUpActivitySubcomponentImpl.this, this, null);
+        }
+        StringBuilder localStringBuilder = new StringBuilder();
+        localStringBuilder.append(TopUpBankFragment.class.getCanonicalName());
+        localStringBuilder.append(" must be set");
+        throw new IllegalStateException(localStringBuilder.toString());
+      }
+      
+      public final void seedInstance(TopUpBankFragment paramTopUpBankFragment)
+      {
+        this.seedInstance = ((TopUpBankFragment)Preconditions.checkNotNull(paramTopUpBankFragment));
+      }
+    }
+    
+    final class TopUpBankFragmentSubcomponentImpl
+      implements TopUpBankModule_TopUpFragmentInjector.TopUpBankFragmentSubcomponent
+    {
+      private TopUpBankFragmentSubcomponentImpl(DaggerAppComponent.TopUpActivitySubcomponentImpl.TopUpBankFragmentSubcomponentBuilder paramTopUpBankFragmentSubcomponentBuilder) {}
+      
+      private TopUpBankFragment injectTopUpBankFragment(TopUpBankFragment paramTopUpBankFragment)
+      {
+        DaggerFragment_MembersInjector.injectChildFragmentInjector(paramTopUpBankFragment, DaggerAppComponent.TopUpActivitySubcomponentImpl.this.getDispatchingAndroidInjectorOfFragment());
+        B2PFragment_MembersInjector.injectApplication(paramTopUpBankFragment, DaggerAppComponent.this.application);
+        B2PFragment_MembersInjector.injectLocalizer(paramTopUpBankFragment, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+        B2PFragment_MembersInjector.injectViewSetterFactory(paramTopUpBankFragment, DaggerAppComponent.TopUpActivitySubcomponentImpl.this.getViewSetterFactory());
+        B2PFragment_MembersInjector.injectBus(paramTopUpBankFragment, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+        TopUpBankFragment_MembersInjector.injectSetPresenter(paramTopUpBankFragment, DaggerAppComponent.TopUpActivitySubcomponentImpl.this.getTopUpBankPresenter());
+        return paramTopUpBankFragment;
+      }
+      
+      public final void inject(TopUpBankFragment paramTopUpBankFragment)
+      {
+        injectTopUpBankFragment(paramTopUpBankFragment);
+      }
+    }
+    
+    final class TopUpChoiceFragmentSubcomponentBuilder
+      extends TopUpChoiceFragmentModule_TopUpChoiceFragmentInjector.TopUpChoiceFragmentSubcomponent.Builder
+    {
+      private TopUpChoiceFragment seedInstance;
+      
+      private TopUpChoiceFragmentSubcomponentBuilder() {}
+      
+      public final TopUpChoiceFragmentModule_TopUpChoiceFragmentInjector.TopUpChoiceFragmentSubcomponent build()
+      {
+        if (this.seedInstance != null) {
+          return new DaggerAppComponent.TopUpActivitySubcomponentImpl.TopUpChoiceFragmentSubcomponentImpl(DaggerAppComponent.TopUpActivitySubcomponentImpl.this, this, null);
+        }
+        StringBuilder localStringBuilder = new StringBuilder();
+        localStringBuilder.append(TopUpChoiceFragment.class.getCanonicalName());
+        localStringBuilder.append(" must be set");
+        throw new IllegalStateException(localStringBuilder.toString());
+      }
+      
+      public final void seedInstance(TopUpChoiceFragment paramTopUpChoiceFragment)
+      {
+        this.seedInstance = ((TopUpChoiceFragment)Preconditions.checkNotNull(paramTopUpChoiceFragment));
+      }
+    }
+    
+    final class TopUpChoiceFragmentSubcomponentImpl
+      implements TopUpChoiceFragmentModule_TopUpChoiceFragmentInjector.TopUpChoiceFragmentSubcomponent
+    {
+      private TopUpChoiceFragmentSubcomponentImpl(DaggerAppComponent.TopUpActivitySubcomponentImpl.TopUpChoiceFragmentSubcomponentBuilder paramTopUpChoiceFragmentSubcomponentBuilder) {}
+      
+      private TopUpChoiceFragment injectTopUpChoiceFragment(TopUpChoiceFragment paramTopUpChoiceFragment)
+      {
+        DaggerFragment_MembersInjector.injectChildFragmentInjector(paramTopUpChoiceFragment, DaggerAppComponent.TopUpActivitySubcomponentImpl.this.getDispatchingAndroidInjectorOfFragment());
+        B2PFragment_MembersInjector.injectApplication(paramTopUpChoiceFragment, DaggerAppComponent.this.application);
+        B2PFragment_MembersInjector.injectLocalizer(paramTopUpChoiceFragment, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+        B2PFragment_MembersInjector.injectViewSetterFactory(paramTopUpChoiceFragment, DaggerAppComponent.TopUpActivitySubcomponentImpl.this.getViewSetterFactory());
+        B2PFragment_MembersInjector.injectBus(paramTopUpChoiceFragment, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+        TopUpChoiceFragment_MembersInjector.injectSetPresenter(paramTopUpChoiceFragment, DaggerAppComponent.TopUpActivitySubcomponentImpl.this.getTopUpChoiceFragmentPresenter());
+        return paramTopUpChoiceFragment;
+      }
+      
+      public final void inject(TopUpChoiceFragment paramTopUpChoiceFragment)
+      {
+        injectTopUpChoiceFragment(paramTopUpChoiceFragment);
+      }
+    }
+    
+    final class TopUpOverviewFragmentSubcomponentBuilder
+      extends TopUpOverviewFragmentModule_TopUpOverviewFragmentInjector.TopUpOverviewFragmentSubcomponent.Builder
+    {
+      private TopUpOverviewFragment seedInstance;
+      
+      private TopUpOverviewFragmentSubcomponentBuilder() {}
+      
+      public final TopUpOverviewFragmentModule_TopUpOverviewFragmentInjector.TopUpOverviewFragmentSubcomponent build()
+      {
+        if (this.seedInstance != null) {
+          return new DaggerAppComponent.TopUpActivitySubcomponentImpl.TopUpOverviewFragmentSubcomponentImpl(DaggerAppComponent.TopUpActivitySubcomponentImpl.this, this, null);
+        }
+        StringBuilder localStringBuilder = new StringBuilder();
+        localStringBuilder.append(TopUpOverviewFragment.class.getCanonicalName());
+        localStringBuilder.append(" must be set");
+        throw new IllegalStateException(localStringBuilder.toString());
+      }
+      
+      public final void seedInstance(TopUpOverviewFragment paramTopUpOverviewFragment)
+      {
+        this.seedInstance = ((TopUpOverviewFragment)Preconditions.checkNotNull(paramTopUpOverviewFragment));
+      }
+    }
+    
+    final class TopUpOverviewFragmentSubcomponentImpl
+      implements TopUpOverviewFragmentModule_TopUpOverviewFragmentInjector.TopUpOverviewFragmentSubcomponent
+    {
+      private TopUpOverviewFragmentSubcomponentImpl(DaggerAppComponent.TopUpActivitySubcomponentImpl.TopUpOverviewFragmentSubcomponentBuilder paramTopUpOverviewFragmentSubcomponentBuilder) {}
+      
+      private TopUpOverviewFragment injectTopUpOverviewFragment(TopUpOverviewFragment paramTopUpOverviewFragment)
+      {
+        DaggerFragment_MembersInjector.injectChildFragmentInjector(paramTopUpOverviewFragment, DaggerAppComponent.TopUpActivitySubcomponentImpl.this.getDispatchingAndroidInjectorOfFragment());
+        B2PFragment_MembersInjector.injectApplication(paramTopUpOverviewFragment, DaggerAppComponent.this.application);
+        B2PFragment_MembersInjector.injectLocalizer(paramTopUpOverviewFragment, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+        B2PFragment_MembersInjector.injectViewSetterFactory(paramTopUpOverviewFragment, DaggerAppComponent.TopUpActivitySubcomponentImpl.this.getViewSetterFactory());
+        B2PFragment_MembersInjector.injectBus(paramTopUpOverviewFragment, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+        TopUpOverviewFragment_MembersInjector.injectSetPresenter(paramTopUpOverviewFragment, DaggerAppComponent.TopUpActivitySubcomponentImpl.this.getTopUpOverviewFragmentPresenter());
+        return paramTopUpOverviewFragment;
+      }
+      
+      public final void inject(TopUpOverviewFragment paramTopUpOverviewFragment)
+      {
+        injectTopUpOverviewFragment(paramTopUpOverviewFragment);
+      }
+    }
+    
+    final class TopUpVoucherFragmentSubcomponentBuilder
+      extends TopUpVoucherFragmentModule_TopUpVoucherFragmentInjector.TopUpVoucherFragmentSubcomponent.Builder
+    {
+      private TopUpVoucherFragment seedInstance;
+      
+      private TopUpVoucherFragmentSubcomponentBuilder() {}
+      
+      public final TopUpVoucherFragmentModule_TopUpVoucherFragmentInjector.TopUpVoucherFragmentSubcomponent build()
+      {
+        if (this.seedInstance != null) {
+          return new DaggerAppComponent.TopUpActivitySubcomponentImpl.TopUpVoucherFragmentSubcomponentImpl(DaggerAppComponent.TopUpActivitySubcomponentImpl.this, this, null);
+        }
+        StringBuilder localStringBuilder = new StringBuilder();
+        localStringBuilder.append(TopUpVoucherFragment.class.getCanonicalName());
+        localStringBuilder.append(" must be set");
+        throw new IllegalStateException(localStringBuilder.toString());
+      }
+      
+      public final void seedInstance(TopUpVoucherFragment paramTopUpVoucherFragment)
+      {
+        this.seedInstance = ((TopUpVoucherFragment)Preconditions.checkNotNull(paramTopUpVoucherFragment));
+      }
+    }
+    
+    final class TopUpVoucherFragmentSubcomponentImpl
+      implements TopUpVoucherFragmentModule_TopUpVoucherFragmentInjector.TopUpVoucherFragmentSubcomponent
+    {
+      private TopUpVoucherFragmentSubcomponentImpl(DaggerAppComponent.TopUpActivitySubcomponentImpl.TopUpVoucherFragmentSubcomponentBuilder paramTopUpVoucherFragmentSubcomponentBuilder) {}
+      
+      private TopUpVoucherFragment injectTopUpVoucherFragment(TopUpVoucherFragment paramTopUpVoucherFragment)
+      {
+        DaggerFragment_MembersInjector.injectChildFragmentInjector(paramTopUpVoucherFragment, DaggerAppComponent.TopUpActivitySubcomponentImpl.this.getDispatchingAndroidInjectorOfFragment());
+        B2PFragment_MembersInjector.injectApplication(paramTopUpVoucherFragment, DaggerAppComponent.this.application);
+        B2PFragment_MembersInjector.injectLocalizer(paramTopUpVoucherFragment, (Localizer)DaggerAppComponent.this.provideLocalizerProvider.get());
+        B2PFragment_MembersInjector.injectViewSetterFactory(paramTopUpVoucherFragment, DaggerAppComponent.TopUpActivitySubcomponentImpl.this.getViewSetterFactory());
+        B2PFragment_MembersInjector.injectBus(paramTopUpVoucherFragment, (MainThreadBus)DaggerAppComponent.this.provideMainThreadBusProvider.get());
+        TopUpVoucherFragment_MembersInjector.injectUiUtils(paramTopUpVoucherFragment, (UiUtils)DaggerAppComponent.this.provideUiUtilsProvider.get());
+        TopUpVoucherFragment_MembersInjector.injectSetPresenter(paramTopUpVoucherFragment, DaggerAppComponent.TopUpActivitySubcomponentImpl.this.getTopUpVoucherFragmentPresenter());
+        return paramTopUpVoucherFragment;
+      }
+      
+      public final void inject(TopUpVoucherFragment paramTopUpVoucherFragment)
+      {
+        injectTopUpVoucherFragment(paramTopUpVoucherFragment);
+      }
+    }
+  }
+}
+
+
+/* Location:              /home/kmille/projects/android-pwning/apks/aldi/ALDI TALK_v6.2.1_apkpure.com-dex2jar.jar!/de/eplus/mappecc/client/android/common/dependencyinjection/application/DaggerAppComponent.class
+ * Java compiler version: 6 (50.0)
+ * JD-Core Version:       0.7.1
+ */

@@ -1,0 +1,58 @@
+package com.google.android.gms.auth.api.credentials;
+
+import android.app.Activity;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.support.annotation.NonNull;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.Auth.AuthCredentialsOptions;
+import com.google.android.gms.common.api.GoogleApi;
+import com.google.android.gms.common.api.internal.ApiExceptionMapper;
+import com.google.android.gms.common.internal.PendingResultUtil;
+import com.google.android.gms.internal.auth-api.zzq;
+import com.google.android.gms.tasks.Task;
+
+public class CredentialsClient
+  extends GoogleApi<Auth.AuthCredentialsOptions>
+{
+  CredentialsClient(@NonNull Activity paramActivity, @NonNull Auth.AuthCredentialsOptions paramAuthCredentialsOptions)
+  {
+    super(paramActivity, Auth.CREDENTIALS_API, paramAuthCredentialsOptions, new ApiExceptionMapper());
+  }
+  
+  CredentialsClient(@NonNull Context paramContext, @NonNull Auth.AuthCredentialsOptions paramAuthCredentialsOptions)
+  {
+    super(paramContext, Auth.CREDENTIALS_API, paramAuthCredentialsOptions, new ApiExceptionMapper());
+  }
+  
+  public Task<Void> delete(@NonNull Credential paramCredential)
+  {
+    return PendingResultUtil.toVoidTask(Auth.CredentialsApi.delete(asGoogleApiClient(), paramCredential));
+  }
+  
+  public Task<Void> disableAutoSignIn()
+  {
+    return PendingResultUtil.toVoidTask(Auth.CredentialsApi.disableAutoSignIn(asGoogleApiClient()));
+  }
+  
+  public PendingIntent getHintPickerIntent(@NonNull HintRequest paramHintRequest)
+  {
+    return zzq.zzc(getApplicationContext(), (Auth.AuthCredentialsOptions)getApiOptions(), paramHintRequest);
+  }
+  
+  public Task<CredentialRequestResponse> request(@NonNull CredentialRequest paramCredentialRequest)
+  {
+    return PendingResultUtil.toResponseTask(Auth.CredentialsApi.request(asGoogleApiClient(), paramCredentialRequest), new CredentialRequestResponse());
+  }
+  
+  public Task<Void> save(@NonNull Credential paramCredential)
+  {
+    return PendingResultUtil.toVoidTask(Auth.CredentialsApi.save(asGoogleApiClient(), paramCredential));
+  }
+}
+
+
+/* Location:              /home/kmille/projects/android-pwning/apks/aldi/ALDI TALK_v6.2.1_apkpure.com-dex2jar.jar!/com/google/android/gms/auth/api/credentials/CredentialsClient.class
+ * Java compiler version: 6 (50.0)
+ * JD-Core Version:       0.7.1
+ */
